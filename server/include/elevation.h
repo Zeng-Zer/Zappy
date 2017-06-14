@@ -14,6 +14,9 @@
 # include <stdbool.h>
 # include "stones.h"
 
+/**
+ * maximum level a player can reach
+ */
 # define MAX_LEVEL 8
 
 /**

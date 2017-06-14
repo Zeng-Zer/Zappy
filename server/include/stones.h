@@ -12,7 +12,7 @@
 # define STONES_H_
 
 /**
- * Constant for stones
+ * constant for stones
  */
 typedef enum	e_stones
   {
