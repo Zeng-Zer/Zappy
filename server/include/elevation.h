@@ -12,7 +12,7 @@
 # define ELEVATION_H_
 
 # include <stdbool.h>
-# include "stones.h"
+# include "stone.h"
 
 /**
  * maximum level a player can reach
@@ -20,17 +20,17 @@
 # define MAX_LEVEL 8
 
 /**
- * struct that describe an elevation and its requirement
+ * struct that describes an elevation and its requirement
  */
 typedef struct	s_elevation
 {
   int		nb_player;
-  int		stones_req[STONES_SIZE];
+  int		stones[STONES_SIZE];
 }		t_elevation;
 
 /**
+ * the index represents the level
  * g_elevations[0] and g_elevations[1] are useless
- * the index represent the level
  * g_elevations[2] = lvl 2 requirements
  */
 extern const t_elevation g_elevations[MAX_LEVEL + 1];

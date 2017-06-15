@@ -12,7 +12,8 @@ NAME :=		zappy_server
 SRCDIR :=	src/
 INCLUDE :=	include/
 
-SRC :=		main.c
+SRC :=		main.c \
+		elevation.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g
