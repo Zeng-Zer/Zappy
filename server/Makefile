@@ -14,6 +14,9 @@ INCLUDE :=	include/
 
 SRC :=		main.c \
 		elevation.c \
+		parse/parse_args.c \
+		parse/parse_parameter.c \
+		parse/parse_parameter2.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g

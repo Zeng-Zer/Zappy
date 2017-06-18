@@ -23,7 +23,7 @@ typedef struct	s_server
   t_network	network;
   // TODO list of task to treat
   // world map
-  World		world;
+  t_world	*world;
   // nb of team
   int		nb_team;
   // TODO player list

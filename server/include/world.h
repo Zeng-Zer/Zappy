@@ -30,16 +30,20 @@ typedef struct	s_tile
 /**
  * world is represented as a tile array
  */
-typedef t_tile	**World;
+typedef struct	s_world
+{
+  t_tile	**map;
+  t_pos		dimension;
+}		t_world;
 
 /**
  * malloc a new world with random resources
  */
-World		create_world(t_pos dimension);
+t_world		*create_world(t_pos dimension);
 
 /**
  * free world
  */
-void		free_world(World world);
+void		free_world(t_world *world);
 
 #endif /* !WORLD_H_ */
