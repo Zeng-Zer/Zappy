@@ -8,9 +8,6 @@
 ** Last update Sun Jun 18 20:52:57 2017 David Zeng
 */
 
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
 #include "param.h"
 
 int	param_freq(t_param *param, int argc, char **argv)

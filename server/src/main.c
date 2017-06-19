@@ -9,17 +9,21 @@
 */
 
 #include "param.h"
+#include "utils.h"
+#include "network.h"
 
 int		main(int argc, char *argv[])
 {
   t_param	param;
+  t_network	network;
 
   param = parse_args(argc, argv);
-  printf("port %d\n", param.port);
-  printf("pos: x %d, y %d\n", param.dimension.x, param.dimension.y);
-  for (int i = 0; param.names && param.names[i] != NULL; ++i)
-    printf("team %d %s\n", i, param.names[i]);
-  printf("nb client %d\n", param.nb_client);
-  printf("frequency %d\n", param.frequency);
+  dump_param(&param); // TODO remove debug func
+  network = init_network(param.port ? param.port : 4242,
+			 param.nb_client ? param.nb_client : 10);
+  while (1)
+    {
+      poll_event(&network);
+    }
   return (0);
 }

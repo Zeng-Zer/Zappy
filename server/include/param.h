@@ -15,10 +15,14 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <strings.h>
 # include <getopt.h>
+# include <string.h>
+# include <errno.h>
 # include "utils.h"
 
+/**
+ * struct that describes program parameters parsed by getopt()
+ */
 typedef struct	s_param
 {
   short		port;
@@ -36,9 +40,15 @@ typedef struct	s_pair
   fptr		func;
 }		t_pair;
 
+/**
+ * parse program parameter in t_param
+ */
 t_param		parse_args(int argc, char *argv[]);
-void		usage(char *prog);
 
+/**
+ * helper functions
+ */
+void		usage(char *prog);
 int		param_port(t_param *param, int argc, char **argv);
 int		param_width(t_param *param, int argc, char **argv);
 int		param_height(t_param *param, int argc, char **argv);

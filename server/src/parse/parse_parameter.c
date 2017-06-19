@@ -8,9 +8,6 @@
 ** Last update Sun Jun 18 20:18:05 2017 David Zeng
 */
 
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
 #include "param.h"
 
 int	param_port(t_param *param, int argc, char **argv)

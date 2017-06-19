@@ -12,6 +12,8 @@
 # define ELEVATION_H_
 
 # include <stdbool.h>
+# include <string.h>
+# include <assert.h>
 # include "stone.h"
 
 /**

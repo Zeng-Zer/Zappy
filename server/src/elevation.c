@@ -8,8 +8,6 @@
 ** Last update Thu Jun 15 21:02:00 2017 David Zeng
 */
 
-#include <string.h>
-#include <assert.h>
 #include "elevation.h"
 
 // first 2 element are useless
