@@ -12,7 +12,7 @@
 
 void	close_network(t_network *network)
 {
-  (void)network;
+  (void)network; // TODO CLOSE NETWORK
 }
 
 static void	check_error(int val, char const *msg, int fd, int fd2)

@@ -27,6 +27,9 @@
 # include <stdbool.h>
 # include <errno.h>
 
+# define INPUT_FAILURE 1
+# define CONNECTION_CLOSED 2
+
 /**
  * struct that represents a network connection
  */
@@ -59,5 +62,10 @@ typedef struct	s_package
 }		t_package;
 
 t_package	poll_event(t_network *network);
+
+/**
+ * get input from file descriptor and write status to status
+ */
+char		*get_input(int fd, int *status);
 
 #endif /* !NETWORK_H_ */

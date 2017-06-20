@@ -25,7 +25,7 @@ static bool	has_event(t_network *network)
   int		ret;
 
   /* fprintf(stderr, "polling !\n"); */
-  if ((ret = poll(network->fds, network->nb_fd, 10000)) == -1)
+  if ((ret = poll(network->fds, network->nb_fd, 0)) == -1)
     network_fail(network, "Server: poll() failed");
   return (ret != 0);
 }
@@ -33,23 +33,38 @@ static bool	has_event(t_network *network)
 /**
  * accept() new client
  */
-static void	handle_new_connection(t_network *network, int i)
+static void	handle_new_connection(t_network *network)
 {
   int		new_fd;
   int		opt;
 
   opt = 1;
   new_fd = 0;
-  while ((new_fd = accept(network->server_fd, NULL, NULL)) != -1)
+  while (network->nb_fd <= network->max_client &&
+	 (new_fd = accept(network->server_fd, NULL, NULL)) != -1)
     {
       ioctl(new_fd, FIONBIO, &opt);
-      fprintf(stderr, "  New incoming connection - %d\n", new_fd);
+      fprintf(stderr, "  New incoming connection - nb: %d\n", network->nb_fd);
       network->fds[network->nb_fd].fd = new_fd;
       network->fds[network->nb_fd].events = POLLIN;
       ++network->nb_fd;
     }
   if (new_fd == -1 && errno != EWOULDBLOCK)
     network_fail(network, "Server: accept failed");
+}
+
+static void	handle_new_events(t_network *network, int i)
+{
+  int		status;
+  char		*input;
+
+  input = get_input(network->fds[i].fd, &status);
+  if (input)
+    printf("%s\n", input);
+  else if (status == INPUT_FAILURE)
+    printf("failure\n");
+  else if (status == CONNECTION_CLOSED)
+    printf("connection closed\n");
 }
 
 t_package	poll_event(t_network *network)
@@ -70,9 +85,9 @@ t_package	poll_event(t_network *network)
       if (network->fds[i].revents != POLLIN)
 	network_fail(network, "Server: poll() unexpected revents value");
       if (network->fds[i].fd == network->server_fd)
-	handle_new_connection(network, i);
+	handle_new_connection(network);
       else
-	(void)0; // TODO handle disconnect / message
+	handle_new_events(network, i);
     }
   return (pkg);
 }

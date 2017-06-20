@@ -16,10 +16,12 @@ SRC :=		main.c \
 		elevation.c \
 		network/network.c \
 		network/poll.c \
+		network/get_input.c \
 		parse/parse_args.c \
 		parse/parse_parameter.c \
 		parse/parse_parameter2.c \
 		utils/dump.c \
+		utils/utils.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g

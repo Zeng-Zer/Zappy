@@ -26,6 +26,10 @@ typedef struct	s_pos
 /**
  * debug function that dumps param structure
  */
-void	dump_param(t_param *param);
+void		dump_param(t_param *param);
+/**
+ * free 2D array
+ */
+void		free_tab(char **tab);
 
 #endif /* !UTILS_H_ */
