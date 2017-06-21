@@ -23,6 +23,18 @@ static void	check_error(int val, char const *msg, int fd, int fd2)
     }
 }
 
+static int	get_max_client()
+{
+  struct rlimit	rlp;
+
+  if (getrlimit(RLIMIT_NOFILE, &rlp) == -1)
+    {
+      fprintf(stderr, "Server: getrlimit() failed\n");
+      exit(84);
+    }
+  return (rlp.rlim_cur);
+}
+
 static int		init_socket(short port, int max_client)
 {
   int			fd;
@@ -49,10 +61,12 @@ static int		init_socket(short port, int max_client)
   return (fd);
 }
 
-t_network	init_network(short port, int max_client)
+t_network	init_network(short port)
 {
   t_network	network;
+  int		max_client;
 
+  max_client = get_max_client();
   network.port = port;
   network.max_client = max_client;
   network.server_fd = init_socket(port, max_client);

@@ -24,5 +24,13 @@ typedef struct	s_pos
  * free 2D array
  */
 void		free_tab(char **tab);
+/**
+ * 2D array length
+ */
+int		tablen(char **tab);
+/**
+ * send a message in fd return 0 on success and -1 on failure
+ */
+int		send_msg(int fd, char *msg);
 
 #endif /* !UTILS_H_ */

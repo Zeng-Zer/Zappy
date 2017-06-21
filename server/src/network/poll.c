@@ -9,6 +9,7 @@
 */
 
 #include "network.h"
+#include "utils.h"
 
 /**
  * accept() new client
@@ -28,6 +29,7 @@ static void	handle_new_connection(t_network *network)
       network->fds[network->nb_fd].fd = new_fd;
       network->fds[network->nb_fd].events = POLLIN;
       ++network->nb_fd;
+      send_msg(new_fd, "WELCOME");
     }
   if (new_fd == -1 && errno != EWOULDBLOCK)
     network_fail(network, "Server: accept failed");
@@ -55,6 +57,27 @@ static bool	handle_new_events(t_vector *packages, t_network *network, int i)
   return (false);
 }
 
+void	close_connection(t_network *network, int fd)
+{
+  int	i;
+
+  i = -1;
+  while (++i < network->nb_fd)
+    {
+      if (network->fds[i].fd == fd)
+	{
+	  while (i < network->nb_fd)
+	    {
+	      close(fd);
+	      network->fds[i].fd = network->fds[i + 1].fd;
+	      ++i;
+	    }
+	  --network->nb_fd;
+	  break;
+	}
+    }
+}
+
 void	clean_fd(t_network *network)
 {
   int	i;
@@ -73,13 +96,6 @@ void	clean_fd(t_network *network)
 	  --network->nb_fd;
 	}
     }
-}
-
-int	send_msg(int fd, char *msg)
-{
-  if (dprintf(fd, "%s\n", msg) < 0)
-    return (-1);
-  return (0);
 }
 
 t_vector	*poll_event(t_network *network)

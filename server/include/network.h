@@ -26,6 +26,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <errno.h>
+# include <sys/resource.h>
 
 # include "vector.h"
 
@@ -51,7 +52,7 @@ typedef struct	s_network
  * initialize a network socket
  * exit 84 on failure
  */
-t_network	init_network(short port, int max_client);
+t_network	init_network(short port);
 /**
  * close network connection
  */
@@ -82,13 +83,13 @@ void		package_dump(t_package *package);
  */
 t_vector	*poll_event(t_network *network);
 /**
- * send msg to fd, returns -1 on error
- */
-int		send_msg(int fd, char *msg);
-/**
  * clean fd that are equals to -1
  */
 void		clean_fd(t_network *network);
+/**
+ * close a fd
+ */
+void		close_connection(t_network *network, int fd);
 
 /**
  * get input from file descriptor and write status to status

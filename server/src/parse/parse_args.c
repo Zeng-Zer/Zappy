@@ -35,7 +35,7 @@ static t_pair pair[] = {
 
 void	param_dump(t_param *param)
 {
-  printf("\nparam:\n");
+  printf("param:\n");
   printf("  port %d\n", param->port);
   printf("  pos: x %d, y %d\n", param->dimension.x, param->dimension.y);
   for (int i = 0; param->names && param->names[i] != NULL; ++i)

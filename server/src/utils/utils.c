@@ -9,10 +9,11 @@
 */
 
 #include <stdlib.h>
+#include <stdio.h>
 
-void		free_tab(char **tab)
+void	free_tab(char **tab)
 {
-  int		i;
+  int	i;
 
   i = 0;
   if (!tab)
@@ -23,4 +24,21 @@ void		free_tab(char **tab)
       ++i;
     }
   free(tab);
+}
+
+int	tablen(char **tab)
+{
+  int	i;
+
+  i = 0;
+  while (tab && tab[i])
+    ++i;
+  return (i);
+}
+
+int	send_msg(int fd, char *msg)
+{
+  if (dprintf(fd, "%s\n", msg) < 0)
+    return (-1);
+  return (0);
 }
