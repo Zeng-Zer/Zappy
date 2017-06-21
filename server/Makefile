@@ -17,11 +17,13 @@ SRC :=		main.c \
 		network/network.c \
 		network/poll.c \
 		network/get_input.c \
+		network/network_utils.c \
+		network/package.c \
 		parse/parse_args.c \
 		parse/parse_parameter.c \
 		parse/parse_parameter2.c \
-		utils/dump.c \
 		utils/utils.c \
+		utils/vector.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g

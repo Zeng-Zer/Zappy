@@ -9,21 +9,22 @@
 */
 
 #include "param.h"
-#include "utils.h"
 #include "network.h"
 
 int		main(int argc, char *argv[])
 {
   t_param	param;
   t_network	network;
+  t_vector	*events;
 
   param = parse_args(argc, argv);
-  dump_param(&param); // TODO remove debug func
-  network = init_network(param.port ? param.port : 4242,
-			 param.nb_client ? param.nb_client : 10);
+  network = init_network(param.port ? param.port : DEFAULT_PORT,
+			 param.nb_client ? param.nb_client : DEFAULT_NB_CLIENT);
   while (1)
     {
-      poll_event(&network);
+      events = poll_event(&network);
+      packages_dump(events);
+      vector_delete(events, free_package);
     }
   return (0);
 }

@@ -10,26 +10,6 @@
 
 #include "network.h"
 
-static void	network_fail(t_network *network, char const *msg)
-{
-  fprintf(stderr, "%s\n", msg);
-  close_network(network);
-  exit(84);
-}
-
-/**
- * check if there is an event with poll()
- */
-static bool	has_event(t_network *network)
-{
-  int		ret;
-
-  /* fprintf(stderr, "polling !\n"); */
-  if ((ret = poll(network->fds, network->nb_fd, 0)) == -1)
-    network_fail(network, "Server: poll() failed");
-  return (ret != 0);
-}
-
 /**
  * accept() new client
  */
@@ -44,7 +24,7 @@ static void	handle_new_connection(t_network *network)
 	 (new_fd = accept(network->server_fd, NULL, NULL)) != -1)
     {
       ioctl(new_fd, FIONBIO, &opt);
-      fprintf(stderr, "  New incoming connection - nb: %d\n", network->nb_fd);
+      printf("\nNew incoming connection - nb: %d\n", network->nb_fd);
       network->fds[network->nb_fd].fd = new_fd;
       network->fds[network->nb_fd].events = POLLIN;
       ++network->nb_fd;
@@ -53,31 +33,68 @@ static void	handle_new_connection(t_network *network)
     network_fail(network, "Server: accept failed");
 }
 
-static void	handle_new_events(t_network *network, int i)
+/**
+ * return true if we decrement nb_fd
+ */
+static bool	handle_new_events(t_vector *packages, t_network *network, int i)
 {
   int		status;
   char		*input;
 
-  input = get_input(network->fds[i].fd, &status);
-  if (input)
-    printf("%s\n", input);
-  else if (status == INPUT_FAILURE)
-    printf("failure\n");
-  else if (status == CONNECTION_CLOSED)
-    printf("connection closed\n");
+  while ((input = get_input(network->fds[i].fd, &status)))
+    {
+      vector_push(packages, new_package(network->fds[i].fd, input, false));
+    }
+  if (status == INPUT_FAILURE || status == CONNECTION_CLOSED)
+    {
+      vector_push(packages, new_package(network->fds[i].fd, NULL, true));
+      close(network->fds[i].fd);
+      network->fds[i].fd = -1;
+      return (true);
+    }
+  return (false);
 }
 
-t_package	poll_event(t_network *network)
+void	clean_fd(t_network *network)
 {
-  t_package	pkg;
+  int	i;
+  int	j;
+
+  i = -1;
+  while (++i < network->nb_fd)
+    {
+      if (network->fds[i].fd == -1)
+	{
+	  j = i - 1;
+	  while (++j < network->nb_fd)
+	    {
+	      network->fds[j].fd = network->fds[j + 1].fd;
+	    }
+	  --network->nb_fd;
+	}
+    }
+}
+
+int	send_msg(int fd, char *msg)
+{
+  if (dprintf(fd, "%s\n", msg) < 0)
+    return (-1);
+  return (0);
+}
+
+t_vector	*poll_event(t_network *network)
+{
+  t_vector	*packages;
   int		cur;
   int		i;
+  bool		clean;
 
-  bzero(&pkg, sizeof(pkg));
   if (!has_event(network))
-    return (pkg);
+    return (NULL);
+  packages = vector_new();
   i = -1;
   cur = network->nb_fd;
+  clean = false;
   while (++i < cur)
     {
       if (!network->fds[i].revents)
@@ -87,7 +104,9 @@ t_package	poll_event(t_network *network)
       if (network->fds[i].fd == network->server_fd)
 	handle_new_connection(network);
       else
-	handle_new_events(network, i);
+	clean = handle_new_events(packages, network, i);
     }
-  return (pkg);
+  if (clean)
+    clean_fd(network);
+  return (packages);
 }

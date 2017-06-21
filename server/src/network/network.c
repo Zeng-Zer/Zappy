@@ -10,11 +10,6 @@
 
 #include "network.h"
 
-void	close_network(t_network *network)
-{
-  (void)network; // TODO CLOSE NETWORK
-}
-
 static void	check_error(int val, char const *msg, int fd, int fd2)
 {
   if (val == -1)
@@ -62,9 +57,27 @@ t_network	init_network(short port, int max_client)
   network.max_client = max_client;
   network.server_fd = init_socket(port, max_client);
   printf("network server fd: %d\n", network.server_fd);
-  bzero(&network.fds, sizeof(network.fds));
+  if (!(network.fds = malloc(sizeof(*network.fds) * (max_client + 1))))
+    {
+      fprintf(stderr, "Server: malloc() failed\n");
+      exit(84);
+    }
+  bzero(network.fds, sizeof(*network.fds) * (max_client + 1));
   network.fds[0].fd = network.server_fd;
   network.fds[0].events = POLLIN;
   network.nb_fd = 1;
   return (network);
+}
+
+void	close_network(t_network *network)
+{
+  int	i;
+
+  i = -1;
+  while (++i < network->nb_fd)
+    {
+      if (network->fds[i].fd >= 0)
+	close(network->fds[i].fd);
+    }
+  free(network->fds);
 }

@@ -33,6 +33,17 @@ static t_pair pair[] = {
   {'h', param_help},
 };
 
+void	param_dump(t_param *param)
+{
+  printf("\nparam:\n");
+  printf("  port %d\n", param->port);
+  printf("  pos: x %d, y %d\n", param->dimension.x, param->dimension.y);
+  for (int i = 0; param->names && param->names[i] != NULL; ++i)
+    printf("  team %d %s\n", i, param->names[i]);
+  printf("  nb client %d\n", param->nb_client);
+  printf("  frequency %d\n", param->frequency);
+}
+
 void	usage(char *prog)
 {
   fprintf(stderr, "USAGE: %s -p port -x width -y height -n name1 name2", prog);

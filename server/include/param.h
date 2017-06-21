@@ -57,4 +57,9 @@ int		param_client(t_param *param, int argc, char **argv);
 int		param_help(t_param *param, int argc, char **argv);
 int		param_freq(t_param *param, int argc, char **argv);
 
+/**
+ * debug function that dumps param structure
+ */
+void		param_dump(t_param *param);
+
 #endif /* !PARAM_H_ */

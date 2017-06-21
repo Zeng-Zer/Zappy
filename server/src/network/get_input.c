@@ -112,7 +112,5 @@ char		*get_input(int fd, int *status)
     }
   line = strdup(tab[0]);
   ++tab;
-  if (!line)
-    *status = INPUT_FAILURE;
   return (line);
 }

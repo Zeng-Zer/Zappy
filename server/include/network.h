@@ -27,8 +27,13 @@
 # include <stdbool.h>
 # include <errno.h>
 
+# include "vector.h"
+
 # define INPUT_FAILURE 1
 # define CONNECTION_CLOSED 2
+
+# define DEFAULT_PORT 4242
+# define DEFAULT_NB_CLIENT 50
 
 /**
  * struct that represents a network connection
@@ -38,7 +43,7 @@ typedef struct	s_network
   short		port;
   int		max_client;
   int		server_fd;
-  struct pollfd	fds[256];
+  struct pollfd	*fds;
   int		nb_fd;
 }		t_network;
 
@@ -57,15 +62,43 @@ void		close_network(t_network *network);
  */
 typedef struct	s_package
 {
+  // client id
+  int		fd;
   time_t	timestamp;
   char		*msg;
+  bool		close;
 }		t_package;
 
-t_package	poll_event(t_network *network);
+/**
+ * package functions
+ */
+t_package	*new_package(int fd, char *msg, bool to_close);
+void		free_package(void *item);
+void		packages_dump(t_vector *packages);
+void		package_dump(t_package *package);
+
+/**
+ * return t_vector of t_package
+ */
+t_vector	*poll_event(t_network *network);
+/**
+ * send msg to fd, returns -1 on error
+ */
+int		send_msg(int fd, char *msg);
+/**
+ * clean fd that are equals to -1
+ */
+void		clean_fd(t_network *network);
 
 /**
  * get input from file descriptor and write status to status
  */
 char		*get_input(int fd, int *status);
+
+/**
+ * utils function
+ */
+void		network_fail(t_network *network, char const *msg);
+bool		has_event(t_network *network);
 
 #endif /* !NETWORK_H_ */
