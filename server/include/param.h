@@ -22,7 +22,7 @@
 
 # define DEFAULT_PORT 4242
 # define DEFAULT_NB_CLIENT 3
-# define DEFAULT_DIMENSION (t_pos){20, 20}
+# define DEFAULT_DIMENSION (t_pos){10, 10}
 # define DEFAULT_FREQUENCY 100
 
 /**
