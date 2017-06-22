@@ -8,18 +8,24 @@
 ** Last update Thu Jun 22 15:32:00 2017 Jamy Bailly
 */
 
-#include <stdio.h>
+#include <iostream>
+#include "Exception.hpp"
 
 void	usage(void)
 {
-  puts("USAGE: ./zappy_ai -p port -n name -h machine");
-  puts("\tport    is the port number");
-  puts("\tname    is the name of the team");
-  puts("\tmachine is the name of the machine; localhost by default");
+  std::cout << "USAGE: ./zappy_ai -p port -n name -h machine" << std::endl;
+  std::cout << "\tport    is the port number" << std::endl;
+  std::cout << "\tname    is the name of the team" << std::endl;
+  std::cout << "\tmachine is the name of the machine; localhost by default" << std::endl;
 }
 
 int	main(void)
 {
-  usage();
+  try {
+    usage();
+  }
+  catch (Exception const& e) {
+    std::cerr << e.what() << std::endl;
+  }
   return (0);
 }
