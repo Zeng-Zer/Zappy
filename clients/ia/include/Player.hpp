@@ -5,6 +5,7 @@
 # include <string>
 # include <map>
 # include "Resource.hpp"
+# include "Level.hpp"
 
 class Player {
 public:
@@ -31,6 +32,7 @@ public:
   void incantation();
 
   void update();
+  bool canLevelUp();
 
 private:
   int _x;
