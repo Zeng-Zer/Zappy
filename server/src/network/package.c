@@ -8,6 +8,7 @@
 ** Last update Wed Jun 21 00:57:27 2017 David Zeng
 */
 
+#include "utils.h"
 #include "network.h"
 
 t_package	*new_package(int fd, char *msg, bool to_close)
@@ -18,7 +19,7 @@ t_package	*new_package(int fd, char *msg, bool to_close)
     return (NULL);
   package->fd = fd;
   package->msg = msg;
-  package->timestamp = time(NULL);
+  package->timestamp = current_time();
   package->close = to_close;
   return (package);
 }
@@ -41,7 +42,7 @@ void		package_dump(t_package *package)
     {
       printf("\npackage:\n");
       printf("  fd %d\n", package->fd);
-      printf("  timestamp %lu\n", package->timestamp);
+      printf("  timestamp %llu\n", package->timestamp);
       printf("  msg %s\n", package->msg);
       printf("  close %d\n", package->close);
     }

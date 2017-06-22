@@ -23,7 +23,7 @@ typedef struct	s_server
   // network
   t_network	network;
   // list of task to treat
-  t_vector	*cmds;  // TODO CREATE TASK STRUCTURE
+  t_vector	*cmds;  // TODO CREATE CMD STRUCTURE
   // world map
   t_world	*world;
   // team
@@ -32,6 +32,7 @@ typedef struct	s_server
   // player list
   t_vector	*players;
   // TODO graphic list
+  t_vector	*graphic;
   bool		running;
   // frequency
   int		frequency;

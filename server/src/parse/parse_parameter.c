@@ -78,29 +78,6 @@ int	param_height(t_param *param, int argc, char **argv)
   return (0);
 }
 
-int	param_name(t_param *param, int argc, char **argv)
-{
-  int	i;
-  int	size;
-
-  i = --optind;
-  size = 0;
-  while (i + size < argc && *argv[i + size] != '-')
-    ++size;
-  param->teams = malloc(sizeof(char*) * (size + 1));
-  if (!param->teams)
-    exit(84);
-  while (optind < argc && *argv[optind] != '-')
-    {
-      param->teams[optind - i] = strdup(argv[optind]);
-      if (!param->teams[optind - i])
-	exit(84);
-      ++optind;
-    }
-  param->teams[optind - i] = NULL;
-  return (0);
-}
-
 int	param_client(t_param *param, int argc, char **argv)
 {
   char	*str;

@@ -10,6 +10,16 @@
 
 #include "server.h"
 
+static bool	*running;
+
+static void	signal_handler(int sig)
+{
+  if (sig == SIGINT)
+    {
+      *running = false;
+    }
+}
+
 int		main(int argc, char *argv[])
 {
   t_param	param;
@@ -20,7 +30,8 @@ int		main(int argc, char *argv[])
   param_default(&param);
   param_dump(&param);
   server = init_server(&param);
-  world_dump(1, server.world);
+  running = &server.running;
+  signal(SIGINT, signal_handler);
   while (server.running)
     {
       packages = poll_event(&server.network);

@@ -33,4 +33,9 @@ int		tablen(char **tab);
  */
 int		send_msg(int fd, char *msg);
 
+/**
+ * get current time in millisecond
+ */
+long long	current_time();
+
 #endif /* !UTILS_H_ */
