@@ -23,26 +23,6 @@ t_vector	*vector_new()
   return (vector);
 }
 
-void		vector_push(t_vector *vector, void *item)
-{
-  if (vector->length == vector->capacity)
-    {
-      vector->capacity *= 2;
-      vector->items = realloc(vector->items, sizeof(void *) * vector->capacity);
-    }
-  vector->items[vector->length++] = item;
-}
-
-void		*vector_pop(t_vector *vector)
-{
-  return (vector->length == 0 ? NULL : vector->items[--vector->length]);
-}
-
-void		vector_clear(t_vector *vector)
-{
-  vector->length = 0;
-}
-
 void		vector_delete(t_vector *vector, void (*free_item)(void *))
 {
   size_t	i;
@@ -60,4 +40,27 @@ void		vector_delete(t_vector *vector, void (*free_item)(void *))
     }
   free(vector->items);
   free(vector);
+}
+
+void		vector_push(t_vector *vector, void *item)
+{
+  if (vector->length == vector->capacity)
+    {
+      vector->capacity *= 2;
+      vector->items = realloc(vector->items, sizeof(void *) * vector->capacity);
+    }
+  vector->items[vector->length++] = item;
+}
+
+void		vector_remove(t_vector *vector, size_t id)
+{
+  size_t	i;
+
+  i = id;
+  while (i < vector->length)
+    {
+      vector->items[i] = vector->items[i + 1];
+      ++i;
+    }
+  --vector->length;
 }

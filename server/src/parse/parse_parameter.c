@@ -87,17 +87,17 @@ int	param_name(t_param *param, int argc, char **argv)
   size = 0;
   while (i + size < argc && *argv[i + size] != '-')
     ++size;
-  param->names = malloc(sizeof(char*) * (size + 1));
-  if (!param->names)
+  param->teams = malloc(sizeof(char*) * (size + 1));
+  if (!param->teams)
     exit(84);
   while (optind < argc && *argv[optind] != '-')
     {
-      param->names[optind - i] = strdup(argv[optind]);
-      if (!param->names[optind - i])
+      param->teams[optind - i] = strdup(argv[optind]);
+      if (!param->teams[optind - i])
 	exit(84);
       ++optind;
     }
-  param->names[optind - i] = NULL;
+  param->teams[optind - i] = NULL;
   return (0);
 }
 

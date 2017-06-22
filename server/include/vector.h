@@ -32,6 +32,10 @@ t_vector	*vector_new();
 void		vector_delete(t_vector *vector, void (*free_item)(void *));
 void		vector_push(t_vector *vector, void *item);
 void		*vector_pop(t_vector *vector);
-void		vector_clear(t_vector *vector);
+void		*vector_pop_front(t_vector *vector);
+void		vector_remove(t_vector *vector, size_t id);
+
+// get an items with vector.items[i]
+// clear items with vector.length = 0;
 
 #endif /* !VECTOR_H_ */

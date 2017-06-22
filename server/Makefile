@@ -24,6 +24,9 @@ SRC :=		main.c \
 		parse/parse_parameter2.c \
 		utils/utils.c \
 		utils/vector.c \
+		utils/vector2.c \
+		server/server.c \
+		server/world.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g

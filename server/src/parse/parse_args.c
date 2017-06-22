@@ -35,13 +35,44 @@ static t_pair pair[] = {
 
 void	param_dump(t_param *param)
 {
+  int	i;
+
   printf("param:\n");
   printf("  port %d\n", param->port);
   printf("  pos: x %d, y %d\n", param->dimension.x, param->dimension.y);
-  for (int i = 0; param->names && param->names[i] != NULL; ++i)
-    printf("  team %d %s\n", i, param->names[i]);
+  i = -1;
+  while (param->teams && param->teams[++i] != NULL)
+    printf("  team %d %s\n", i, param->teams[i]);
   printf("  nb client %d\n", param->nb_client);
   printf("  frequency %d\n", param->frequency);
+}
+
+void			param_default(t_param *param)
+{
+  if (!param->port)
+    param->port = DEFAULT_PORT;
+  if (!param->nb_client)
+    param->nb_client = DEFAULT_NB_CLIENT;
+  if (!param->dimension.x && !param->dimension.y)
+    param->dimension = DEFAULT_DIMENSION;
+  if (!param->frequency)
+    param->frequency = DEFAULT_FREQUENCY;
+  if (!param->teams)
+    {
+      param->teams = malloc(sizeof(char *) * 5);
+      if (!param->teams)
+	exit(84);
+      memcpy(param->teams, (char*[5]){
+	       strdup("Team1"),
+	       strdup("Team2"),
+	       strdup("Team3"),
+	       strdup("Team4"),
+	       NULL},
+	sizeof(char*[5]));
+      if (!param->teams[0] || !param->teams[1] ||
+	  !param->teams[2] || !param->teams[3])
+	exit(84);
+    }
 }
 
 void	usage(char *prog)

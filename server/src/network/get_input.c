@@ -110,6 +110,8 @@ char		*get_input(int fd, int *status)
       ptr = tab;
       free(line);
     }
+  if (!tab || !*tab)
+    return (NULL);
   line = strdup(tab[0]);
   ++tab;
   return (line);

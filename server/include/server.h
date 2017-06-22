@@ -13,6 +13,7 @@
 
 # include "network.h"
 # include "world.h"
+# include "param.h"
 
 /**
  * struct containing server attribute
@@ -21,12 +22,18 @@ typedef struct	s_server
 {
   // network
   t_network	network;
-  // TODO list of task to treat
+  // list of task to treat
+  t_vector	*tasks;  // TODO CREATE TASK STRUCTURE
   // world map
   t_world	*world;
   // nb of team
   int		nb_team;
+  char		**teams;
   // TODO player list
+  bool		running;
 }		t_server;
+
+t_server	init_server(t_param *param);
+void		close_server(t_server *server);
 
 #endif /* !SERVER_H_ */

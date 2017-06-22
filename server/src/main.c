@@ -8,25 +8,21 @@
 ** Last update Mon Jan 23 17:57:49 2017 David Zeng
 */
 
-#include "param.h"
-#include "network.h"
+#include "server.h"
 
 int		main(int argc, char *argv[])
 {
   t_param	param;
-  t_network	network;
+  t_server	server;
   t_vector	*packages;
 
   param = parse_args(argc, argv);
-  if (!param.port)
-    param.port = DEFAULT_PORT;
-  if (!param.nb_client)
-    param.nb_client = param.nb_client * (tablen(param.names) + 1);
+  param_default(&param);
   param_dump(&param);
-  network = init_network(param.port);
-  while (1)
+  server = init_server(&param);
+  while (server.running)
     {
-      packages = poll_event(&network);
+      packages = poll_event(&server.network);
       packages_dump(packages);
       vector_delete(packages, free_package);
     }

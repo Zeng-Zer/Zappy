@@ -33,9 +33,6 @@
 # define INPUT_FAILURE 1
 # define CONNECTION_CLOSED 2
 
-# define DEFAULT_PORT 4242
-# define DEFAULT_NB_CLIENT 50
-
 /**
  * struct that represents a network connection
  */

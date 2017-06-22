@@ -20,6 +20,11 @@
 # include <errno.h>
 # include "utils.h"
 
+# define DEFAULT_PORT 4242
+# define DEFAULT_NB_CLIENT 3
+# define DEFAULT_DIMENSION (t_pos){20, 20}
+# define DEFAULT_FREQUENCY 100
+
 /**
  * struct that describes program parameters parsed by getopt()
  */
@@ -27,7 +32,7 @@ typedef struct	s_param
 {
   short		port;
   t_pos		dimension;
-  char		**names;
+  char		**teams;
   int		nb_client;
   short		frequency;
 }		t_param;
@@ -61,5 +66,8 @@ int		param_freq(t_param *param, int argc, char **argv);
  * debug function that dumps param structure
  */
 void		param_dump(t_param *param);
-
+/**
+ * add default parameter to missing one
+ */
+void		param_default(t_param *param);
 #endif /* !PARAM_H_ */

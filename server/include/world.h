@@ -14,6 +14,7 @@
 # include <stdbool.h>
 # include "stone.h"
 # include "utils.h"
+# include "vector.h"
 
 /**
  * struct representing a tile
@@ -25,6 +26,7 @@ typedef struct	s_tile
   int		food;
   int		stones[STONES_SIZE];
   bool		elevation;
+  t_vector	*players;
 }		t_tile;
 
 /**
