@@ -9,6 +9,7 @@
 */
 
 #include <stdio.h>
+#include "Player.hpp"
 
 void	usage(void)
 {
@@ -20,6 +21,11 @@ void	usage(void)
 
 int	main(void)
 {
+  Player player;
   usage();
+  while (1)
+    {
+      player.update();
+    }
   return (0);
 }

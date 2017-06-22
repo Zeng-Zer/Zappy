@@ -8,7 +8,7 @@
 
 class Player {
 public:
-  Player();
+  Player(int x, int y, std::string const& team);
   ~Player();
 
   void left();
@@ -30,10 +30,14 @@ public:
   void set(Resource res);
   void incantation();
 
+  void update();
+
 private:
   int _x;
   int _y;
   int _level;
+  std::string _team;
+  // Resouce = type de ressource, et int le nombre
   std::map<Resource, int> _resource;
 };
 
