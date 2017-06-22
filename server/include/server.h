@@ -33,6 +33,8 @@ typedef struct	s_server
   t_vector	*players;
   // TODO graphic list
   bool		running;
+  // frequency
+  int		frequency;
 }		t_server;
 
 t_server	init_server(t_param *param);
