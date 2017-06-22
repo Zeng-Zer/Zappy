@@ -1,6 +1,6 @@
 #include "Level.hpp"
 
-std::map<int, std::map<Resource, int>> const Lvl::level = {
+std::map<int, std::map<Resource, int>> Lvl::level = {
   {2, {
       {Resource::PLAYER, 1},
       {Resource::LINEMATE, 1},

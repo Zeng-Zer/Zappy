@@ -20,6 +20,7 @@ t_server	init_server(t_param *param)
   server.teams = param->teams;
   server.cmds = vector_new();
   server.running = true;
+  server.frequency = param->frequency;
   return (server);
 }
 
