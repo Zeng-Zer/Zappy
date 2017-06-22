@@ -23,13 +23,15 @@ typedef struct	s_server
   // network
   t_network	network;
   // list of task to treat
-  t_vector	*tasks;  // TODO CREATE TASK STRUCTURE
+  t_vector	*cmds;  // TODO CREATE TASK STRUCTURE
   // world map
   t_world	*world;
-  // nb of team
+  // team
   int		nb_team;
   char		**teams;
-  // TODO player list
+  // player list
+  t_vector	*players;
+  // TODO graphic list
   bool		running;
 }		t_server;
 

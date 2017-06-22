@@ -20,11 +20,13 @@ int		main(int argc, char *argv[])
   param_default(&param);
   param_dump(&param);
   server = init_server(&param);
+  world_dump(1, server.world);
   while (server.running)
     {
       packages = poll_event(&server.network);
       packages_dump(packages);
       vector_delete(packages, free_package);
     }
+  close_server(&server);
   return (0);
 }

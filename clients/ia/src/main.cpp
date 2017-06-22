@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include "Exception.hpp"
+#include "Player.hpp"
 
 void	usage(void)
 {
@@ -22,7 +23,12 @@ void	usage(void)
 int	main(void)
 {
   try {
+    Player player;
     usage();
+    while (1)
+      {
+	player.update();
+      }
   }
   catch (Exception const& e) {
     std::cerr << e.what() << std::endl;

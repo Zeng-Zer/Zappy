@@ -48,4 +48,10 @@ t_world		*create_world(t_pos dimension);
  */
 void		free_world(t_world *world);
 
+/**
+ * world functions
+ */
+int	tile_dump(int fd, t_tile *tile, int x, int y);
+int	world_dump(int fd, t_world *world);
+
 #endif /* !WORLD_H_ */
