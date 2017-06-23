@@ -11,6 +11,7 @@
 #include <iostream>
 #include "Exception.hpp"
 #include "Param.hpp"
+#include "Connection.hpp"
 #include "Player.hpp"
 
 
@@ -18,6 +19,17 @@ int	main(int argc, char **argv)
 {
   try {
     Param args(argc, argv);
+
+    struct ConnectionInit {
+      ConnectionInit(Param args) {
+        Connection::initConnection(args.getPort(), args.getHost());
+      }
+
+      ~ConnectionInit() {
+        Connection::destroyConnection();
+      }
+    } ConnectionIniter(args);
+
     Player player;
     while (1)
       {

@@ -12,10 +12,12 @@ class Connection
 {
 public:
 
+  static void initConnection(int port, std::string host = "localhost");
   static Connection& getInstance();
+  static void destroyConnection();
 
 private:
-  Connection(std::string port_str, std::string addr = "localhost");
+  Connection();
   static std::unique_ptr<Connection> _instance;
 
   int sock;
