@@ -21,7 +21,7 @@ SRC :=		main.cpp \
 		Resource.cpp
 
 CXX :=		g++
-CXXFLAGS :=	-W -Wall -Wextra -std=c++14 -g
+CXXFLAGS :=	-W -Wall -Wextra -g -std=c++14
 SRC :=		$(addprefix $(SRCDIR), $(SRC))
 OBJ :=		$(SRC:.cpp=.o)
 RM :=		rm -f
@@ -56,6 +56,6 @@ re: fclean all
 .SILENT: all $(NAME) clean fclean re
 
 %.o: %.cpp
-	@$(CXX) -c $< -o $@ $(CFLAGS) $(foreach dir, $(INCLUDE), -I$(dir)) && \
+	@$(CXX) -c $< -o $@ $(CXXFLAGS) $(foreach dir, $(INCLUDE), -I$(dir)) && \
 		echo -e $(GREEN)"[OK]"$(DEFAULT) $< || \
 		echo -e $(RED)"[KO]"$(DEFAULT) $<

@@ -1,12 +1,13 @@
 #ifndef CONNECTION_HPP_
 # define CONNECTION_HPP_
 
-#include <string>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <Exception.hpp>
+# include <memory>
+# include <string>
+# include <unistd.h>
+# include <sys/socket.h>
+# include <netdb.h>
+# include <arpa/inet.h>
+# include <Exception.hpp>
 
 class Connection
 {
@@ -18,6 +19,7 @@ public:
 
 private:
   Connection();
+
   static std::unique_ptr<Connection> _instance;
 
   int sock;
