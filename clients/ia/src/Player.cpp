@@ -22,6 +22,9 @@ void Player::incantation() {
 
 }
 
+void Player::move(int _destx, int _desty) {
+
+}
 void Player::update() {
 
 }
