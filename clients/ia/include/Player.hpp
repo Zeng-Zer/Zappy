@@ -21,7 +21,7 @@ public:
   */
   std::vector<std::vector<Resource> > look();
   /*
-  ** map de resource et de la quantité de ressource
+  ** map de resource et de la quantité de resource
   */
   std::map<Resource, int> inventory();
   void broadcast(std::string const& msg);
@@ -32,14 +32,18 @@ public:
   void incantation();
 
   void update();
+  std::string  receive_msg();
+  void move(int x, int y);
   bool canLevelUp();
 
 private:
   int _x;
   int _y;
   int _level;
+  int _destx;
+  int _desty;
   std::string _team;
-  // Resouce = type de ressource, et int le nombre
+  // Resource = type de resource, et int le nombre
   std::map<Resource, int> _resource;
 };
 
