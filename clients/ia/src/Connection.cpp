@@ -31,8 +31,3 @@ Connection& Connection::getInstance()
 {
   return *_instance;
 }
-
-void Connection::destroyInstance()
-{
-  _instance.reset(nullptr);
-}

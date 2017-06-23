@@ -13,7 +13,6 @@ class Connection
 public:
 
   static Connection& getInstance();
-  static void destroyInstance();
 
 private:
   Connection(std::string port_str, std::string addr = "localhost");

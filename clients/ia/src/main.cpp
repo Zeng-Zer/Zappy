@@ -10,21 +10,15 @@
 
 #include <iostream>
 #include "Exception.hpp"
+#include "Param.hpp"
 #include "Player.hpp"
 
-void	usage(void)
-{
-  std::cout << "USAGE: ./zappy_ai -p port -n name -h machine" << std::endl;
-  std::cout << "\tport    is the port number" << std::endl;
-  std::cout << "\tname    is the name of the team" << std::endl;
-  std::cout << "\tmachine is the name of the machine; localhost by default" << std::endl;
-}
 
-int	main(void)
+int	main(int argc, char **argv)
 {
   try {
+    Param args(argc, argv);
     Player player;
-    usage();
     while (1)
       {
 	player.update();
