@@ -35,8 +35,12 @@ void Param::parse_arg(char *type, char *arg)
     usage();
   }
   else if (!strcmp(type, "p")) {
-    // TODO usage if no number
-    port = std::stoi(arg);
+    try {
+      port = std::stoi(arg);
+    }
+    catch (std::invalid_argument) {
+      usage();
+    }
   }
   else if (!strcmp(type, "n")) {
     teamName = std::string(arg);
