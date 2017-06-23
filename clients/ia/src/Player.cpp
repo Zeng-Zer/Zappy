@@ -23,18 +23,18 @@ void Player::incantation() {
 
 }
 
-std::string Player::receiveMsg() {
+// std::string Player::receiveMsg() {
 
-}
+// }
 
 void Player::move(int _destx, int _desty) {
 
 }
 
 void Player::update() {
-  if (receiveMsg()) {
-    move();
-  }
+//   if (receiveMsg()) {
+//     move();
+//   }
 
 }
 
