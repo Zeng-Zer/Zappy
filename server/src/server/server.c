@@ -20,6 +20,7 @@ t_server	init_server(t_param *param)
   server.teams = param->teams;
   server.cmds = vector_new();
   server.running = true;
+  server.frequency = param->frequency;
   return (server);
 }
 
@@ -29,4 +30,18 @@ void		close_server(t_server *server)
   vector_delete(server->cmds, NULL);
   free_tab(server->teams);
   free_world(server->world);
+}
+
+void		update_server(t_server *server)
+{
+
+}
+
+void		handle_packages(t_server *server, t_vector *packages)
+{
+  int		i;
+
+  i = 0;
+  // TODO fptr
+  packages_dump(packages);
 }

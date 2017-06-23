@@ -25,14 +25,13 @@ static void	generate_map(t_tile **map, t_pos dim)
       i = -1;
       while (++i < dim.x)
 	{
-	  map[j][i].food = rand() % 5;
-	  map[j][i].stones[0] = rand() % 5;
-	  map[j][i].stones[1] = rand() % 5;
-	  map[j][i].stones[2] = rand() % 5;
-	  map[j][i].stones[3] = rand() % 5;
-	  map[j][i].stones[4] = rand() % 5;
-	  map[j][i].stones[5] = rand() % 5;
-	  map[j][i].elevation = false;
+	  map[j][i].food = !(rand() % 2);
+	  map[j][i].stones[LINEMATE] = !(rand() % 2);
+	  map[j][i].stones[DERAUMERE] = !(rand() % 2);
+	  map[j][i].stones[SIBUR] = !(rand() % 3);
+	  map[j][i].stones[MENDIANE] = !(rand() % 3);
+	  map[j][i].stones[PHIRAS] = !(rand() % 4);
+	  map[j][i].stones[THYSTAME] = !(rand() % 5);
 	  map[j][i].players = vector_new();
 	}
     }
@@ -59,7 +58,6 @@ int	world_dump(int fd, t_world *world)
   int	j;
 
   j = -1;
-  printf("world dump\n");
   while (++j < world->dimension.y)
     {
       i = -1;

@@ -5,6 +5,7 @@
 # include <string>
 # include <map>
 # include "Resource.hpp"
+# include "Level.hpp"
 
 class Player {
 public:
@@ -31,7 +32,9 @@ public:
   void incantation();
 
   void update();
+  std::string  receive_msg();
   void move(int x, int y);
+  bool canLevelUp();
 
 private:
   int _x;

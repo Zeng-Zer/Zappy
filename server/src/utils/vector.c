@@ -8,6 +8,7 @@
 ** Last update Wed Jun 21 00:26:56 2017 David Zeng
 */
 
+#include <assert.h>
 #include "vector.h"
 
 t_vector	*vector_new()
@@ -57,10 +58,21 @@ void		vector_remove(t_vector *vector, size_t id)
   size_t	i;
 
   i = id;
+  assert(id < vector->length);
   while (i < vector->length)
     {
       vector->items[i] = vector->items[i + 1];
       ++i;
     }
   --vector->length;
+}
+
+void		vector_remove_item(t_vector *vector, void *item)
+{
+  size_t	i;
+
+  i = 0;
+  while (vector->items[i] != item)
+    ++i;
+  vector_remove(vector, i);
 }

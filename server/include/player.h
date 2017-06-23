@@ -11,16 +11,20 @@
 #ifndef PLAYER_H_
 # define PLAYER_H_
 
+# include <stdlib.h>
+# include <string.h>
 # include "stone.h"
 # include "utils.h"
 # include "rotation.h"
+
+# define DEFAULT_FOOD 10
 
 /**
  * structure that represents a player
  */
 typedef struct	s_player
 {
-  // id
+  // id its fd
   int		id;
   // team id
   int		team_id;
@@ -40,6 +44,7 @@ typedef struct	s_player
  * create a player in the given team
  * has random position and rotation
  */
-t_player	*create_player(int team_id);
+t_player	*create_player(int fd, int team_id, t_pos pos);
+void		free_player(t_player *player);
 
 #endif /* !PLAYER_H_ */

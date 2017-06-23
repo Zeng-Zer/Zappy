@@ -23,7 +23,7 @@ typedef struct	s_server
   // network
   t_network	network;
   // list of task to treat
-  t_vector	*cmds;  // TODO CREATE TASK STRUCTURE
+  t_vector	*cmds;  // TODO CREATE CMD STRUCTURE
   // world map
   t_world	*world;
   // team
@@ -32,10 +32,22 @@ typedef struct	s_server
   // player list
   t_vector	*players;
   // TODO graphic list
+  t_vector	*graphic;
   bool		running;
+  // frequency
+  int		frequency;
 }		t_server;
 
 t_server	init_server(t_param *param);
 void		close_server(t_server *server);
+
+/**
+ * main server function
+ */
+void		update_server(t_server *server);
+/**
+ * parse and interpret every packages
+ */
+void		handle_packages(t_server *server, t_vector *packages);
 
 #endif /* !SERVER_H_ */

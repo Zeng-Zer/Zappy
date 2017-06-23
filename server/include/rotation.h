@@ -25,6 +25,6 @@ typedef enum	e_rotation
 /**
  * turn current rotation to corresponding direction
  */
-t_rotation turn(t_rotation current, t_rotation direction);
+t_rotation	turn(t_rotation current, t_rotation direction);
 
 #endif /* !ROTATION_H_ */

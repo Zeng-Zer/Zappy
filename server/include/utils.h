@@ -33,4 +33,14 @@ int		tablen(char **tab);
  */
 int		send_msg(int fd, char *msg);
 
+/**
+ * get current time in millisecond
+ */
+long long	current_time();
+
+/**
+ * split str with delim
+ */
+char		**split(char *str, char *delim);
+
 #endif /* !UTILS_H_ */

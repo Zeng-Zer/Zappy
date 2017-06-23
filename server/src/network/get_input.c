@@ -41,9 +41,9 @@ static char	*new_line(int fd, char *sep, int *status)
 {
   char		buf[4097];
   int		ret;
-  char		*line;
+  static char	*line = NULL;
+  char		*str;
 
-  line = NULL;
   while (line == NULL || !(strlen(line) > strlen(sep) &&
 			   strcmp(line + strlen(line) - strlen(sep), sep) == 0))
     {
@@ -61,7 +61,9 @@ static char	*new_line(int fd, char *sep, int *status)
   if (!malloc_ok(line, status))
     return (NULL);
   line[strlen(line) - strlen(sep)] = '\0';
-  return (line);
+  str = line;
+  line = NULL;
+  return (str);
 }
 
 static char	**str_tab(char *str, char *delim, int *status)
