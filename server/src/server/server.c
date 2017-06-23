@@ -31,3 +31,17 @@ void		close_server(t_server *server)
   free_tab(server->teams);
   free_world(server->world);
 }
+
+void		update_server(t_server *server)
+{
+
+}
+
+void		handle_packages(t_server *server, t_vector *packages)
+{
+  int		i;
+
+  i = 0;
+  // TODO fptr
+  packages_dump(packages);
+}

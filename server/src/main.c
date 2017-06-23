@@ -10,13 +10,13 @@
 
 #include "server.h"
 
-static bool	*running;
+static bool	*g_running;
 
 static void	signal_handler(int sig)
 {
   if (sig == SIGINT)
     {
-      *running = false;
+      *g_running = false;
     }
 }
 
@@ -30,13 +30,14 @@ int		main(int argc, char *argv[])
   param_default(&param);
   param_dump(&param);
   server = init_server(&param);
-  running = &server.running;
+  g_running = &server.running;
   signal(SIGINT, signal_handler);
+  world_dump(1, server.world);
   while (server.running)
     {
-      packages = poll_event(&server.network);
-      packages_dump(packages);
-      vector_delete(packages, free_package);
+      if ((packages = poll_event(&server.network)))
+	handle_packages(&server, packages);
+      update_server(&server);
     }
   close_server(&server);
   return (0);

@@ -41,4 +41,13 @@ typedef struct	s_server
 t_server	init_server(t_param *param);
 void		close_server(t_server *server);
 
+/**
+ * main server function
+ */
+void		update_server(t_server *server);
+/**
+ * parse and interpret every packages
+ */
+void		handle_packages(t_server *server, t_vector *packages);
+
 #endif /* !SERVER_H_ */

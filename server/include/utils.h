@@ -38,4 +38,9 @@ int		send_msg(int fd, char *msg);
  */
 long long	current_time();
 
+/**
+ * split str with delim
+ */
+char		**split(char *str, char *delim);
+
 #endif /* !UTILS_H_ */

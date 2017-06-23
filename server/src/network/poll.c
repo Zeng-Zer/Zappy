@@ -30,7 +30,6 @@ static void	handle_new_connection(t_vector *packages, t_network *network)
       network->fds[network->nb_fd].events = POLLIN;
       ++network->nb_fd;
       send_msg(new_fd, "WELCOME");
-      vector_push(packages, new_package(new_fd, NULL, false));
     }
   if (new_fd == -1 && errno != EWOULDBLOCK)
     network_fail(network, "Server: accept failed");

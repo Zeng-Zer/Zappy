@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <math.h>
 #include <time.h>
 
@@ -53,4 +54,29 @@ long long		current_time()
   clock_gettime(CLOCK_REALTIME, &spec);
   ms = spec.tv_sec * 1000 + spec.tv_nsec / 1.0e6;
   return (ms);
+}
+
+char		**split(char *str, char *delim)
+{
+  char		**tab;
+  char		*ptr;
+  int		i;
+
+  tab = malloc(sizeof(char*) * (strlen(str) + 1));
+  if (!tab)
+    return (NULL);
+  ptr = strtok(str, delim);
+  i = 0;
+  while (ptr)
+    {
+      if (ptr[0] != '\0')
+	{
+	  tab[i++] = strdup(ptr);
+	  if (!tab[i - 1])
+	    return (NULL);
+	}
+      ptr = strtok(NULL, delim);
+    }
+  tab[i] = NULL;
+  return (tab);
 }

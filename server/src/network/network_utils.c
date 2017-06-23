@@ -25,6 +25,10 @@ bool	has_event(t_network *network)
   int	ret;
 
   if ((ret = poll(network->fds, network->nb_fd, 0)) == -1)
-    network_fail(network, "Server: poll() failed");
+    {
+      if (errno == EINTR)
+	return (false);
+      network_fail(network, "Server: poll() failed");
+    }
   return (ret != 0);
 }
