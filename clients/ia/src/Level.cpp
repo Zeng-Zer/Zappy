@@ -12,7 +12,7 @@ std::map<int, std::map<Resource, int>> Lvl::level = {
     }},
   {3, {
       {Resource::PLAYER, 2},
-      {Resource::LINEMATE, 2},
+      {Resource::LINEMATE, 1},
       {Resource::DERAUMERE, 1},
       {Resource::SIBUR, 1},
       {Resource::MENDIANE, 0},
