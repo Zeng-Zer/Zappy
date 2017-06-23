@@ -13,6 +13,12 @@ SRCDIR :=	src/
 INCLUDE :=	include/
 
 SRC :=		main.cpp \
+		Connection.cpp \
+		Exception.cpp \
+		Level.cpp \
+		Param.cpp \
+		Player.cpp \
+		Resource.cpp
 
 CXX :=		g++
 CXXFLAGS :=	-W -Wall -Wextra -std=c++14 -g

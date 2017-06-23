@@ -19,7 +19,7 @@ public:
   ** vector du cone de vision
   ** vector de ressource par cas dans le cone
   */
-  std::vector<std::vector<Resource>> look();
+  std::vector<std::vector<Resource> > look();
   /*
   ** map de resource et de la quantité de ressource
   */

@@ -30,11 +30,11 @@ int	main(int argc, char **argv)
       }
     } ConnectionIniter(args);
 
-    Player player;
-    while (1)
-      {
-	player.update();
-      }
+    // Player player;
+    // while (1)
+    //   {
+    // 	player.update();
+    //   }
   }
   catch (Exception const& e) {
     std::cerr << e.what() << std::endl;
