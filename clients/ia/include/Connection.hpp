@@ -22,7 +22,7 @@ public:
   void sendMsg(std::string const &msg) const;
   /**
    * read sentence by socket
-   * to set non-blocking mode use flag = MSG_DONTWAIT
+   * to set non-blocking mode use flag : MSG_DONTWAIT
    * return a empty string if nothing to read
    */
   std::string recvMsg(int flags = 0);

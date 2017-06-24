@@ -4,6 +4,7 @@ std::unique_ptr<Connection> Connection::_instance(nullptr);
 
 Connection::Connection() {
   buff[0] = '\0';
+  i = 0;
 }
 
 Connection& Connection::getInstance() {
@@ -17,21 +18,31 @@ void Connection::sendMsg(std::string const &msg) const {
 std::string Connection::recvMsg(int flags) {
   std::string line;
   std::stringstream ss;
-  int	ret;
+  int	ret = 0;
 
-  while (true) {
-    ret = recv(sock, buff, 4096, flags);
-    if (ret != -1)
-      buff[ret] = '\0';
-    else
-      buff[0] = '\0';
-    ss << buff;
-    int i;
-    for (i = 0; buff[i] != '\n' && i < ret; i++);
-    if (buff[i] == '\n')
-      break ;
+  while (ret != -1) {
+    if (buff[0] != '\0') {
+      ss << &buff[i];
+      while (buff[i] != '\n' && buff[i] != '\0')
+	i++;
+      if (buff[i] == '\n') {
+	std::getline(ss, line);
+	i++;
+	return (line);
+      }
+      else if (buff[i] == '\0') {
+	i = 0;
+	buff[i] = '\0';
+      }
+    }
+    else {
+      ret = recv(sock, buff, 4096, flags);
+      if (ret != -1)
+	buff[ret] = '\0';
+      else
+	buff[0] = '\0';
+    }
   }
-  std::getline(ss, line);
   return line;
 }
 
