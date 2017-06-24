@@ -23,18 +23,22 @@ void Player::incantation() {
 
 }
 
-// std::string Player::receiveMsg() {
-
-// }
+Broadcast Player::getBroadcast(std::string const& msg) {
+  int i;
+  i = std::stoi(msg);
+}
 
 void Player::move(int _destx, int _desty) {
 
 }
 
 void Player::update() {
-//   if (receiveMsg()) {
-//     move();
-//   }
+  if (receiveMsg()) {
+    move();
+  }
+  if () {
+
+  }
 
 }
 
