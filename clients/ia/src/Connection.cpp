@@ -3,11 +3,36 @@
 std::unique_ptr<Connection> Connection::_instance(nullptr);
 
 Connection::Connection() {
-
+  buff[0] = '\0';
 }
 
 Connection& Connection::getInstance() {
   return *_instance;
+}
+
+void Connection::sendMsg(std::string const &msg) const {
+  send(sock, std::string(msg + '\n').c_str(), msg.size() + 1, 0);
+}
+
+std::string Connection::recvMsg(int flags) {
+  std::string line;
+  std::stringstream ss;
+  int	ret;
+
+  while (true) {
+    ret = recv(sock, buff, 4096, flags);
+    if (ret != -1)
+      buff[ret] = '\0';
+    else
+      buff[0] = '\0';
+    ss << buff;
+    int i;
+    for (i = 0; buff[i] != '\n' && i < ret; i++);
+    if (buff[i] == '\n')
+      break ;
+  }
+  std::getline(ss, line);
+  return line;
 }
 
 void Connection::initConnection(int port, std::string host) {
@@ -29,7 +54,7 @@ void Connection::initConnection(int port, std::string host) {
     {
       if (close(_instance->sock) == -1)
 	throw (ConnectionException("close() failed"));
-      throw (ConnectionException("connect( failed)"));
+      throw (ConnectionException("connect() failed"));
     }
   _instance->isConnected = true;
 }
