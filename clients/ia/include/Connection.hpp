@@ -36,10 +36,10 @@ private:
 
   static std::unique_ptr<Connection> _instance;
 
-  int sock;
-  bool isConnected;
-  char	buff[4097];
-  int i;
+  int _sock;
+  bool _isConnected;
+  char	_buff[4097];
+  int _i;
 };
 
 #endif /* !CONNECTION_HPP_ */
