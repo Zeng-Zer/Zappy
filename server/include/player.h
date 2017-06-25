@@ -38,6 +38,8 @@ typedef struct	s_player
   t_pos		pos;
   // rotation
   t_rotation	rotation;
+  // time
+  long long	time;
 }		t_player;
 
 /**
@@ -45,6 +47,6 @@ typedef struct	s_player
  * has random position and rotation
  */
 t_player	*create_player(int fd, int team_id, t_pos pos);
-void		free_player(t_player *player);
+void		free_player(void *item);
 
 #endif /* !PLAYER_H_ */

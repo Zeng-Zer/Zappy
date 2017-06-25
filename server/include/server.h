@@ -22,12 +22,13 @@ typedef struct	s_server
 {
   // network
   t_network	network;
-  // list of task to treat
-  t_vector	*cmds;  // TODO CREATE CMD STRUCTURE
+  // list of cmd to treat
+  t_vector	*cmds;
   // world map
   t_world	*world;
   // team
   int		nb_team;
+  int		max_client;
   char		**teams;
   // player list
   t_vector	*players;

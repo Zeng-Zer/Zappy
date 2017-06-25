@@ -12,6 +12,7 @@
 #include <time.h>
 #include <stdio.h>
 #include "world.h"
+#include "player.h"
 
 static void	generate_map(t_tile **map, t_pos dim)
 {
@@ -25,13 +26,13 @@ static void	generate_map(t_tile **map, t_pos dim)
       i = -1;
       while (++i < dim.x)
 	{
-	  map[j][i].food = !(rand() % 2);
-	  map[j][i].stones[LINEMATE] = !(rand() % 2);
-	  map[j][i].stones[DERAUMERE] = !(rand() % 2);
-	  map[j][i].stones[SIBUR] = !(rand() % 3);
-	  map[j][i].stones[MENDIANE] = !(rand() % 3);
-	  map[j][i].stones[PHIRAS] = !(rand() % 4);
-	  map[j][i].stones[THYSTAME] = !(rand() % 5);
+	  map[j][i].food = rand() % 5;
+	  map[j][i].stones[LINEMATE] = rand() % 3;
+	  map[j][i].stones[DERAUMERE] = rand() % 3;
+	  map[j][i].stones[SIBUR] = rand() % 2;
+	  map[j][i].stones[MENDIANE] = rand() % 2;
+	  map[j][i].stones[PHIRAS] = !(rand() % 3);
+	  map[j][i].stones[THYSTAME] = !(rand() % 4);
 	  map[j][i].players = vector_new();
 	}
     }
@@ -96,12 +97,14 @@ void		free_world(t_world *world)
   int		i;
   int		j;
 
+  if (!world)
+    return;
   j = -1;
   while (++j < world->dimension.y)
     {
       i = -1;
       while (++i < world->dimension.x)
-	vector_delete(world->map[j][i].players, NULL); // TODO DELETE PLAYER
+	vector_delete(world->map[j][i].players, NULL);
       free(world->map[j]);
     }
   free(world->map);

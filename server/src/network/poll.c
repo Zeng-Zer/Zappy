@@ -14,7 +14,7 @@
 /**
  * accept() new client
  */
-static void	handle_new_connection(t_vector *packages, t_network *network)
+static void	handle_new_connection(t_network *network)
 {
   int		new_fd;
   int		opt;
@@ -29,7 +29,7 @@ static void	handle_new_connection(t_vector *packages, t_network *network)
       network->fds[network->nb_fd].fd = new_fd;
       network->fds[network->nb_fd].events = POLLIN;
       ++network->nb_fd;
-      send_msg(new_fd, "WELCOME");
+      dprintf(new_fd, "WELCOME\n");
     }
   if (new_fd == -1 && errno != EWOULDBLOCK)
     network_fail(network, "Server: accept failed");
@@ -105,9 +105,8 @@ t_vector	*poll_event(t_network *network)
   int		i;
   bool		clean;
 
-  if (!has_event(network))
+  if (!has_event(network) || !(packages = vector_new()))
     return (NULL);
-  packages = vector_new();
   i = -1;
   cur = network->nb_fd;
   clean = false;
@@ -118,7 +117,7 @@ t_vector	*poll_event(t_network *network)
       if (network->fds[i].revents != POLLIN)
 	network_fail(network, "Server: poll() unexpected revents value");
       if (network->fds[i].fd == network->server_fd)
-	handle_new_connection(packages, network);
+	handle_new_connection(network);
       else
 	clean = handle_new_events(packages, network, i);
     }

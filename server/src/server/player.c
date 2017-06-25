@@ -22,11 +22,17 @@ t_player	*create_player(int fd, int team_id, t_pos pos)
   player->pos = pos;
   player->food = DEFAULT_FOOD;
   player->rotation = rand() % 4;
+  player->time = current_time();
   memcpy(player->stones, (int[6]){0, 0, 0, 0, 0, 0}, sizeof(player->stones));
   return (player);
 }
 
-void		free_player(t_player *player)
+void		free_player(void *item)
 {
+  t_player	*player;
+
+  if (!item)
+    return;
+  player = item;
   free(player);
 }

@@ -35,9 +35,10 @@ int		main(int argc, char *argv[])
   world_dump(1, server.world);
   while (server.running)
     {
-      if ((packages = poll_event(&server.network)))
-	handle_packages(&server, packages);
+      packages = poll_event(&server.network);
+      handle_packages(&server, packages);
       update_server(&server);
+      vector_delete(packages, free_package);
     }
   close_server(&server);
   return (0);

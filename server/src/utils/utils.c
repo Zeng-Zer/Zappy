@@ -39,13 +39,6 @@ int	tablen(char **tab)
   return (i);
 }
 
-int	send_msg(int fd, char *msg)
-{
-  if (dprintf(fd, "%s\n", msg) < 0)
-    return (-1);
-  return (0);
-}
-
 long long		current_time()
 {
   struct timespec	spec;
@@ -61,11 +54,14 @@ char		**split(char *str, char *delim)
   char		**tab;
   char		*ptr;
   int		i;
+  char		*buf;
 
-  tab = malloc(sizeof(char*) * (strlen(str) + 1));
-  if (!tab)
+  if (!str)
     return (NULL);
-  ptr = strtok(str, delim);
+  tab = malloc(sizeof(char*) * (strlen(str) + 1));
+  if (!tab || !(buf = strdup(str)))
+    return (NULL);
+  ptr = strtok(buf, delim);
   i = 0;
   while (ptr)
     {
@@ -78,5 +74,6 @@ char		**split(char *str, char *delim)
       ptr = strtok(NULL, delim);
     }
   tab[i] = NULL;
+  free(buf);
   return (tab);
 }

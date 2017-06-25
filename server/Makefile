@@ -25,8 +25,14 @@ SRC :=		main.c \
 		utils/utils.c \
 		utils/vector.c \
 		utils/vector2.c \
+		server/player.c \
+		server/graphic.c \
 		server/server.c \
 		server/world.c \
+		cmd/cmd.c \
+		cmd/cmd_client.c \
+		cmd/cmd_player.c \
+		cmd/cmd_utils.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g

@@ -53,21 +53,24 @@ void		vector_push(t_vector *vector, void *item)
   vector->items[vector->length++] = item;
 }
 
-void		vector_remove(t_vector *vector, size_t id)
+void		*vector_remove(t_vector *vector, size_t id)
 {
   size_t	i;
+  void		*item;
 
   i = id;
   assert(id < vector->length);
+  item = vector->items[id];
   while (i < vector->length)
     {
       vector->items[i] = vector->items[i + 1];
       ++i;
     }
   --vector->length;
+  return (item);
 }
 
-void		vector_remove_item(t_vector *vector, void *item)
+void		*vector_remove_item(t_vector *vector, void *item)
 {
   size_t	i;
 
@@ -75,4 +78,5 @@ void		vector_remove_item(t_vector *vector, void *item)
   while (vector->items[i] != item)
     ++i;
   vector_remove(vector, i);
+  return (item);
 }
