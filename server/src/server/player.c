@@ -9,6 +9,7 @@
 */
 
 #include "player.h"
+#include "cmd.h"
 
 t_player	*create_player(int fd, int team_id, t_pos pos)
 {
@@ -20,10 +21,16 @@ t_player	*create_player(int fd, int team_id, t_pos pos)
   player->team_id = team_id;
   player->level = 1;
   player->pos = pos;
-  player->food = DEFAULT_FOOD;
   player->rotation = rand() % 4;
   player->time = current_time();
-  memcpy(player->stones, (int[6]){0, 0, 0, 0, 0, 0}, sizeof(player->stones));
+  memcpy(player->stones, (int[7]){DEFAULT_FOOD, 0, 0, 0, 0, 0, 0},
+	 sizeof(player->stones));
+  player->cmds = vector_new();
+  if (!player->cmds)
+    {
+      free(player);
+      return (NULL);
+    }
   return (player);
 }
 
@@ -34,5 +41,13 @@ void		free_player(void *item)
   if (!item)
     return;
   player = item;
+  vector_delete(player->cmds, free_command);
   free(player);
+}
+
+void		add_player_cmd(t_player *player, t_command *cmd)
+{
+  if (player->cmds->length >= 10)
+    return (free_command(cmd));
+  vector_push(player->cmds, cmd);
 }

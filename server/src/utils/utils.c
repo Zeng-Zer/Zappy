@@ -13,6 +13,7 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <stdbool.h>
 
 void	free_tab(char **tab)
 {
@@ -76,4 +77,12 @@ char		**split(char *str, char *delim)
   tab[i] = NULL;
   free(buf);
   return (tab);
+}
+
+bool	match_first_word(char const *str, char const *to_match)
+{
+  char	sep;
+
+  return (strncmp(str, to_match, strlen(to_match)) == 0 &&
+	  ((sep = str[strlen(to_match)]) == ' ' || sep == '\0'));
 }

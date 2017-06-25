@@ -23,7 +23,6 @@
  */
 typedef struct	s_tile
 {
-  int		food;
   int		stones[STONES_SIZE];
   t_vector	*players;
 }		t_tile;

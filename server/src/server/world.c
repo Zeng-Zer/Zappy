@@ -26,14 +26,15 @@ static void	generate_map(t_tile **map, t_pos dim)
       i = -1;
       while (++i < dim.x)
 	{
-	  map[j][i].food = rand() % 5;
+	  map[j][i].stones[FOOD] = rand() % 5;
 	  map[j][i].stones[LINEMATE] = rand() % 3;
 	  map[j][i].stones[DERAUMERE] = rand() % 3;
 	  map[j][i].stones[SIBUR] = rand() % 2;
 	  map[j][i].stones[MENDIANE] = rand() % 2;
 	  map[j][i].stones[PHIRAS] = !(rand() % 3);
 	  map[j][i].stones[THYSTAME] = !(rand() % 4);
-	  map[j][i].players = vector_new();
+	  if (!(map[j][i].players = vector_new()))
+	    exit(84);
 	}
     }
 }
@@ -44,7 +45,7 @@ int	tile_dump(int fd, t_tile *tile, int x, int y)
 		  "bct %d %d %d %d %d %d %d %d %d\n",
 		  x,
 		  y,
-		  tile->food,
+		  tile->stones[FOOD],
 		  tile->stones[LINEMATE],
 		  tile->stones[DERAUMERE],
 		  tile->stones[SIBUR],

@@ -63,7 +63,8 @@ void		*vector_remove(t_vector *vector, size_t id)
   item = vector->items[id];
   while (i < vector->length)
     {
-      vector->items[i] = vector->items[i + 1];
+      if (i + 1 < vector->length)
+	vector->items[i] = vector->items[i + 1];
       ++i;
     }
   --vector->length;

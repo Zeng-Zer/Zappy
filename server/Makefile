@@ -13,7 +13,6 @@ SRCDIR :=	src/
 INCLUDE :=	include/
 
 SRC :=		main.c \
-		elevation.c \
 		network/network.c \
 		network/poll.c \
 		network/get_input.c \
@@ -28,11 +27,17 @@ SRC :=		main.c \
 		server/player.c \
 		server/graphic.c \
 		server/server.c \
+		server/server_update.c \
 		server/world.c \
 		cmd/cmd.c \
 		cmd/cmd_client.c \
 		cmd/cmd_player.c \
+		cmd/cmd_player2.c \
+		cmd/cmd_player3.c \
 		cmd/cmd_utils.c \
+		cmd/commands.c \
+		gameplay/elevation.c \
+		gameplay/stone.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g

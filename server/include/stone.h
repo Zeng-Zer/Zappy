@@ -16,7 +16,8 @@
  */
 typedef enum	e_stone
   {
-    LINEMATE = 0,
+    FOOD = 0,
+    LINEMATE,
     DERAUMERE,
     SIBUR,
     MENDIANE,

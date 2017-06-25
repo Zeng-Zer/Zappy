@@ -62,7 +62,6 @@ typedef struct	s_package
 {
   // client id
   int		fd;
-  long long 	timestamp;
   char		*msg;
   bool		close;
 }		t_package;
