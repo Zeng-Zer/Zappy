@@ -7,45 +7,6 @@ Connection::Connection() {
   _i = 0;
 }
 
-Connection& Connection::getInstance() {
-  return *_instance;
-}
-
-void Connection::sendMsg(std::string const &msg) const {
-  send(_sock, std::string(msg + '\n').c_str(), msg.size() + 1, 0);
-}
-
-std::string Connection::recvMsg(int flags) {
-  std::string line;
-  std::stringstream ss;
-  int	ret = 0;
-
-  while (ret != -1) {
-    if (_buff[0] != '\0') {
-      ss << &_buff[_i];
-      while (_buff[_i] != '\n' && _buff[_i] != '\0')
-	_i++;
-      if (_buff[_i] == '\n') {
-	std::getline(ss, line);
-	_i++;
-	return (line);
-      }
-      else if (_buff[_i] == '\0') {
-	_i = 0;
-	_buff[_i] = '\0';
-      }
-    }
-    else {
-      ret = recv(_sock, _buff, 4096, flags);
-      if (ret != -1)
-	_buff[ret] = '\0';
-      else
-	_buff[0] = '\0';
-    }
-  }
-  return line;
-}
-
 void Connection::initConnection(int port, std::string host) {
   _instance.reset(new Connection());
   struct protoent *pe;
@@ -74,4 +35,44 @@ void Connection::destroyConnection()
 {
   close(_instance->_sock);
   _instance.reset(nullptr);
+}
+
+Connection& Connection::getInstance() {
+  return *_instance;
+}
+
+void Connection::sendMsg(std::string const &msg) const {
+  send(_sock, std::string(msg + '\n').c_str(), msg.size() + 1, 0);
+}
+
+std::string Connection::recvMsg(int flags) {
+  std::string line;
+  std::stringstream ss;
+  int	ret = 0;
+
+  while (ret != -1) {
+    if (_buff[0] != '\0') {
+      ss << &_buff[_i];
+      while (_buff[_i] != '\n' && _buff[_i] != '\0')
+	_i++;
+      if (_buff[_i] == '\n') {
+	std::getline(ss, line);
+	_i++;
+	std::cout << line << std::endl;
+	return line;
+      }
+      else if (_buff[_i] == '\0') {
+	_i = 0;
+	_buff[_i] = '\0';
+      }
+    }
+    else {
+      ret = recv(_sock, _buff, 4096, flags);
+      if (ret != -1)
+	_buff[ret] = '\0';
+      else
+	_buff[0] = '\0';
+    }
+  }
+  return line;
 }

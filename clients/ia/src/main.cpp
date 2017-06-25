@@ -14,6 +14,17 @@
 #include "Connection.hpp"
 #include "Player.hpp"
 
+std::pair<int, int> getStartPosition(std::string str) {
+  std::stringstream ss;
+  ss << str;
+  int x;
+  ss >> x;
+  std::cout << "X = " << x << std::endl;
+  int y;
+  ss >> y;
+  std::cout << "Y = " << y << std::endl;
+  return std::make_pair(x, y);
+}
 
 int	main(int argc, char **argv)
 {
@@ -30,15 +41,25 @@ int	main(int argc, char **argv)
       }
     } ConnectionIniter(args);
 
-    std::cout << Connection::getInstance().recvMsg() << std::endl;
+    struct RequestBufferInit {
+      RequestBufferInit() {
+        RequestBuffer::initRequestBuffer(10);
+      }
+
+      ~RequestBufferInit() {
+        RequestBuffer::destroyRequestBuffer();
+      }
+    } RequestBufferIniter;
+
+    if (Connection::getInstance().recvMsg() != "WELCOME")
+      throw (std::logic_error("Connection not etablished"));
     Connection::getInstance().sendMsg(args.getTeamName());
-    std::cout << Connection::getInstance().recvMsg() << std::endl;
-    std::cout << Connection::getInstance().recvMsg() << std::endl;
-    // Player player;
-    // while (1)
-    //   {
-    // 	player.update();
-    //   }
+    Connection::getInstance().recvMsg();
+    std::pair<int, int> startPos;
+    startPos = getStartPosition(Connection::getInstance().recvMsg());
+
+    Player player(startPos.first, startPos.second, args.getTeamName());
+    while (player.update());
   }
   catch (Exception const& e) {
     std::cerr << e.what() << std::endl;

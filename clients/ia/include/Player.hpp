@@ -6,6 +6,7 @@
 # include <sstream>
 # include <map>
 # include "Connection.hpp"
+# include "RequestBuffer.hpp"
 # include "Resource.hpp"
 # include "Level.hpp"
 
@@ -23,14 +24,14 @@ public:
   void left();
   void right();
   void forward();
-  /*
-  ** vector du cone de vision
-  ** vector de ressource par cas dans le cone
-  */
+  /**
+   * vector du cone de vision
+   * vector de ressource par cas dans le cone
+   */
   std::vector<std::vector<Resource> > look();
-  /*
-  ** map de resource et de la quantité de resource
-  */
+  /**
+   * map de resource et de la quantité de resource
+   */
   std::map<Resource, int> inventory();
   void broadcast(std::string const& msg);
   void fork();
@@ -39,7 +40,15 @@ public:
   void set(Resource res);
   void incantation();
 
-  void update();
+  /**
+   * responces
+   */
+  static void broadcastResponce(std::string responce);
+
+  /**
+   * temporary return int value to quit loop
+   */
+  int update();
   void move(int x, int y);
   bool canLevelUp();
   Broadcast getBroadcast(std::string const& msg);
