@@ -45,7 +45,6 @@ void Player::update() {
   if (!oneShot)
     broadcast("Hello");
   oneShot = true;
-
 }
 
 bool Player::canLevelUp() {

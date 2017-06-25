@@ -7,6 +7,36 @@ Connection::Connection() {
   _i = 0;
 }
 
+void Connection::initConnection(int port, std::string host) {
+  _instance.reset(new Connection());
+  struct protoent *pe;
+  pe = getprotobyname("TCP");
+  if (pe == NULL)
+    throw (ConnectionException("getprotobyname() failed"));
+
+  _instance->_sock = socket(AF_INET, SOCK_STREAM, pe->p_proto);
+  if (_instance->_sock == -1)
+    throw (ConnectionException("socket() failed"));
+
+  struct sockaddr_in s_in;
+  s_in.sin_family = AF_INET;
+  s_in.sin_port = htons(port);
+  s_in.sin_addr.s_addr = inet_addr(host.c_str());
+  if (connect(_instance->_sock, (struct sockaddr *)&s_in, sizeof(s_in)) == -1)
+    {
+      if (close(_instance->_sock) == -1)
+	throw (ConnectionException("close() failed"));
+      throw (ConnectionException("connect() failed"));
+    }
+  _instance->_isConnected = true;
+}
+
+void Connection::destroyConnection()
+{
+  close(_instance->_sock);
+  _instance.reset(nullptr);
+}
+
 Connection& Connection::getInstance() {
   return *_instance;
 }
@@ -45,34 +75,4 @@ std::string Connection::recvMsg(int flags) {
     }
   }
   return line;
-}
-
-void Connection::initConnection(int port, std::string host) {
-  _instance.reset(new Connection());
-  struct protoent *pe;
-  pe = getprotobyname("TCP");
-  if (pe == NULL)
-    throw (ConnectionException("getprotobyname() failed"));
-
-  _instance->_sock = socket(AF_INET, SOCK_STREAM, pe->p_proto);
-  if (_instance->_sock == -1)
-    throw (ConnectionException("socket() failed"));
-
-  struct sockaddr_in s_in;
-  s_in.sin_family = AF_INET;
-  s_in.sin_port = htons(port);
-  s_in.sin_addr.s_addr = inet_addr(host.c_str());
-  if (connect(_instance->_sock, (struct sockaddr *)&s_in, sizeof(s_in)) == -1)
-    {
-      if (close(_instance->_sock) == -1)
-	throw (ConnectionException("close() failed"));
-      throw (ConnectionException("connect() failed"));
-    }
-  _instance->_isConnected = true;
-}
-
-void Connection::destroyConnection()
-{
-  close(_instance->_sock);
-  _instance.reset(nullptr);
 }

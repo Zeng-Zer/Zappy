@@ -12,6 +12,10 @@ class RequestBuffer
 {
 public:
 
+  static void initRequestBuffer(int maxSize);
+  static void destroyRequestBuffer();
+  static RequestBuffer& getInstance();
+
   /**
    * Add request in buffer
    * If there is not enough space the request is ignored
@@ -26,11 +30,10 @@ public:
   bool isFull() const;
 
   int getSize() const;
-  static RequestBuffer& getInstance();
 
 private:
 
-  RequestBuffer(int maxSize = 10);
+  RequestBuffer();
 
   static std::unique_ptr<RequestBuffer> _instance;
 

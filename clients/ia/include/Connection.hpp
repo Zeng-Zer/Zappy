@@ -16,6 +16,10 @@ class Connection
 {
 public:
 
+  static void initConnection(int port, std::string host);
+  static void destroyConnection();
+  static Connection& getInstance();
+
   /**
    * send msg in socket
    */
@@ -26,10 +30,6 @@ public:
    * return a empty string if nothing to read
    */
   std::string recvMsg(int flags = 0);
-
-  static void initConnection(int port, std::string host);
-  static Connection& getInstance();
-  static void destroyConnection();
 
 private:
   Connection();

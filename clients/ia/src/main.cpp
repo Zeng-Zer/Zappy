@@ -41,6 +41,16 @@ int	main(int argc, char **argv)
       }
     } ConnectionIniter(args);
 
+    struct RequestBufferInit {
+      RequestBufferInit() {
+        RequestBuffer::initRequestBuffer(10);
+      }
+
+      ~RequestBufferInit() {
+        RequestBuffer::destroyRequestBuffer();
+      }
+    } RequestBufferIniter;
+
     if (Connection::getInstance().recvMsg() != "WELCOME")
       throw (std::logic_error("Connection not etablished"));
     Connection::getInstance().sendMsg(args.getTeamName());
@@ -49,10 +59,9 @@ int	main(int argc, char **argv)
     startPos = getStartPosition(Connection::getInstance().recvMsg());
 
     Player player(startPos.first, startPos.second, args.getTeamName());
-    while (1)
-      {
+    // while (1) {
     	player.update();
-      }
+      // }
   }
   catch (Exception const& e) {
     std::cerr << e.what() << std::endl;

@@ -2,8 +2,18 @@
 
 std::unique_ptr<RequestBuffer> RequestBuffer::_instance(nullptr);
 
-RequestBuffer::RequestBuffer(int maxSize) : _maxSize(maxSize) {
+RequestBuffer::RequestBuffer() {
 
+}
+
+void RequestBuffer::initRequestBuffer(int maxSize) {
+  _instance.reset(new RequestBuffer());
+  _instance->_maxSize = maxSize;
+}
+
+void RequestBuffer::destroyRequestBuffer()
+{
+  _instance.reset(nullptr);
 }
 
 RequestBuffer& RequestBuffer::getInstance() {
@@ -25,7 +35,6 @@ void RequestBuffer::push(std::pair<std::string, std::function<void(void)>> reque
 }
 
 bool RequestBuffer::isFull() const {
-  std::cout << "yolo !!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
   return _buffer.size() == 10;
 }
 
