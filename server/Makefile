@@ -38,6 +38,7 @@ SRC :=		main.c \
 		cmd/commands.c \
 		gameplay/elevation.c \
 		gameplay/stone.c \
+		gameplay/rotation.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g

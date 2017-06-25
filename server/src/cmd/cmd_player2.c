@@ -33,4 +33,20 @@ void		cmd_eject(t_server *server, t_command *command)
 
 void		cmd_take(t_server *server, t_command *command)
 {
+  t_player	*player;
+  char		**msg;
+  t_stone	stone;
+
+  player = command->entity;
+  msg = split(command->item, " ");
+  if (tablen(msg) != 2 || (stone = str_to_stone(msg[1])) == STONES_SIZE ||
+      server->world->map[player->pos.y][player->pos.x].stones[stone] == 0)
+    dprintf(player->id, "ko\n");
+  else
+    {
+      ++player->stones[stone];
+      --server->world->map[player->pos.y][player->pos.x].stones[stone];
+      dprintf(player->id, "ok\n");
+    }
+  free_tab(msg);
 }
