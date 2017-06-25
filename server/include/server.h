@@ -45,7 +45,7 @@ void		close_server(t_server *server);
 /**
  * main server function
  */
-void		update_server(t_server *server);
+void		server_update(t_server *server);
 /**
  * parse and interpret every packages
  */

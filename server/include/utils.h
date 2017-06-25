@@ -11,6 +11,8 @@
 #ifndef UTILS_H_
 # define UTILS_H_
 
+# include <stdbool.h>
+
 /**
  * position in 2D
  */
@@ -38,5 +40,10 @@ long long	current_time();
  * split str with delim
  */
 char		**split(char *str, char *delim);
+
+/**
+ * check first word
+ */
+bool	match_first_word(char const *str, char const *to_match);
 
 #endif /* !UTILS_H_ */

@@ -10,30 +10,23 @@
 
 #include "cmd.h"
 
-void		cmd_forward(t_server *server, t_package *package, char **cmd)
+void		cmd_forward(t_server *server, t_command *command)
 {
-  t_player	*player;
-
-  if (!(player = find_player(server->players, package->fd)))
-    return;
+  printf("forward\n");
 }
 
-void		cmd_right(t_server *server, t_package *package, char **cmd)
+void		cmd_right(t_server *server, t_command *command)
 {
-
 }
 
-void		cmd_left(t_server *server, t_package *package, char **cmd)
+void		cmd_left(t_server *server, t_command *command)
 {
-
 }
 
-void		cmd_look(t_server *server, t_package *package, char **cmd)
+void		cmd_look(t_server *server, t_command *command)
 {
-
 }
 
-void		cmd_inventory(t_server *server, t_package *package, char **cmd)
+void		cmd_inventory(t_server *server, t_command *command)
 {
-
 }

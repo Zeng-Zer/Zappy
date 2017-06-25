@@ -37,7 +37,7 @@ int		main(int argc, char *argv[])
     {
       packages = poll_event(&server.network);
       handle_packages(&server, packages);
-      update_server(&server);
+      server_update(&server);
       vector_delete(packages, free_package);
     }
   close_server(&server);

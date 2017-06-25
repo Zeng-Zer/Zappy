@@ -16,6 +16,7 @@
 # include "stone.h"
 # include "utils.h"
 # include "rotation.h"
+# include "vector.h"
 
 # define DEFAULT_FOOD 10
 
@@ -32,15 +33,18 @@ typedef struct	s_player
   int		level;
   // number of stones in the inventory for each type use t_stones enum as index
   int		stones[STONES_SIZE];
-  // life unit that represent the time the player can live
-  int		food;
   // position in the map
   t_pos		pos;
   // rotation
   t_rotation	rotation;
   // time
   long long	time;
+  // cmd of the player
+  t_vector	*cmds;
 }		t_player;
+
+// forward declaration
+typedef struct	s_command t_command;
 
 /**
  * create a player in the given team
@@ -48,5 +52,7 @@ typedef struct	s_player
  */
 t_player	*create_player(int fd, int team_id, t_pos pos);
 void		free_player(void *item);
+
+void		add_player_cmd(t_player *player, t_command *cmd);
 
 #endif /* !PLAYER_H_ */

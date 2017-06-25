@@ -42,13 +42,6 @@ void		close_server(t_server *server)
   free_world(server->world);
 }
 
-void		update_server(t_server *server)
-{
-  long long	time;
-
-  time = current_time();
-}
-
 void		handle_packages(t_server *server, t_vector *packages)
 {
   size_t	i;
@@ -56,9 +49,9 @@ void		handle_packages(t_server *server, t_vector *packages)
   i = -1;
   if (!packages)
     return;
+  packages_dump(packages);
   while (++i < packages->length)
     {
       handle_cmd(server, packages->items[i]);
     }
-  packages_dump(packages);
 }

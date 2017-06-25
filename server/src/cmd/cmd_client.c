@@ -11,11 +11,10 @@
 #include "cmd.h"
 #include "graphic.h"
 
-void		cmd_graphic(t_server *server, t_package *package, char **cmd)
+void		cmd_graphic(t_server *server, t_package *package)
 {
   t_graphic	*graphic;
 
-  (void)cmd;
   if ((graphic = new_graphic(package->fd)))
     {
       vector_push(server->graphic, graphic);
@@ -41,20 +40,40 @@ static int	get_team_id(t_server *server, char *str)
   return (-1);
 }
 
-void		cmd_player(t_server *server, t_package *package, char **cmd)
+static char	*first_word(char *str)
+{
+  char		*word;
+  char		*sep;
+
+  sep = index(str, ' ');
+  if (!(word = strndup(str, sep - str)))
+    return (NULL);
+  return (word);
+}
+
+// TODO ADD RESOURCES
+void		cmd_player(t_server *server, t_package *package)
 {
   t_player	*player;
   int		team_id;
   t_pos		pos;
+  char		*word;
 
   pos.x = rand() % server->world->dimension.x;
   pos.y = rand() % server->world->dimension.y;
-  if ((team_id = get_team_id(server, *cmd)) == -1 ||
+  if (!(word = first_word(package->msg)))
+    return;
+  if ((team_id = get_team_id(server, word)) == -1 ||
       !(player = create_player(package->fd, team_id, pos)))
-    return ((void)dprintf(package->fd, "ko\n"));
+    {
+      free(word);
+      return ((void)dprintf(package->fd, "ko\n"));
+    }
+  vector_push(server->world->map[pos.y][pos.x].players, player);
   vector_push(server->players, player);
   dprintf(package->fd, "%d\n%d %d\n",
 	  server->max_client - nb_player_team(server->players, team_id),
 	  server->world->dimension.x,
 	  server->world->dimension.y);
+  free(word);
 }
