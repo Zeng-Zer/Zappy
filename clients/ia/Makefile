@@ -14,6 +14,7 @@ INCLUDE :=	include/
 
 SRC :=		main.cpp \
 		Connection.cpp \
+		RequestBuffer.cpp \
 		Exception.cpp \
 		Level.cpp \
 		Param.cpp \

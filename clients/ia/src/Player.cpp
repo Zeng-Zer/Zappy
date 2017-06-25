@@ -8,7 +8,7 @@ Player::Player(int x, int y, std::string const& team) {
 }
 
 void Player::broadcast(std::string const& msg) {
-
+  Connection::getInstance().sendMsg(msg);
 }
 
 void Player::take(Resource res) {

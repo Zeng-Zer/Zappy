@@ -5,6 +5,7 @@
 # include <string>
 # include <sstream>
 # include <map>
+# include "Connection.hpp"
 # include "Resource.hpp"
 # include "Level.hpp"
 
