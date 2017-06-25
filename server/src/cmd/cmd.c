@@ -8,16 +8,15 @@
 ** Last update Fri Jun 23 01:42:18 2017 David Zeng
 */
 
-#include "player.h"
 #include "graphic.h"
 #include "cmd.h"
 
 const t_cmd	g_player_cmd[] = {
-  /* {"Forward", cmd_forward}, */
-  /* {"Right", cmd_right}, */
-  /* {"Left", cmd_left}, */
-  /* {"Look", cmd_look}, */
-  /* {"Inventory", cmd_inventory}, */
+  {"Forward", cmd_forward},
+  {"Right", cmd_right},
+  {"Left", cmd_left},
+  {"Look", cmd_look},
+  {"Inventory", cmd_inventory},
   /* {"Broadcast", cmd_broadcast}, */
   /* {"Connect_nbr", cmd_connect}, */
   /* {"Fork", cmd_fork}, */
@@ -79,8 +78,7 @@ static void		handle_player(t_server *server, t_package *package,
   while (++i < size)
     {
       if (strcmp(*cmd, g_player_cmd[i].key) == 0)
-	return (g_player_cmd[i].cmd(server, package, cmd,
-				    g_player_cmd[i].action));
+	return (g_player_cmd[i].cmd(server, package, cmd));
     }
 }
 
@@ -94,8 +92,7 @@ static void		handle_graphic(t_server *server, t_package *package,
   while (++i < size)
     {
       if (strcmp(*cmd, g_graphic_cmd[i].key) == 0)
-	return (g_graphic_cmd[i].cmd(server, package, cmd,
-				     g_graphic_cmd[i].action));
+	return (g_graphic_cmd[i].cmd(server, package, cmd));
     }
 }
 

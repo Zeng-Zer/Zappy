@@ -8,7 +8,6 @@
 ** Last update Sun Jun 25 00:53:19 2017 David Zeng
 */
 
-#include "player.h"
 #include "cmd.h"
 
 int		nb_player_team(t_vector *players, int team_id)
@@ -24,4 +23,17 @@ int		nb_player_team(t_vector *players, int team_id)
 	++nb;
     }
   return (nb);
+}
+
+t_player	*find_player(t_vector *players, int id)
+{
+  size_t	i;
+
+  i = -1;
+  while (++i < players->length)
+    {
+      if (((t_player*)players->items[i])->id == id)
+	return (players->items[i]);
+    }
+  return (NULL);
 }

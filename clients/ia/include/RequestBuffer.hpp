@@ -15,7 +15,7 @@ public:
    * Add request in buffer
    * If there is not enough space the request is ignored
    */
-  void push(std::tuple<std::string, std::function<void(void)>> &request);
+  void push(std::tuple<std::string, std::function<void(void)>>& request);
   void pop();
   /**
    * return true if the buffer is full
