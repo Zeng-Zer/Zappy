@@ -33,12 +33,12 @@ void Player::move(int _destx, int _desty) {
 }
 
 void Player::update() {
-  if (receiveMsg()) {
-    move();
-  }
-  if () {
+  // if (receiveMsg()) {
+  //   move();
+  // }
+  // if () {
 
-  }
+  // }
 
 }
 

@@ -8,7 +8,7 @@ RequestBuffer::~RequestBuffer() {
 
 }
 
-void push(std::tuple<std::string, std::function<void(void)>> &request) {
+void RequestBuffer::push(std::tuple<std::string, std::function<void(void)>>& request) {
   _buffer.push(request);
 }
 

@@ -10,7 +10,6 @@
 
 #include "cmd.h"
 #include "graphic.h"
-#include "player.h"
 
 void		cmd_graphic(t_server *server, t_package *package, char **cmd)
 {
