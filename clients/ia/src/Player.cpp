@@ -7,8 +7,12 @@ Player::Player(int x, int y, std::string const& team) {
   this->_team = team;
 }
 
+Player::~Player() {
+
+}
+
 void Player::broadcast(std::string const& msg) {
-  Connection::getInstance().sendMsg(msg);
+  RequestBuffer::getInstance().push("Broadcast " + msg, std::function<void(void)>(broadcastResponce));
 }
 
 void Player::take(Resource res) {
@@ -23,6 +27,10 @@ void Player::incantation() {
 
 }
 
+void Player::broadcastResponce(void) {
+
+}
+
 Broadcast Player::getBroadcast(std::string const& msg) {
   int i;
   i = std::stoi(msg);
@@ -33,12 +41,10 @@ void Player::move(int _destx, int _desty) {
 }
 
 void Player::update() {
-  // if (receiveMsg()) {
-  //   move();
-  // }
-  // if () {
-
-  // }
+  bool oneShot = false;
+  if (!oneShot)
+    broadcast("Hello");
+  oneShot = true;
 
 }
 

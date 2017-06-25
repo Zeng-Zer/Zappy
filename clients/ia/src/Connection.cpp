@@ -28,7 +28,8 @@ std::string Connection::recvMsg(int flags) {
       if (_buff[_i] == '\n') {
 	std::getline(ss, line);
 	_i++;
-	return (line);
+	std::cout << line << std::endl;
+	return line;
       }
       else if (_buff[_i] == '\0') {
 	_i = 0;
