@@ -59,9 +59,7 @@ int	main(int argc, char **argv)
     startPos = getStartPosition(Connection::getInstance().recvMsg());
 
     Player player(startPos.first, startPos.second, args.getTeamName());
-    // while (1) {
-    	player.update();
-      // }
+    while (player.update());
   }
   catch (Exception const& e) {
     std::cerr << e.what() << std::endl;

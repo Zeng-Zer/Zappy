@@ -13,32 +13,33 @@ class RequestBuffer
 public:
 
   static void initRequestBuffer(int maxSize);
-  static void destroyRequestBuffer();
-  static RequestBuffer& getInstance();
+  static void destroyRequestBuffer(void);
+  static RequestBuffer& getInstance(void);
 
   /**
    * Add request in buffer
    * If there is not enough space the request is ignored
    * the request is immediately sent to the server
    */
-  void push(std::string request, std::function<void(void)> responce_function);
-  void push(std::pair<std::string, std::function<void(void)>> request);
-  void pop();
+  void push(std::string request, std::function<void(std::string)> responce_function);
+  void push(std::pair<std::string, std::function<void(std::string)>> request);
+  std::pair<std::string, std::function<void(std::string)>> front(void) const;
+  void pop(void);
   /**
    * return true if the buffer is full
    */
-  bool isFull() const;
+  bool isFull(void) const;
 
-  int getSize() const;
+  int getSize(void) const;
 
 private:
 
-  RequestBuffer();
+  RequestBuffer(void);
 
   static std::unique_ptr<RequestBuffer> _instance;
 
   int _maxSize;
-  std::queue<std::pair<std::string, std::function<void(void)>>> _buffer;
+  std::queue<std::pair<std::string, std::function<void(std::string)>>> _buffer;
 };
 
 #endif /* !REQUESTBUFFER_HPP_ */
