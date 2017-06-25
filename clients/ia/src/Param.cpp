@@ -3,6 +3,7 @@
 Param::Param(int argc, char **argv)
 {
   port = 0;
+  host = "127.0.0.1";
   if (argc > 7)
     usage();
   if (argc >= 3 && argv[1][0] == '-')
@@ -21,11 +22,11 @@ int Param::getPort(void) const {
   return port;
 }
 
-std::string Param::getTeamName(void) const {
+std::string const &Param::getTeamName(void) const {
   return teamName;
 }
 
-std::string Param::getHost(void) const {
+std::string const &Param::getHost(void) const {
   return host;
 }
 

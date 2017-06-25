@@ -30,6 +30,10 @@ int	main(int argc, char **argv)
       }
     } ConnectionIniter(args);
 
+    std::cout << Connection::getInstance().recvMsg() << std::endl;
+    Connection::getInstance().sendMsg(args.getTeamName());
+    std::cout << Connection::getInstance().recvMsg() << std::endl;
+    std::cout << Connection::getInstance().recvMsg() << std::endl;
     // Player player;
     // while (1)
     //   {

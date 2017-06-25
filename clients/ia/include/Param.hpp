@@ -12,8 +12,8 @@ public:
   ~Param();
 
   int getPort(void) const;
-  std::string getTeamName(void) const;
-  std::string getHost(void) const;
+  std::string const &getTeamName(void) const;
+  std::string const &getHost(void) const;
 
   void parse_arg(char *type, char *arg);
   void usage(void) const;

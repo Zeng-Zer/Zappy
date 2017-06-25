@@ -3,9 +3,16 @@
 
 # include <vector>
 # include <string>
+# include <sstream>
 # include <map>
 # include "Resource.hpp"
 # include "Level.hpp"
+
+struct Broadcast {
+  int x;
+  int y;
+  int lvl;
+};
 
 class Player {
 public:
@@ -32,9 +39,9 @@ public:
   void incantation();
 
   void update();
-  std::string  receive_msg();
   void move(int x, int y);
   bool canLevelUp();
+  Broadcast getBroadcast(std::string const& msg);
 
 private:
   int _x;
