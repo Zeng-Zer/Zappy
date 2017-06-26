@@ -1,55 +1,50 @@
-##
-## Makefile :D
-##
-## Made by David Zeng
-## Login   <zeng_d@epitech.net>
-##
-## Started on  Mon Oct 12 13:31:18 2015 David Zeng
-## Last update Sat Jul  2 21:56:26 2016 David Zeng
-##
+NAME		=	zappy_graphic
+DIR_SRC		=	src
+DIR_INC		=	inc
 
-NAME :=		zappy_graphic
-SRCDIR :=	src/
-INCLUDE :=	include/
+CC		=	g++
+CFLAGS		=	-W -Wall -Werror -Wextra -I./$(DIR_INC)
+LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio #-lsfml-network
 
-SRC :=		main.cpp \
+ECHO		=	/bin/echo -e
+DEFAULT		=	"\e[0m"
+GREY		=	"\e[1m\e[38;5;247m"
+RED		=	"\e[1m\e[38;5;196m"
+YELLOW		=	"\e[1m\e[38;5;227m"
+BLUE		=	"\e[1m\e[38;5;38m"
+GREEN		=	"\e[1m\e[38;5;118m"
+COMPILED	=	$(BLUE)"[COMPILED]\t"
+LINKED		=	$(GREEN)"[LINKED]\t"
+DELETED		=	$(RED)"[DELETED]\t"
+ARROW		=	$(BLUE)"\t=>\t"
 
-CXX :=		g++
-CXXFLAGS :=	-W -Wall -Wextra -std=c++14 -g
-SRC :=		$(addprefix $(SRCDIR), $(SRC))
-OBJ :=		$(SRC:.cpp=.o)
-RM :=		rm -f
+SRC		=	$(DIR_SRC)/main.cpp \
+			$(DIR_SRC)/Graph.cpp \
+			$(DIR_SRC)/Player.cpp \
+			$(DIR_SRC)/TileMap.cpp
 
-DEFAULT :=	"\033[00;0m"
-GREEN :=	"\033[0;32;1m"
-RED :=		"\033[0;31;1m"
-CYAN :=		"\033[0;36;1m"
+OBJ		=	$(SRC:.cpp=.o)
 
-all: $(NAME)
+# ---------- Rules ----------
 
-$(NAME): $(OBJ)
-	$(CXX) -o $(NAME) $(OBJ) $(CXXFLAGS) && \
-		echo -e $(GREEN)"[BIN]"$(CYAN) $(NAME)$(DEFAULT) || \
-		echo -e $(RED)"[XX]"$(DEFAULT) $(NAME)
-	for file in $(shell find . | cut -c 3- | grep -P ".*\.(cpp|hpp|c|h)"); \
-		do fgrep -niH -e TODO -e FIXME $$file --color=auto; done; true
-	[ -e /bin/deep ] && deep . || echo -n
+all:			$(NAME)
+
+$(NAME):		$(OBJ)
+			@$(CC) -o $@ $^ $(LDFLAGS)
+			@$(ECHO) $(LINKED) $(YELLOW) $(NAME) $(DEFAULT)
+
+%.o:			%.cpp
+			@$(CC) -c $< -o $@ $(CFLAGS)
+			@$(ECHO) $(COMPILED) $(GREY) $< $(ARROW) $(GREY) $@ $(DEFAULT)
 
 clean:
-	echo -e $(CYAN)"Cleaning $(NAME) tmp files..." $(DEFAULT)
-	$(RM) $(OBJ)
+			@rm -f $(OBJ)
+			@$(ECHO) $(DELETED) $(GREY) $(OBJ) $(DEFAULT)
 
-fclean:	clean
-	echo -e $(CYAN)"Cleaning $(NAME) executable..." $(DEFAULT)
-	$(RM) $(NAME)
+fclean:			clean
+			@rm -f $(NAME)
+			@$(ECHO) $(DELETED) $(YELLOW) $(NAME) $(DEFAULT)
 
-re: fclean all
+re:			fclean all
 
-.PHONY: all clean fclean re
-
-.SILENT: all $(NAME) clean fclean re
-
-%.o: %.cpp
-	@$(CXX) -c $< -o $@ $(CFLAGS) $(foreach dir, $(INCLUDE), -I$(dir)) && \
-		echo -e $(GREEN)"[OK]"$(DEFAULT) $< || \
-		echo -e $(RED)"[KO]"$(DEFAULT) $<
+.PHONY:			all clean fclean re

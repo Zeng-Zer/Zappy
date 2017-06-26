@@ -1,12 +1,16 @@
-#include <stdio.h>
+#include <iostream>
+#include "Graph.hpp"
 
-static void	usage(void)
+int			main()
 {
-  puts("USAGE: ./zappy_graphic");
-}
+  Graph			*g;
 
-int	main(void)
-{
-  usage();
-  return (0);
+  try {
+    g = new Graph(29, 29, "Zappy");
+    g->run();
+  }
+  catch(std::exception e){
+    std::cerr << e.what() << std::endl;
+  }
+  delete g;
 }
