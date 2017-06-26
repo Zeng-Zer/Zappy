@@ -38,6 +38,10 @@ void Player::broadcastResponce(std::string responce) {
 //   i = std::stoi(msg);
 // }
 
+void Player::getEject(std::string const& msg) {
+  (void) msg;
+}
+
 // void Player::move(int _destx, int _desty) {
 
 // }
@@ -52,8 +56,20 @@ int Player::update() {
 
   std::string responce = Connection::getInstance().recvMsg();
   if (!responce.empty()) {
-    RequestBuffer::getInstance().front().second(responce);
-    RequestBuffer::getInstance().pop();
+    std::stringstream ss;
+    ss << responce;
+    std::string firstWord;
+    ss >> firstWord;
+    if (firstWord == "message") {
+      getBroadcast(responce);
+    }
+    else if (firstWord == "eject:") {
+      getEject(responce);
+    }
+    else {
+      RequestBuffer::getInstance().front().second(responce);
+      RequestBuffer::getInstance().pop();
+    }
     return (0);
   }
   return (1);

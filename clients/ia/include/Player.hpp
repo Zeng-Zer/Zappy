@@ -49,9 +49,14 @@ public:
    * temporary return int value to quit loop
    */
   int update();
+
   void move(int x, int y);
   bool canLevelUp();
   Broadcast getBroadcast(std::string const& msg);
+  /**
+   * temporary prototype, writed to compile but does nothing
+   */
+  void getEject(std::string const& msg);
 
 private:
   int _x;

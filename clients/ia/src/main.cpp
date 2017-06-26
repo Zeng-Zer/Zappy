@@ -14,7 +14,7 @@
 #include "Connection.hpp"
 #include "Player.hpp"
 
-std::pair<int, int> getStartPosition(std::string str) {
+static std::pair<int, int> getStartPosition(std::string str) {
   std::stringstream ss;
   ss << str;
   int x;
