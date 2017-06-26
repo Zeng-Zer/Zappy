@@ -66,13 +66,16 @@ int Player::update() {
     else if (firstWord == "eject:") {
       getEject(responce);
     }
+    else if (firstWord == "dead") {
+      return 0;
+    }
     else {
       RequestBuffer::getInstance().front().second(responce);
       RequestBuffer::getInstance().pop();
     }
-    return (0);
+    return 0;
   }
-  return (1);
+  return 1;
 }
 
 bool Player::canLevelUp() {
