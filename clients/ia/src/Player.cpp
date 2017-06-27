@@ -47,11 +47,11 @@ void Player::eject() const{
   RequestBuffer::getInstance().push("Eject", std::function<void(std::string&)>(ejectResponce));
 }
 
-void Player::take(Resource res) const {
+void Player::take(Resource::Resource res) const {
   RequestBuffer::getInstance().push("Take", std::function<void(std::string&)>(ejectResponce));
 }
 
-void Player::set(Resource res) const {
+void Player::set(Resource::Resource res) const {
   RequestBuffer::getInstance().push("Set", std::function<void(std::string&)>(ejectResponce));
 }
 
@@ -177,10 +177,10 @@ int Player::update() {
 }
 
 bool Player::canLevelUp() {
-  return this->_level < 8 && this->_resource[LINEMATE] >= Lvl::level[this->_level + 1][LINEMATE]
-    && this->_resource[DERAUMERE] >= Lvl::level[this->_level + 1][DERAUMERE]
-    && this->_resource[SIBUR] >= Lvl::level[this->_level + 1][SIBUR]
-    && this->_resource[MENDIANE] >= Lvl::level[this->_level + 1][MENDIANE]
-    && this->_resource[PHIRAS] >= Lvl::level[this->_level + 1][PHIRAS]
-    && this->_resource[THYSTAME] >= Lvl::level[this->_level + 1][THYSTAME];
+  return this->_level < 8 && this->_resource[Resource::LINEMATE] >= Lvl::level[this->_level + 1][Resource::LINEMATE]
+    && this->_resource[Resource::DERAUMERE] >= Lvl::level[this->_level + 1][Resource::DERAUMERE]
+    && this->_resource[Resource::SIBUR] >= Lvl::level[this->_level + 1][Resource::SIBUR]
+    && this->_resource[Resource::MENDIANE] >= Lvl::level[this->_level + 1][Resource::MENDIANE]
+    && this->_resource[Resource::PHIRAS] >= Lvl::level[this->_level + 1][Resource::PHIRAS]
+    && this->_resource[Resource::THYSTAME] >= Lvl::level[this->_level + 1][Resource::THYSTAME];
 }

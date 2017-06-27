@@ -5,7 +5,7 @@
 # include "Resource.hpp"
 
 namespace Lvl {
-  extern std::map<int, std::map<Resource, int> > level;
+  extern std::map<int, std::map<Resource::Resource, int> > level;
 }
 
 #endif /* !LEVEL_HPP_ */
