@@ -161,7 +161,7 @@ void Player::move(std::vector<int> x) {
   else if (ressource_case < ((nb_case_line - 1) / 2)) { 
     left();
   }
-  nb_forward = ressource_case - ((nb_case_line - 1) / 2); //TODO call nb_forward times forward function
+  nb_forward = ressource_case - ((nb_case_line - 1) / 2); //TODO call nb_forward times forward function and manage negative numbers
 }
 
 int Player::update() {
