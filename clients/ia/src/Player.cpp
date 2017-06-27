@@ -140,9 +140,29 @@ void Player::signalEject(std::string const& msg) {
   (void) msg;
 }
 
-// void Player::move(int _destx, int _desty) {
+/*
+void Player::move(std::vector<int> x) {
+  int nb_case = 0;
+  int nb_line = 0;
+  int line = 0;
+  int ressource_case;
+  int nb_forward;
 
-// }
+  while (nb_case < x) {
+    nb_case += 1 + (2 * nb_line);
+    line++;
+    nb_line++;
+  }
+  ressource_case = x - (nb_case - (1 + 2 * (nb_line - 1)));
+  if (ressource_case > ((case_line - 1) / 2)) {
+    right();
+  }
+  else if (ressource_case < ((case_line - 1) / 2)) {
+    left();
+  }
+  nb_forward = ressource_case - ((case_line - 1) / 2);
+}
+*/
 
 int Player::update() {
   bool oneShot = false;
