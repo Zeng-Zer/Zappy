@@ -11,8 +11,20 @@ Player::~Player() {
 
 }
 
-void Player::broadcast(std::string const& msg) {
-  RequestBuffer::getInstance().push("Broadcast " + msg, std::function<void(std::string)>(broadcastResponce));
+void Player::forward() const {
+  RequestBuffer::getInstance().push("Forward", std::function<void(std::string&)>(moveResponce));
+}
+
+void Player::right() const {
+  RequestBuffer::getInstance().push("Right", std::function<void(std::string&)>(moveResponce));
+}
+
+void Player::left() const {
+  RequestBuffer::getInstance().push("Left ", std::function<void(std::string&)>(moveResponce));
+}
+
+void Player::broadcast(std::string const& msg) const {
+  RequestBuffer::getInstance().push("Broadcast " + msg, std::function<void(std::string&)>(broadcastResponce));
 }
 
 // void Player::take(Resource res) {
@@ -27,7 +39,13 @@ void Player::incantation() {
 
 }
 
-void Player::broadcastResponce(std::string responce) {
+void Player::moveResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Movement command: bad responce" << std::endl;
+  }
+}
+
+void Player::broadcastResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "broadcast: bad responce" << std::endl;
   }
@@ -79,13 +97,10 @@ int Player::update() {
 }
 
 bool Player::canLevelUp() {
-  if (this->_level < 8 && this->_resource[LINEMATE] >= Lvl::level[this->_level + 1][LINEMATE]
-      && this->_resource[DERAUMERE] >= Lvl::level[this->_level + 1][DERAUMERE]
-      && this->_resource[SIBUR] >= Lvl::level[this->_level + 1][SIBUR]
-      && this->_resource[MENDIANE] >= Lvl::level[this->_level + 1][MENDIANE]
-      && this->_resource[PHIRAS] >= Lvl::level[this->_level + 1][PHIRAS]
-      && this->_resource[THYSTAME] >= Lvl::level[this->_level + 1][THYSTAME])
-    return true;
-  else
-    return false;
+  return this->_level < 8 && this->_resource[LINEMATE] >= Lvl::level[this->_level + 1][LINEMATE]
+    && this->_resource[DERAUMERE] >= Lvl::level[this->_level + 1][DERAUMERE]
+    && this->_resource[SIBUR] >= Lvl::level[this->_level + 1][SIBUR]
+    && this->_resource[MENDIANE] >= Lvl::level[this->_level + 1][MENDIANE]
+    && this->_resource[PHIRAS] >= Lvl::level[this->_level + 1][PHIRAS]
+    && this->_resource[THYSTAME] >= Lvl::level[this->_level + 1][THYSTAME];
 }

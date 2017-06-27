@@ -20,21 +20,21 @@ RequestBuffer& RequestBuffer::getInstance(void) {
   return *_instance;
 }
 
-void RequestBuffer::push(std::string request, std::function<void(std::string)> responce_function) {
+void RequestBuffer::push(std::string request, std::function<void(std::string&)> responce_function) {
   if (!isFull()) {
     Connection::getInstance().sendMsg(request);
     _buffer.push(std::make_pair(request, responce_function));
   }
 }
 
-void RequestBuffer::push(std::pair<std::string, std::function<void(std::string)>> request) {
+void RequestBuffer::push(std::pair<std::string, std::function<void(std::string&)>> request) {
   if (!isFull()) {
     Connection::getInstance().sendMsg(request.first);
     _buffer.push(request);
   }
 }
 
-std::pair<std::string, std::function<void(std::string)>> RequestBuffer::front(void) const {
+std::pair<std::string, std::function<void(std::string&)>> RequestBuffer::front(void) const {
   return _buffer.front();
 }
 

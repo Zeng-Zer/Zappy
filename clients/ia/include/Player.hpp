@@ -21,9 +21,12 @@ public:
   Player(int x, int y, std::string const& team);
   ~Player();
 
-  void left();
-  void right();
-  void forward();
+  /**
+   * COMMANDS
+   */
+  void forward() const;
+  void right() const;
+  void left() const;
   /**
    * vector du cone de vision
    * vector de ressource par cas dans le cone
@@ -33,7 +36,7 @@ public:
    * map de resource et de la quantité de resource
    */
   std::map<Resource, int> inventory();
-  void broadcast(std::string const& msg);
+  void broadcast(std::string const& msg) const;
   void fork();
   void eject();
   void take(Resource res);
@@ -41,9 +44,10 @@ public:
   void incantation();
 
   /**
-   * responces
+   * RESPONCES
    */
-  static void broadcastResponce(std::string responce);
+  static void moveResponce(std::string& responce);
+  static void broadcastResponce(std::string& responce);
 
   /**
    * temporary return int value to quit loop
