@@ -11,34 +11,132 @@ Player::~Player() {
 
 }
 
-void Player::broadcast(std::string const& msg) {
-  RequestBuffer::getInstance().push("Broadcast " + msg, std::function<void(std::string)>(broadcastResponce));
+void Player::forward() const {
+  RequestBuffer::getInstance().push("Forward", std::function<void(std::string&)>(forwardResponce));
 }
 
-// void Player::take(Resource res) {
-
-// }
-
-// void Player::set(Resource res) {
-
-// }
-
-void Player::incantation() {
-
+void Player::right() const {
+  RequestBuffer::getInstance().push("Right", std::function<void(std::string&)>(rightResponce));
 }
 
-void Player::broadcastResponce(std::string responce) {
+void Player::left() const {
+  RequestBuffer::getInstance().push("Left", std::function<void(std::string&)>(leftResponce));
+}
+
+void Player::look() const {
+  RequestBuffer::getInstance().push("Look", std::function<void(std::string&)>(lookResponce));
+}
+
+void Player::inventory() const {
+  RequestBuffer::getInstance().push("Inventory", std::function<void(std::string&)>(inventoryResponce));
+}
+
+void Player::broadcast(std::string const& msg) const {
+  RequestBuffer::getInstance().push("Broadcast " + msg, std::function<void(std::string&)>(broadcastResponce));
+}
+
+void Player::connect_nbr() const {
+  RequestBuffer::getInstance().push("Connect_nbr", std::function<void(std::string&)>(connect_nbrResponce));
+}
+
+void Player::fork() const {
+  RequestBuffer::getInstance().push("Fork", std::function<void(std::string&)>(forkResponce));
+}
+
+void Player::eject() const{
+  RequestBuffer::getInstance().push("Eject", std::function<void(std::string&)>(ejectResponce));
+}
+
+void Player::take(Resource::Resource res) const {
+  RequestBuffer::getInstance().push("Take", std::function<void(std::string&)>(ejectResponce));
+}
+
+void Player::set(Resource::Resource res) const {
+  RequestBuffer::getInstance().push("Set", std::function<void(std::string&)>(ejectResponce));
+}
+
+void Player::incantation() const {
+  RequestBuffer::getInstance().push("Incantation", std::function<void(std::string&)>(incantationResponce));
+}
+
+void Player::forwardResponce(std::string& responce) {
   if (responce != "ok") {
-    std::cerr << "broadcast: bad responce" << std::endl;
+    std::cerr << "Forward: bad responce" << std::endl;
   }
 }
 
-Broadcast Player::getBroadcast(std::string const& msg) {
+void Player::rightResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Right: bad responce" << std::endl;
+  }
+}
+
+void Player::leftResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Left: bad responce" << std::endl;
+  }
+}
+
+void Player::lookResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Look: bad responce" << std::endl;
+  }
+}
+
+void Player::inventoryResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Inventory: bad responce" << std::endl;
+  }
+}
+
+void Player::broadcastResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Broadcast: bad responce" << std::endl;
+  }
+}
+
+void Player::connect_nbrResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Connect_nbr: bad responce" << std::endl;
+  }
+}
+
+void Player::forkResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Fork: bad responce" << std::endl;
+  }
+}
+
+void Player::ejectResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Eject: bad responce" << std::endl;
+  }
+}
+
+void Player::takeResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Take: bad responce" << std::endl;
+  }
+}
+
+void Player::setResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Set: bad responce" << std::endl;
+  }
+}
+
+void Player::incantationResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Incantation: bad responce" << std::endl;
+  }
+}
+
+Broadcast Player::signalBroadcast(std::string const& msg) {
   int i;
   i = std::stoi(msg);
 }
 
-void Player::getEject(std::string const& msg) {
+void Player::signalEject(std::string const& msg) {
   (void) msg;
 }
 
@@ -61,10 +159,10 @@ int Player::update() {
     std::string firstWord;
     ss >> firstWord;
     if (firstWord == "message") {
-      getBroadcast(responce);
+      signalBroadcast(responce);
     }
     else if (firstWord == "eject:") {
-      getEject(responce);
+      signalEject(responce);
     }
     else if (firstWord == "dead") {
       return 0;
@@ -79,13 +177,10 @@ int Player::update() {
 }
 
 bool Player::canLevelUp() {
-  if (this->_level < 8 && this->_resource[LINEMATE] >= Lvl::level[this->_level + 1][LINEMATE]
-      && this->_resource[DERAUMERE] >= Lvl::level[this->_level + 1][DERAUMERE]
-      && this->_resource[SIBUR] >= Lvl::level[this->_level + 1][SIBUR]
-      && this->_resource[MENDIANE] >= Lvl::level[this->_level + 1][MENDIANE]
-      && this->_resource[PHIRAS] >= Lvl::level[this->_level + 1][PHIRAS]
-      && this->_resource[THYSTAME] >= Lvl::level[this->_level + 1][THYSTAME])
-    return true;
-  else
-    return false;
+  return this->_level < 8 && this->_resource[Resource::LINEMATE] >= Lvl::level[this->_level + 1][Resource::LINEMATE]
+    && this->_resource[Resource::DERAUMERE] >= Lvl::level[this->_level + 1][Resource::DERAUMERE]
+    && this->_resource[Resource::SIBUR] >= Lvl::level[this->_level + 1][Resource::SIBUR]
+    && this->_resource[Resource::MENDIANE] >= Lvl::level[this->_level + 1][Resource::MENDIANE]
+    && this->_resource[Resource::PHIRAS] >= Lvl::level[this->_level + 1][Resource::PHIRAS]
+    && this->_resource[Resource::THYSTAME] >= Lvl::level[this->_level + 1][Resource::THYSTAME];
 }

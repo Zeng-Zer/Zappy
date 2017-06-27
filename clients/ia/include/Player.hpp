@@ -21,29 +21,46 @@ public:
   Player(int x, int y, std::string const& team);
   ~Player();
 
-  void left();
-  void right();
-  void forward();
+  /**
+   * COMMANDS
+   */
+  void forward() const;
+  void right() const;
+  void left() const;
   /**
    * vector du cone de vision
    * vector de ressource par cas dans le cone
    */
-  std::vector<std::vector<Resource> > look();
+  // std::vector<std::vector<Resource> > look();
+  void look() const;
   /**
    * map de resource et de la quantité de resource
    */
-  std::map<Resource, int> inventory();
-  void broadcast(std::string const& msg);
-  void fork();
-  void eject();
-  void take(Resource res);
-  void set(Resource res);
-  void incantation();
+  // std::map<Resource, int> inventory();
+  void inventory() const;
+  void broadcast(std::string const& msg) const;
+  void connect_nbr() const;
+  void fork() const;
+  void eject() const;
+  void take(Resource::Resource res) const;
+  void set(Resource::Resource res) const;
+  void incantation() const;
 
   /**
-   * responces
+   * RESPONCES
    */
-  static void broadcastResponce(std::string responce);
+  static void forwardResponce(std::string&);
+  static void rightResponce(std::string&);
+  static void leftResponce(std::string&);
+  static void lookResponce(std::string&);
+  static void inventoryResponce(std::string&);
+  static void broadcastResponce(std::string&);
+  static void connect_nbrResponce(std::string&);
+  static void forkResponce(std::string&);
+  static void ejectResponce(std::string&);
+  static void takeResponce(std::string&);
+  static void setResponce(std::string&);
+  static void incantationResponce(std::string&);
 
   /**
    * temporary return int value to quit loop
@@ -52,11 +69,11 @@ public:
 
   void move(int x, int y);
   bool canLevelUp();
-  Broadcast getBroadcast(std::string const& msg);
+  Broadcast signalBroadcast(std::string const& msg);
   /**
    * temporary prototype, writed to compile but does nothing
    */
-  void getEject(std::string const& msg);
+  void signalEject(std::string const& msg);
 
 private:
   int _x;
@@ -66,7 +83,7 @@ private:
   int _desty;
   std::string _team;
   // Resource = type de resource, et int le nombre
-  std::map<Resource, int> _resource;
+  std::map<Resource::Resource, int> _resource;
 };
 
 #endif /* !PLAYER_HPP_ */

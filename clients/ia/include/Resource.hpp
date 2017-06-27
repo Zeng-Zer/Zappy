@@ -2,20 +2,26 @@
 # define RESOURCE_HPP_
 
 # include <string>
+# include <map>
 
-enum Resource {
-  PLAYER,
-  FOOD,
-  LINEMATE,
-  DERAUMERE,
-  SIBUR,
-  MENDIANE,
-  PHIRAS,
-  THYSTAME,
-};
+namespace Resource {
 
-Resource stringToResource(std::string const& str);
+  enum Resource {
+    PLAYER = 0,
+    FOOD,
+    LINEMATE,
+    DERAUMERE,
+    SIBUR,
+    MENDIANE,
+    PHIRAS,
+    THYSTAME,
+    UNKNOWN,
+  };
 
-std::string resourceToString(Resource res);
+  extern const std::map<Resource, std::string> resourceMap;
+
+  Resource stringToResource(std::string const& str);
+  std::string resourceToString(Resource res);
+}
 
 #endif /* !RESOURCE_HPP_ */
