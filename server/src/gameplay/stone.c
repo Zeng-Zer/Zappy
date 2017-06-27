@@ -8,6 +8,7 @@
 ** Last update Sun Jun 25 22:23:27 2017 David Zeng
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "stone.h"
@@ -48,4 +49,24 @@ t_stone		str_to_stone(char *str)
   else if (strcmp("thystame", str) == 0)
     return (THYSTAME);
   return (STONES_SIZE);
+}
+
+void		print_stones(int fd, int *stones)
+{
+  int		i;
+  int		j;
+  char		*str;
+
+  i = -1;
+  while (++i < STONES_SIZE)
+    {
+      j = -1;
+      if (!(str = stone_to_str(i)))
+	return;
+      while (++j < stones[i])
+	{
+	  dprintf(fd, " %s", str);
+	}
+      free(str);
+    }
 }

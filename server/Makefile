@@ -29,6 +29,7 @@ SRC :=		main.c \
 		server/server.c \
 		server/server_update.c \
 		server/world.c \
+		server/world2.c \
 		cmd/cmd.c \
 		cmd/cmd_client.c \
 		cmd/cmd_player.c \

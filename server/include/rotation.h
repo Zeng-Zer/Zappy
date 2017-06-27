@@ -11,6 +11,8 @@
 #ifndef ROTATION_H_
 # define ROTATION_H_
 
+#include "utils.h"
+
 /**
  * enum that describes a player rotation
  */
@@ -26,5 +28,10 @@ typedef enum	e_rotation
  * turn current rotation to corresponding direction
  */
 t_rotation	turn(t_rotation current, t_rotation direction);
+
+/**
+ * get front cell, pos[0] -> next row, pos[1] next cell on the row
+ */
+void		get_front_dir(t_rotation rot, t_pos *pos);
 
 #endif /* !ROTATION_H_ */

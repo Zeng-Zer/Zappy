@@ -36,4 +36,6 @@ char		*stone_to_str(t_stone stone);
  */
 t_stone		str_to_stone(char *str);
 
+void		print_stones(int fd, int *stones);
+
 #endif /* !STONE_H_ */

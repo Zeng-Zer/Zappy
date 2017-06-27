@@ -50,6 +50,12 @@ void		free_world(t_world *world);
  * world functions
  */
 int	tile_dump(int fd, t_tile *tile, int x, int y);
-int	world_dump(int fd, t_world *world);
+void	world_dump(int fd, t_world *world);
+
+/**
+ * get tile at pos
+ */
+t_tile	*at(t_world *world, t_pos pos);
+void	print_tile(int fd, t_world *world, t_pos pos);
 
 #endif /* !WORLD_H_ */

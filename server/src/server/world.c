@@ -26,38 +26,24 @@ static void	generate_map(t_tile **map, t_pos dim)
       i = -1;
       while (++i < dim.x)
 	{
-	  map[j][i].stones[FOOD] = rand() % 5;
+	  map[j][i].stones[FOOD] = 0;
 	  map[j][i].stones[LINEMATE] = rand() % 3;
 	  map[j][i].stones[DERAUMERE] = rand() % 3;
 	  map[j][i].stones[SIBUR] = rand() % 2;
 	  map[j][i].stones[MENDIANE] = rand() % 2;
-	  map[j][i].stones[PHIRAS] = !(rand() % 3);
-	  map[j][i].stones[THYSTAME] = !(rand() % 4);
+	  map[j][i].stones[PHIRAS] = !(rand() % 4);
+	  map[j][i].stones[THYSTAME] = !(rand() % 6);
 	  if (!(map[j][i].players = vector_new()))
 	    exit(84);
 	}
     }
 }
 
-int	tile_dump(int fd, t_tile *tile, int x, int y)
+void		world_dump(int fd, t_world *world)
 {
-  return (dprintf(fd,
-		  "bct %d %d %d %d %d %d %d %d %d\n",
-		  x,
-		  y,
-		  tile->stones[FOOD],
-		  tile->stones[LINEMATE],
-		  tile->stones[DERAUMERE],
-		  tile->stones[SIBUR],
-		  tile->stones[MENDIANE],
-		  tile->stones[PHIRAS],
-		  tile->stones[THYSTAME]));
-}
-
-int	world_dump(int fd, t_world *world)
-{
-  int	i;
-  int	j;
+  int		i;
+  int		j;
+  t_tile	*tile;
 
   j = -1;
   while (++j < world->dimension.y)
@@ -65,11 +51,14 @@ int	world_dump(int fd, t_world *world)
       i = -1;
       while (++i < world->dimension.x)
 	{
-	  if (tile_dump(fd, &world->map[j][i], i, j) == -1)
-	    return (-1);
+	  tile = &world->map[j][i];
+	  dprintf(fd, "bct %d %d %d %d %d %d %d %d %d\n",
+		  i, j, tile->stones[FOOD], tile->stones[LINEMATE],
+		  tile->stones[DERAUMERE], tile->stones[SIBUR],
+		  tile->stones[MENDIANE], tile->stones[PHIRAS],
+		  tile->stones[THYSTAME]);
 	}
     }
-  return (0);
 }
 
 t_world		*create_world(t_pos dim)
@@ -110,4 +99,17 @@ void		free_world(t_world *world)
     }
   free(world->map);
   free(world);
+}
+
+t_tile	*at(t_world *world, t_pos pos)
+{
+  while (pos.x >= world->dimension.x)
+    pos.x -= world->dimension.x;
+  while (pos.y >= world->dimension.y)
+    pos.y -= world->dimension.y;
+  while (pos.x < 0)
+    pos.x += world->dimension.x;
+  while (pos.y < 0)
+    pos.y += world->dimension.y;
+  return (&world->map[pos.y][pos.x]);
 }

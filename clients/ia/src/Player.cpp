@@ -33,10 +33,10 @@ void Player::broadcastResponce(std::string responce) {
   }
 }
 
-// Broadcast Player::getBroadcast(std::string const& msg) {
-//   int i;
-//   i = std::stoi(msg);
-// }
+Broadcast Player::getBroadcast(std::string const& msg) {
+  int i;
+  i = std::stoi(msg);
+}
 
 void Player::getEject(std::string const& msg) {
   (void) msg;
