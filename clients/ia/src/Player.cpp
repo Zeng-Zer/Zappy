@@ -12,23 +12,23 @@ Player::~Player() {
 }
 
 void Player::forward() const {
-  RequestBuffer::getInstance().push("Forward", std::function<void(std::string&)>(moveResponce));
+  RequestBuffer::getInstance().push("Forward", std::function<void(std::string&)>(forwardResponce));
 }
 
 void Player::right() const {
-  RequestBuffer::getInstance().push("Right", std::function<void(std::string&)>(moveResponce));
+  RequestBuffer::getInstance().push("Right", std::function<void(std::string&)>(rightResponce));
 }
 
 void Player::left() const {
-  RequestBuffer::getInstance().push("Left", std::function<void(std::string&)>(moveResponce));
+  RequestBuffer::getInstance().push("Left", std::function<void(std::string&)>(leftResponce));
 }
 
 void Player::look() const {
-  RequestBuffer::getInstance().push("Look", std::function<void(std::string&)>(moveResponce));
+  RequestBuffer::getInstance().push("Look", std::function<void(std::string&)>(lookResponce));
 }
 
 void Player::inventory() const {
-  RequestBuffer::getInstance().push("Inventory", std::function<void(std::string&)>(moveResponce));
+  RequestBuffer::getInstance().push("Inventory", std::function<void(std::string&)>(inventoryResponce));
 }
 
 void Player::broadcast(std::string const& msg) const {
@@ -36,7 +36,7 @@ void Player::broadcast(std::string const& msg) const {
 }
 
 void Player::connect_nbr() const {
-  RequestBuffer::getInstance().push("Connect_nbr", std::function<void(std::string&)>(moveResponce));
+  RequestBuffer::getInstance().push("Connect_nbr", std::function<void(std::string&)>(connect_nbrResponce));
 }
 
 void Player::fork() const {
@@ -47,39 +47,87 @@ void Player::eject() const{
   RequestBuffer::getInstance().push("Eject", std::function<void(std::string&)>(ejectResponce));
 }
 
-// void Player::take(Resource res) {
-
-// }
-
-// void Player::set(Resource res) {
-
-// }
-
-void Player::incantation() {
-
+void Player::take(Resource res) const {
+  RequestBuffer::getInstance().push("Take", std::function<void(std::string&)>(ejectResponce));
 }
 
-void Player::moveResponce(std::string& responce) {
+void Player::set(Resource res) const {
+  RequestBuffer::getInstance().push("Set", std::function<void(std::string&)>(ejectResponce));
+}
+
+void Player::incantation() const {
+  RequestBuffer::getInstance().push("Incantation", std::function<void(std::string&)>(incantationResponce));
+}
+
+void Player::forwardResponce(std::string& responce) {
   if (responce != "ok") {
-    std::cerr << "Movement command: bad responce" << std::endl;
+    std::cerr << "Forward: bad responce" << std::endl;
+  }
+}
+
+void Player::rightResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Right: bad responce" << std::endl;
+  }
+}
+
+void Player::leftResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Left: bad responce" << std::endl;
+  }
+}
+
+void Player::lookResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Look: bad responce" << std::endl;
+  }
+}
+
+void Player::inventoryResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Inventory: bad responce" << std::endl;
   }
 }
 
 void Player::broadcastResponce(std::string& responce) {
   if (responce != "ok") {
-    std::cerr << "broadcast: bad responce" << std::endl;
+    std::cerr << "Broadcast: bad responce" << std::endl;
+  }
+}
+
+void Player::connect_nbrResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Connect_nbr: bad responce" << std::endl;
   }
 }
 
 void Player::forkResponce(std::string& responce) {
   if (responce != "ok") {
-    std::cerr << "fork: bad responce" << std::endl;
+    std::cerr << "Fork: bad responce" << std::endl;
   }
 }
 
 void Player::ejectResponce(std::string& responce) {
   if (responce != "ok") {
-    std::cerr << "broadcast: bad responce" << std::endl;
+    std::cerr << "Eject: bad responce" << std::endl;
+  }
+}
+
+void Player::takeResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Take: bad responce" << std::endl;
+  }
+}
+
+void Player::setResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Set: bad responce" << std::endl;
+  }
+}
+
+void Player::incantationResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "Incantation: bad responce" << std::endl;
   }
 }
 

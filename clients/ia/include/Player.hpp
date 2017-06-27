@@ -42,17 +42,25 @@ public:
   void connect_nbr() const;
   void fork() const;
   void eject() const;
-  void take(Resource res);
-  void set(Resource res);
-  void incantation();
+  void take(Resource res) const;
+  void set(Resource res) const;
+  void incantation() const;
 
   /**
    * RESPONCES
    */
-  static void moveResponce(std::string&);
+  static void forwardResponce(std::string&);
+  static void rightResponce(std::string&);
+  static void leftResponce(std::string&);
+  static void lookResponce(std::string&);
+  static void inventoryResponce(std::string&);
   static void broadcastResponce(std::string&);
+  static void connect_nbrResponce(std::string&);
   static void forkResponce(std::string&);
   static void ejectResponce(std::string&);
+  static void takeResponce(std::string&);
+  static void setResponce(std::string&);
+  static void incantationResponce(std::string&);
 
   /**
    * temporary return int value to quit loop
