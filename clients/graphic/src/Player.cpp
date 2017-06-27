@@ -35,6 +35,7 @@ void			Player::move(float const x, float const y, unsigned int const posy)
 
 sf::Vector2f const	&Player::getPosition() const {return (_sprite.getPosition());}
 sf::Sprite const	&Player::getSprite() const {return (_sprite);}
+sf::Vector2u const	&Player::getSize() const {return (_size);}
 
 void			Player::setPosition(unsigned int const x, unsigned int const y) {_sprite.setPosition(x, y);}
 void			Player::setTextureRect(sf::IntRect const &r){_sprite.setTextureRect(r);}

@@ -22,6 +22,7 @@ public:
   
   sf::Vector2f const		&getPosition() const;
   sf::Sprite const		&getSprite() const;
+  sf::Vector2u const		&getSize() const;
 
   void				setPosition(unsigned int const, unsigned int const);
   void				setTextureRect(sf::IntRect const&);

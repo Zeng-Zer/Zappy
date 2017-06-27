@@ -11,7 +11,9 @@ Graph::Graph(unsigned int const width, unsigned int const height, std::string co
 {
   int			*level;
 
-  _window.create(sf::VideoMode(WIDTH, HEIGHT), name.c_str());
+  _resolution.x = WIDTH;
+  _resolution.y = HEIGHT;
+  _window.create(sf::VideoMode(_resolution.x, _resolution.y), name.c_str());
 
   level = new int [width * height];
   _map_size.x = width;
@@ -23,8 +25,7 @@ Graph::Graph(unsigned int const width, unsigned int const height, std::string co
   _player.load("./media/cowboy.png", sf::Vector2u(14, 10), sf::Vector2u(0, 8));
   _player.setPosition(0, 0); // deplacement selon une grille
 
-  _view.setSize(WIDTH, HEIGHT);
-  _view.zoom(2);
+  _view.setSize(_resolution.x, _resolution.y);
   _view.setViewport(sf::FloatRect(0, 0, 1, 1));
   delete [] level;
 }
@@ -47,7 +48,7 @@ static void	        handle_player_move(Player &player)
 void			Graph::run()
 {
   sf::Event		event;
-  sf::Vector2f		pos;
+  sf::Vector2f		position;
 
   while (_window.isOpen())
     {
@@ -59,17 +60,22 @@ void			Graph::run()
 
       handle_player_move(_player);
 
-      _view.setCenter(_player.getPosition());
-
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	_view.zoom(0.999);
       else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	_view.zoom(1.001);
+      else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	_window.close();
+
+      position.x = _player.getPosition().x + _player.getSize().x / 2;
+      position.y = _player.getPosition().y + _player.getSize().y / 2;
+      _view.setCenter(position.x, position.y);
 
       _window.setView(_view);
+
       _window.clear();
       _window.draw(_map);
       _window.draw(_player.getSprite());
       _window.display();
     }
-};
+}
