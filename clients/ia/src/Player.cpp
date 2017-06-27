@@ -140,29 +140,29 @@ void Player::signalEject(std::string const& msg) {
   (void) msg;
 }
 
-/*
 void Player::move(std::vector<int> x) {
   int nb_case = 0;
   int nb_line = 0;
   int line = 0;
   int ressource_case;
   int nb_forward;
+  int nb_case_line;
 
   while (nb_case < x) {
     nb_case += 1 + (2 * nb_line);
     line++;
     nb_line++;
   }
+  //TODO call nb_line times forward function
   ressource_case = x - (nb_case - (1 + 2 * (nb_line - 1)));
-  if (ressource_case > ((case_line - 1) / 2)) {
+  if (ressource_case > ((nb_case_line - 1) / 2)) { //TODO calculate total cases for the line that contains the x
     right();
   }
-  else if (ressource_case < ((case_line - 1) / 2)) {
+  else if (ressource_case < ((nb_case_line - 1) / 2)) { 
     left();
   }
-  nb_forward = ressource_case - ((case_line - 1) / 2);
+  nb_forward = ressource_case - ((nb_case_line - 1) / 2); //TODO call nb_forward times forward function
 }
-*/
 
 int Player::update() {
   bool oneShot = false;
