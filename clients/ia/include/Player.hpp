@@ -31,14 +31,17 @@ public:
    * vector du cone de vision
    * vector de ressource par cas dans le cone
    */
-  std::vector<std::vector<Resource> > look();
+  // std::vector<std::vector<Resource> > look();
+  void look() const;
   /**
    * map de resource et de la quantité de resource
    */
-  std::map<Resource, int> inventory();
+  // std::map<Resource, int> inventory();
+  void inventory() const;
   void broadcast(std::string const& msg) const;
-  void fork();
-  void eject();
+  void connect_nbr() const;
+  void fork() const;
+  void eject() const;
   void take(Resource res);
   void set(Resource res);
   void incantation();
@@ -46,8 +49,10 @@ public:
   /**
    * RESPONCES
    */
-  static void moveResponce(std::string& responce);
-  static void broadcastResponce(std::string& responce);
+  static void moveResponce(std::string&);
+  static void broadcastResponce(std::string&);
+  static void forkResponce(std::string&);
+  static void ejectResponce(std::string&);
 
   /**
    * temporary return int value to quit loop
@@ -56,11 +61,11 @@ public:
 
   void move(int x, int y);
   bool canLevelUp();
-  Broadcast getBroadcast(std::string const& msg);
+  Broadcast signalBroadcast(std::string const& msg);
   /**
    * temporary prototype, writed to compile but does nothing
    */
-  void getEject(std::string const& msg);
+  void signalEject(std::string const& msg);
 
 private:
   int _x;

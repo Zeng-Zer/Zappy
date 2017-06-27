@@ -20,11 +20,31 @@ void Player::right() const {
 }
 
 void Player::left() const {
-  RequestBuffer::getInstance().push("Left ", std::function<void(std::string&)>(moveResponce));
+  RequestBuffer::getInstance().push("Left", std::function<void(std::string&)>(moveResponce));
+}
+
+void Player::look() const {
+  RequestBuffer::getInstance().push("Look", std::function<void(std::string&)>(moveResponce));
+}
+
+void Player::inventory() const {
+  RequestBuffer::getInstance().push("Inventory", std::function<void(std::string&)>(moveResponce));
 }
 
 void Player::broadcast(std::string const& msg) const {
   RequestBuffer::getInstance().push("Broadcast " + msg, std::function<void(std::string&)>(broadcastResponce));
+}
+
+void Player::connect_nbr() const {
+  RequestBuffer::getInstance().push("Connect_nbr", std::function<void(std::string&)>(moveResponce));
+}
+
+void Player::fork() const {
+  RequestBuffer::getInstance().push("Fork", std::function<void(std::string&)>(forkResponce));
+}
+
+void Player::eject() const{
+  RequestBuffer::getInstance().push("Eject", std::function<void(std::string&)>(ejectResponce));
 }
 
 // void Player::take(Resource res) {
@@ -51,12 +71,24 @@ void Player::broadcastResponce(std::string& responce) {
   }
 }
 
-Broadcast Player::getBroadcast(std::string const& msg) {
+void Player::forkResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "fork: bad responce" << std::endl;
+  }
+}
+
+void Player::ejectResponce(std::string& responce) {
+  if (responce != "ok") {
+    std::cerr << "broadcast: bad responce" << std::endl;
+  }
+}
+
+Broadcast Player::signalBroadcast(std::string const& msg) {
   int i;
   i = std::stoi(msg);
 }
 
-void Player::getEject(std::string const& msg) {
+void Player::signalEject(std::string const& msg) {
   (void) msg;
 }
 
@@ -79,10 +111,10 @@ int Player::update() {
     std::string firstWord;
     ss >> firstWord;
     if (firstWord == "message") {
-      getBroadcast(responce);
+      signalBroadcast(responce);
     }
     else if (firstWord == "eject:") {
-      getEject(responce);
+      signalEject(responce);
     }
     else if (firstWord == "dead") {
       return 0;
