@@ -21,7 +21,7 @@ t_player	*create_player(int fd, int team_id, t_pos pos)
   player->team_id = team_id;
   player->level = 1;
   player->pos = pos;
-  player->rotation = rand() % 4;
+  player->rotation = 1 + rand() % 4;
   player->time = current_time();
   memcpy(player->stones, (int[7]){DEFAULT_FOOD, 0, 0, 0, 0, 0, 0},
 	 sizeof(player->stones));

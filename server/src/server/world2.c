@@ -25,3 +25,15 @@ void		print_tile(int fd, t_world *world, t_pos pos)
     }
   print_stones(fd, tile->stones);
 }
+
+void	actualize_pos(t_world *world, t_pos *pos)
+{
+  while (pos->x >= world->dimension.x)
+    pos->x -= world->dimension.x;
+  while (pos->y >= world->dimension.y)
+    pos->y -= world->dimension.y;
+  while (pos->x < 0)
+    pos->x += world->dimension.x;
+  while (pos->y < 0)
+    pos->y += world->dimension.y;
+}
