@@ -140,6 +140,7 @@ void Player::signalEject(std::string const& msg) {
   (void) msg;
 }
 
+/*
 void Player::move(std::vector<int> x) {
   int nb_case = 0;
   int nb_line = 0;
@@ -163,6 +164,7 @@ void Player::move(std::vector<int> x) {
   }
   nb_forward = ressource_case - ((nb_case_line - 1) / 2); //TODO call nb_forward times forward function and manage negative numbers
 }
+*/
 
 int Player::update() {
   bool oneShot = false;
