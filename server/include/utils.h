@@ -46,4 +46,9 @@ char		**split(char *str, char *delim);
  */
 bool	match_first_word(char const *str, char const *to_match);
 
+/**
+ * get first word
+ */
+char		*first_word(char *str);
+
 #endif /* !UTILS_H_ */

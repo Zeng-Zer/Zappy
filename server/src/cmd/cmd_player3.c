@@ -48,6 +48,21 @@ static void	lvlup(t_tile *tile, int level)
     }
 }
 
+static void	notify_player(t_server *server, t_player *player)
+{
+  t_tile	*tile;
+  size_t	i;
+
+  tile = at(server->world, player->pos);
+  i = -1;
+  dprintf(player->id, "Elevation underway\n");
+  while (++i < tile->players->length)
+    {
+      player = tile->players->items[i];
+      dprintf(player->id, "Elevation underway\n");
+    }
+}
+
 void		cmd_incant(t_server *server, t_command *command)
 {
   t_player	*player;
@@ -63,7 +78,7 @@ void		cmd_incant(t_server *server, t_command *command)
       command->start = false;
       command->delete = false;
       if (elevate)
-	dprintf(player->id, "Elevation underway\n");
+	notify_player(server, player);
       else
 	dprintf(player->id, "ko\n");
     }

@@ -45,6 +45,7 @@ typedef struct	s_player
 
 // forward declaration
 typedef struct	s_command t_command;
+typedef struct	s_world t_world;
 
 /**
  * create a player in the given team
@@ -54,5 +55,6 @@ t_player	*create_player(int fd, int team_id, t_pos pos);
 void		free_player(void *item);
 
 void		add_player_cmd(t_player *player, t_command *cmd);
+void		move_player(t_world *world, t_player *player, t_rotation dir);
 
 #endif /* !PLAYER_H_ */
