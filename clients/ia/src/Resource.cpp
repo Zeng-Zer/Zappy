@@ -12,17 +12,17 @@ const std::map<Resource::Resource, std::string> Resource::resourceMap = {
   {Resource::UNKNOWN, "unknown"}
 };
 
-Resource::Resource stringToResource(std::string const& str) {
+Resource::Resource Resource::stringToResource(std::string const& str) {
   int i = 0;
   while (i < 7) {
-    if (Resource::resourceMap.at(static_cast<Resource::Resource>(i)) == str) {
-      return static_cast<Resource::Resource>(i);
+    if (resourceMap.at(static_cast<Resource>(i)) == str) {
+      return static_cast<Resource>(i);
     }
     i++;
   }
   return (Resource::UNKNOWN);
 }
 
-std::string resourceToString(Resource::Resource res) {
-  return Resource::resourceMap.at(res);
+std::string Resource::resourceToString(Resource res) {
+  return resourceMap.at(res);
 }
