@@ -1,3 +1,4 @@
+
 #ifndef GRAPH_HPP_
 # define GRAPH_HPP_
 
@@ -14,12 +15,14 @@
 class				Graph
 {
 private:
-  sf::Vector2u			_resolution;
-  sf::Vector2u			_map_size;
+  sf::Vector2i			_resolution;
+  sf::Vector2i			_map_size;
   sf::RenderWindow		_window;
   TileMap			_map;
   sf::View			_view;
   Player			_player;
+
+  void				handle_player_mvmt(Player&);
 
 public:
   Graph(unsigned int const, unsigned int const, std::string const&);

@@ -13,23 +13,23 @@ void				TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
   target.draw(_vertices, states);
 }
 
-bool				TileMap::load(std::string const &tileset, sf::Vector2u tileSize, int const *tiles, sf::Vector2u const &map_size, sf::Vector2u const &res)
+bool				TileMap::load(std::string const &tileset, sf::Vector2i const &tileSize, int const *tiles, sf::Vector2i const &map_size)
 {
   unsigned int		        x, y;
   unsigned int			tileNb;
   sf::Vertex			*quad;
   sf::Vector2f			tmp;
 
-  (void)res;
+  _tileSize = tileSize;
   if (!_tileset.loadFromFile(tileset))
     return (false);
   _vertices.setPrimitiveType(sf::Quads);
   _vertices.resize(map_size.x * map_size.y * 4);
-  for (unsigned int i = 0; i < map_size.y; i++)
+  for (int i = 0; i < map_size.y; i++)
     {
-      tmp.x = tileSize.x / 2 - (i + 1) * tileSize.x / 2 + (tileSize.x / 2 * map_size.y);
+      tmp.x = -i * tileSize.x / 2;
       tmp.y = i * tileSize.y / 2;
-      for (unsigned int j = 0; j < map_size.x; j++)
+      for (int j = 0; j < map_size.x; j++)
 	{
 	  tileNb = tiles[j + i * map_size.x];
 	  x = tileNb % (_tileset.getSize().x / tileSize.x);
@@ -52,3 +52,5 @@ bool				TileMap::load(std::string const &tileset, sf::Vector2u tileSize, int con
     }
   return (true);
 }
+
+sf::Vector2i const		&TileMap::getTileSize() const {return (_tileSize);}
