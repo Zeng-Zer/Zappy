@@ -6,7 +6,7 @@ int			main()
   Graph			*g;
 
   try {
-    g = new Graph(29, 29, "Zappy");
+    g = new Graph(7, 7, "Zappy");
     g->run();
   }
   catch(std::exception e){

@@ -1,9 +1,17 @@
 #include "Player.hpp"
-#include "functions.hpp"
 
 static int		getDirFromE(Player::Direction dir)
 {
   return ((dir + 1) * 2);
+}
+
+static sf::Vector2i	coordsToMapCoords(sf::Vector2i const &tileSize, sf::Vector2i const &coords)
+{
+  sf::Vector2i		p;
+
+  p.x = coords.x * tileSize.x / 2 - coords.y * tileSize.x / 2;
+  p.y = coords.x * tileSize.y / 2 + (coords.y + 1) * tileSize.y / 2;
+  return (p);
 }
 
 Player::Player()
@@ -68,8 +76,6 @@ void			Player::moveForward()
   else if (_curDir == SOUTH)
     _curPos.y += 1;
 }
-
-#include <iostream>
 
 void			Player::turnLeft()
 {
