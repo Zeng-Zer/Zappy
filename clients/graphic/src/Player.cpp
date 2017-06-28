@@ -69,6 +69,8 @@ void			Player::moveForward()
     _curPos.y += 1;
 }
 
+#include <iostream>
+
 void			Player::turnLeft()
 {
   _curDir = static_cast<Player::Direction>((_curDir + 1) % 4);
@@ -76,7 +78,9 @@ void			Player::turnLeft()
 
 void			Player::turnRight()
 {
-  _curDir = static_cast<Player::Direction>((_curDir - 1) % 4);
+  int		        s = 4;
+
+  _curDir = static_cast<Player::Direction>((_curDir + (s - 1)) % s);
 }
 
 void			Player::update(sf::Vector2i const &tileSize)
