@@ -209,13 +209,13 @@ void Player::move(int x) {
   }
   nb_case_line = nb_case - old_case;
   ressource_case = x - old_case;
-  if (ressource_case > ((nb_case_line - 1) / 2)) {
+  if (ressource_case > ((nb_case_line + 1) / 2)) {
     right();
   }
   else {
     left();
   }
-  nb_forward = std::abs(ressource_case - ((nb_case_line - 1) / 2));
+  nb_forward = std::abs(ressource_case - ((nb_case_line + 1) / 2));
   for (int i = 0; i < nb_forward; i++) {
     forward();
   }
