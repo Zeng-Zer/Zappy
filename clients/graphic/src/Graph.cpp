@@ -22,7 +22,7 @@ Graph::Graph(unsigned int const width, unsigned int const height, std::string co
   if (!_map.load("./media/tileset_iso.png", sf::Vector2i(128, 64), level, _map_size))
     throw(std::exception());
 
-  _player.load("./media/cowboy.png", sf::Vector2i(14, 10), Player::SOUTH);
+  _player.load("./media/cowboy.png", sf::Vector2i(14, 10), Player::SOUTH, _map_size);
   _player.scale(sf::Vector2f(0.5f, 0.5f));
   _player.setPosOnGrid(sf::Vector2i(0, 0));
   _player.setColor(sf::Color(255, 0, 0));

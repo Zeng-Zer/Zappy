@@ -24,12 +24,13 @@ Player::Player()
 Player::~Player()
 {}
 
-void			Player::load(std::string const &sheet, sf::Vector2i const &size, Player::Direction dir)
+void			Player::load(std::string const &sheet, sf::Vector2i const &size, Player::Direction dir, sf::Vector2i const &map_size)
 {
   if (!_texture.loadFromFile(sheet))
     throw(std::exception());
   _texture.setSmooth(true);
   _sprite.setTexture(_texture);
+  _map_size = map_size;
   _size.x = _texture.getSize().x / size.x;
   _size.y = _texture.getSize().y / size.y;
   _sprite.setTextureRect(sf::IntRect(0, getDirFromE(dir) * _size.y, _size.x, _size.y));
@@ -71,13 +72,13 @@ void			Player::scale(sf::Vector2f const &s)
 void			Player::moveForward()
 {
   if (_curDir == EAST)
-    _curPos.x += 1;
+    _curPos.x = (_curPos.x + 1) % _map_size.x;
   else if (_curDir == NORTH)
-    _curPos.y -= 1;
+    _curPos.y = (_curPos.y + (_map_size.y - 1)) % _map_size.y;
   else if (_curDir == WEST)
-    _curPos.x -= 1;
+    _curPos.x = (_curPos.x + (_map_size.x - 1)) % _map_size.x;
   else if (_curDir == SOUTH)
-    _curPos.y += 1;
+    _curPos.y = (_curPos.y + 1) % _map_size.y;
 }
 
 void			Player::turnLeft()

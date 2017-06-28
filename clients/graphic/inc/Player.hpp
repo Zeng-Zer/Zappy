@@ -22,13 +22,14 @@ private:
   sf::Vector2i			_curPos;
   Direction			_curDir;
   sf::Vector2i			_oldPos;
+  sf::Vector2i			_map_size;
 
 public:
   Player();
   ~Player();
 
 
-  void				load(std::string const&, sf::Vector2i const&, Player::Direction);
+  void				load(std::string const&, sf::Vector2i const&, Player::Direction, sf::Vector2i const&);
   void				move(float const, float const, int const);
 
   sf::Vector2f const		&getPosition() const;
