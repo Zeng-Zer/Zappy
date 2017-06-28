@@ -55,7 +55,6 @@ static void	notify_player(t_server *server, t_player *player)
 
   tile = at(server->world, player->pos);
   i = -1;
-  dprintf(player->id, "Elevation underway\n");
   while (++i < tile->players->length)
     {
       player = tile->players->items[i];
