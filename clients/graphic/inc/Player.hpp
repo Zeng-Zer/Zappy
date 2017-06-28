@@ -19,8 +19,9 @@ private:
   sf::Sprite			_sprite;
   sf::Vector2i			_size;
   sf::Vector2f			_scale;
-  Direction			_curDir;
+  sf::Vector2f			_shiftedPos;
   sf::Vector2i			_curPos;
+  Direction			_curDir;
 
 public:
   Player();
@@ -34,8 +35,9 @@ public:
   sf::Sprite const		&getSprite() const;
   sf::Vector2i const		&getSize() const;
 
-  void				setPosition(sf::Vector2i const&);
+  void				setPosition(sf::Vector2f const&);
   void				setTextureRect(sf::IntRect const&);
+  void				setColor(sf::Color const&);
 
   void				scale(sf::Vector2f const&);
   void				setPosOnGrid(sf::Vector2i const&);

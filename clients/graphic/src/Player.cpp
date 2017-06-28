@@ -35,6 +35,7 @@ void			Player::load(std::string const &sheet, sf::Vector2i const &size, Player::
   _sprite.setTextureRect(sf::IntRect(0, getDirFromE(dir) * _size.y, _size.x, _size.y));
 }
 
+// A virer
 void			Player::move(float const x, float const y, int const posy)
 {
   static int		posx = 1;
@@ -55,8 +56,9 @@ sf::Vector2f const	&Player::getPosition() const {return (_sprite.getPosition());
 sf::Sprite const	&Player::getSprite() const {return (_sprite);}
 sf::Vector2i const	&Player::getSize() const {return (_size);}
 
-void			Player::setPosition(sf::Vector2i const &p) {_sprite.setPosition(p.x, p.y);}
+void			Player::setPosition(sf::Vector2f const &p) {_sprite.setPosition(p.x, p.y);}
 void			Player::setTextureRect(sf::IntRect const &r){_sprite.setTextureRect(r);}
+void			Player::setColor(sf::Color const &c){_sprite.setColor(c);}
 
 void			Player::setPosOnGrid(sf::Vector2i const &pos) {_curPos = pos;}
 void			Player::scale(sf::Vector2f const &s)
@@ -94,5 +96,5 @@ void			Player::update(sf::Vector2i const &tileSize)
   sf::Vector2i		p = coordsToMapCoords(tileSize, _curPos);
 
   setTextureRect(sf::IntRect(0, getDirFromE(_curDir) * _size.y, _size.x, _size.y));
-  setPosition(sf::Vector2i(p.x - _size.x * _scale.x / 2, p.y - _size.y * _scale.y));
+  setPosition(sf::Vector2f(p.x - _size.x * _scale.x / 2, p.y - _size.y * _scale.y));
 }

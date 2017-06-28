@@ -1,5 +1,4 @@
 #include "Graph.hpp"
-#include "functions.hpp"
 
 static void		init_map(sf::Vector2i const &map_size, int *level)
 {
@@ -15,7 +14,6 @@ Graph::Graph(unsigned int const width, unsigned int const height, std::string co
   _resolution.x = WIDTH;
   _resolution.y = HEIGHT;
   _window.create(sf::VideoMode(_resolution.x, _resolution.y), name.c_str());
-  _window.setKeyRepeatEnabled(false);
 
   level = new int [width * height];
   _map_size.x = width;
@@ -27,6 +25,7 @@ Graph::Graph(unsigned int const width, unsigned int const height, std::string co
   _player.load("./media/cowboy.png", sf::Vector2i(14, 10), Player::SOUTH);
   _player.scale(sf::Vector2f(0.5f, 0.5f));
   _player.setPosOnGrid(sf::Vector2i(0, 0));
+  _player.setColor(sf::Color(255, 0, 0));
   _player.update(_map.getTileSize());
 
   _view.setSize(_resolution.x, _resolution.y);
