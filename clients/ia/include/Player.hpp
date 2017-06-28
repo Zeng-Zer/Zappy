@@ -34,7 +34,7 @@ class Player {
     std::vector<std::vector<Resource::Resource>> look;
 
     /**
-     * map de resource et de la quantité de resource
+     * map of resource and quantity of resource
      */
     std::map<Resource::Resource, int> inventory;
   };
@@ -67,7 +67,6 @@ public:
   bool rightResponce(std::string&) const;
   bool leftResponce(std::string&) const;
   bool lookResponce(std::string&);
-  // TODO
   bool inventoryResponce(std::string&);
   bool broadcastResponce(std::string&) const;
   bool connect_nbrResponce(std::string&);

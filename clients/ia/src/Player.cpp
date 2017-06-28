@@ -103,7 +103,6 @@ bool Player::lookResponce(std::string& responce) {
   int lenght = 0;
   int j;
 
-  ss << responce;
   while (!ss.fail()) {
     j = lenght;
     vec.resize(j + 1);
@@ -121,9 +120,17 @@ bool Player::lookResponce(std::string& responce) {
 }
 
 bool Player::inventoryResponce(std::string& responce) {
-  if (responce != "ok") {
-    std::cerr << "Inventory: bad responce" << std::endl;
-    return false;
+  std::stringstream ss(responce);
+  std::string word;
+  int q;
+  std::map<Resource::Resource, int> map;
+
+  while (!ss.fail()) {
+    ss >> word;
+    if (std::isalpha(word.front())) {
+      ss >> q;
+      map.insert(std::make_pair(Resource::stringToResource(word), q));
+    }
   }
   return true;
 }
@@ -234,6 +241,7 @@ int Player::update() {
   // oneShot = true;
 
   std::string responce = Connection::getInstance().recvMsg();
+  bool retResponce = false;
   if (!responce.empty()) {
     std::stringstream ss;
     ss << responce;
@@ -252,11 +260,13 @@ int Player::update() {
       signalIncantation();
     }
     else {
-      RequestBuffer::getInstance().front().second(*this, responce);
+      retResponce = RequestBuffer::getInstance().front().second(*this, responce);
       RequestBuffer::getInstance().pop();
     }
-    return 0;
   }
+  /**
+   * IA CODE
+   */
   return 1;
 }
 
