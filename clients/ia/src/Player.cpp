@@ -5,6 +5,7 @@ Player::Player(int x, int y, std::string const& team) {
   this->_x = x;
   this->_y = y;
   this->_team = team;
+  _data.connect_nbr = 0;
 }
 
 Player::~Player() {
@@ -12,54 +13,66 @@ Player::~Player() {
 }
 
 void Player::forward() const {
-  RequestBuffer::getInstance().push("Forward", std::function<void(std::string&)>(forwardResponce));
+  RequestBuffer::getInstance().push("Forward",
+				    std::function<bool(Player&, std::string&)>(&Player::forwardResponce));
 }
 
 void Player::right() const {
-  RequestBuffer::getInstance().push("Right", std::function<void(std::string&)>(rightResponce));
+  RequestBuffer::getInstance().push("Right",
+				    std::function<bool(Player&, std::string&)>(&Player::rightResponce));
 }
 
 void Player::left() const {
-  RequestBuffer::getInstance().push("Left", std::function<void(std::string&)>(leftResponce));
+  RequestBuffer::getInstance().push("Left",
+				    std::function<bool(Player&, std::string&)>(&Player::leftResponce));
 }
 
 void Player::look() const {
-  RequestBuffer::getInstance().push("Look", std::function<void(std::string&)>(lookResponce));
+  RequestBuffer::getInstance().push("Look",
+				    std::function<bool(Player&, std::string&)>(&Player::lookResponce));
 }
 
 void Player::inventory() const {
-  RequestBuffer::getInstance().push("Inventory", std::function<void(std::string&)>(inventoryResponce));
+  RequestBuffer::getInstance().push("Inventory",
+				    std::function<bool(Player&, std::string&)>(&Player::inventoryResponce));
 }
 
 void Player::broadcast(std::string const& msg) const {
-  RequestBuffer::getInstance().push("Broadcast " + msg, std::function<void(std::string&)>(broadcastResponce));
+  RequestBuffer::getInstance().push("Broadcast " + msg,
+				    std::function<bool(Player&, std::string&)>(&Player::broadcastResponce));
 }
 
 void Player::connect_nbr() const {
-  RequestBuffer::getInstance().push("Connect_nbr", std::function<void(std::string&)>(connect_nbrResponce));
+  RequestBuffer::getInstance().push("Connect_nbr",
+				    std::function<bool(Player&, std::string&)>(&Player::connect_nbrResponce));
 }
 
 void Player::fork() const {
-  RequestBuffer::getInstance().push("Fork", std::function<void(std::string&)>(forkResponce));
+  RequestBuffer::getInstance().push("Fork",
+				    std::function<bool(Player&, std::string&)>(&Player::forkResponce));
 }
 
 void Player::eject() const{
-  RequestBuffer::getInstance().push("Eject", std::function<void(std::string&)>(ejectResponce));
+  RequestBuffer::getInstance().push("Eject",
+				    std::function<bool(Player&, std::string&)>(&Player::ejectResponce));
 }
 
 void Player::take(Resource::Resource res) const {
-  RequestBuffer::getInstance().push("Take", std::function<void(std::string&)>(ejectResponce));
+  RequestBuffer::getInstance().push("Take",
+				    std::function<bool(Player&, std::string&)>(&Player::takeResponce));
 }
 
 void Player::set(Resource::Resource res) const {
-  RequestBuffer::getInstance().push("Set", std::function<void(std::string&)>(ejectResponce));
+  RequestBuffer::getInstance().push("Set",
+				    std::function<bool(Player&, std::string&)>(&Player::setResponce));
 }
 
 void Player::incantation() const {
-  RequestBuffer::getInstance().push("Incantation", std::function<void(std::string&)>(incantationResponce));
+  RequestBuffer::getInstance().push("Incantation",
+				    std::function<bool(Player&, std::string&)>(&Player::incantationResponce));
 }
 
-bool Player::forwardResponce(std::string& responce) {
+bool Player::forwardResponce(std::string& responce) const {
   if (responce != "ok") {
     std::cerr << "Forward: bad responce" << std::endl;
     return false;
@@ -67,7 +80,7 @@ bool Player::forwardResponce(std::string& responce) {
   return true;
 }
 
-bool Player::rightResponce(std::string& responce) {
+bool Player::rightResponce(std::string& responce) const {
   if (responce != "ok") {
     std::cerr << "Right: bad responce" << std::endl;
     return false;
@@ -75,7 +88,7 @@ bool Player::rightResponce(std::string& responce) {
   return true;
 }
 
-bool Player::leftResponce(std::string& responce) {
+bool Player::leftResponce(std::string& responce) const{
   if (responce != "ok") {
     std::cerr << "Left: bad responce" << std::endl;
     return false;
@@ -108,14 +121,12 @@ bool Player::broadcastResponce(std::string& responce) {
 }
 
 bool Player::connect_nbrResponce(std::string& responce) {
-  if (responce != "ok") {
-    std::cerr << "Connect_nbr: bad responce" << std::endl;
-    return false;
-  }
-  return true;
+  std::string::size_type size;
+  _data.connect_nbr = std::stoi(responce, &size);
+  return (size != 0);
 }
 
-bool Player::forkResponce(std::string& responce) {
+bool Player::forkResponce(std::string& responce) const{
   if (responce != "ok") {
     std::cerr << "Fork: bad responce" << std::endl;
     return false;
@@ -183,7 +194,7 @@ void Player::move(std::vector<int> x) {
   if (ressource_case > ((nb_case_line - 1) / 2)) { //TODO calculate total cases for the line that contains the x
     right();
   }
-  else if (ressource_case < ((nb_case_line - 1) / 2)) { 
+  else if (ressource_case < ((nb_case_line - 1) / 2)) {
     left();
   }
   nb_forward = ressource_case - ((nb_case_line - 1) / 2); //TODO call nb_forward times forward function and manage negative numbers
@@ -214,7 +225,7 @@ int Player::update() {
       return 0;
     }
     else {
-      RequestBuffer::getInstance().front().second(responce);
+      RequestBuffer::getInstance().front().second(*this, responce);
       RequestBuffer::getInstance().pop();
     }
     return 0;

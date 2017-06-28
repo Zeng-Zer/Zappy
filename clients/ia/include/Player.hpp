@@ -17,6 +17,12 @@ struct Broadcast {
 };
 
 class Player {
+
+  struct dataResponce {
+    int connect_nbr;
+  };
+
+
 public:
   Player(int x, int y, std::string const& team);
   ~Player();
@@ -42,25 +48,33 @@ public:
   void connect_nbr() const;
   void fork() const;
   void eject() const;
+  // TODO
   void take(Resource::Resource res) const;
+  // TODO
   void set(Resource::Resource res) const;
   void incantation() const;
 
   /**
    * RESPONCES
    */
-  static bool forwardResponce(std::string&);
-  static bool rightResponce(std::string&);
-  static bool leftResponce(std::string&);
-  static bool lookResponce(std::string&);
-  static bool inventoryResponce(std::string&);
-  static bool broadcastResponce(std::string&);
-  static bool connect_nbrResponce(std::string&);
-  static bool forkResponce(std::string&);
-  static bool ejectResponce(std::string&);
-  static bool takeResponce(std::string&);
-  static bool setResponce(std::string&);
-  static bool incantationResponce(std::string&);
+  bool forwardResponce(std::string&) const;
+  bool rightResponce(std::string&) const;
+  bool leftResponce(std::string&) const;
+  // TODO
+  bool lookResponce(std::string&);
+  // TODO
+  bool inventoryResponce(std::string&);
+  bool broadcastResponce(std::string&);
+  bool connect_nbrResponce(std::string&);
+  bool forkResponce(std::string&) const;
+  // TODO
+  bool ejectResponce(std::string&);
+  // TODO
+  bool takeResponce(std::string&);
+  // TODO
+  bool setResponce(std::string&);
+  // TODO
+  bool incantationResponce(std::string&);
 
   /**
    * temporary return int value to quit loop
@@ -82,6 +96,7 @@ private:
   int _destx;
   int _desty;
   std::string _team;
+  struct dataResponce _data;
   // Resource = type de resource, et int le nombre
   std::map<Resource::Resource, int> _resource;
 };
