@@ -9,10 +9,14 @@
 */
 
 #include "cmd.h"
+# include "egg.h"
 
 void		cmd_broadcast(t_server *server, t_command *command)
 {
+  t_player	*player;
 
+  player = command->entity;
+  dprintf(player->id, "ok\n");
 }
 
 void		cmd_connect(t_server *server, t_command *command)
@@ -26,7 +30,14 @@ void		cmd_connect(t_server *server, t_command *command)
 
 void		cmd_fork(t_server *server, t_command *command)
 {
+  t_player	*player;
+  t_egg		*egg;
 
+  player = command->entity;
+  if (!(egg = create_egg(player->team_id, &player->pos, END_TIME(600.0f))))
+    return;
+  vector_push(server->eggs, egg);
+  dprintf(player->id, "ok\n");
 }
 
 void		cmd_eject(t_server *server, t_command *command)

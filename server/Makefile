@@ -22,10 +22,12 @@ SRC :=		main.c \
 		parse/parse_parameter.c \
 		parse/parse_parameter2.c \
 		utils/utils.c \
+		utils/utils2.c \
 		utils/vector.c \
 		utils/vector2.c \
 		server/player.c \
 		server/graphic.c \
+		server/egg.c \
 		server/server.c \
 		server/server_update.c \
 		server/world.c \

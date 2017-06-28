@@ -27,12 +27,12 @@ static void	generate_map(t_tile **map, t_pos dim)
       while (++i < dim.x)
 	{
 	  map[j][i].stones[FOOD] = 0;
-	  map[j][i].stones[LINEMATE] = rand() % 3;
-	  map[j][i].stones[DERAUMERE] = rand() % 3;
-	  map[j][i].stones[SIBUR] = rand() % 2;
-	  map[j][i].stones[MENDIANE] = rand() % 2;
-	  map[j][i].stones[PHIRAS] = !(rand() % 4);
-	  map[j][i].stones[THYSTAME] = !(rand() % 6);
+	  map[j][i].stones[LINEMATE] = !(rand() % 2);
+	  map[j][i].stones[DERAUMERE] = !(rand() % 3);
+	  map[j][i].stones[SIBUR] = !(rand() % 4);
+	  map[j][i].stones[MENDIANE] = !(rand() % 4);
+	  map[j][i].stones[PHIRAS] = !(rand() % 6);
+	  map[j][i].stones[THYSTAME] = !(rand() % 8);
 	  if (!(map[j][i].players = vector_new()))
 	    exit(84);
 	}

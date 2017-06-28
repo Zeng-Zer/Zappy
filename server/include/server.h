@@ -32,8 +32,10 @@ typedef struct	s_server
   char		**teams;
   // player list
   t_vector	*players;
-  // TODO graphic list
+  // graphic list
   t_vector	*graphic;
+  // eggs list
+  t_vector	*eggs;
   bool		running;
   // frequency
   int		frequency;
