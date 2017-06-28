@@ -140,31 +140,35 @@ void Player::signalEject(std::string const& msg) {
   (void) msg;
 }
 
-/*
-void Player::move(std::vector<int> x) {
-  int nb_case = 0;
-  int nb_line = 0;
-  int line = 0;
+void Player::move(int x) {
   int ressource_case;
   int nb_forward;
   int nb_case_line;
 
+  int old_case = 0;
+  int nb_case = 0;
+  int nb_line = 0;
+  int line = 0;
   while (nb_case < x) {
+    old_case = nb_case;
     nb_case += 1 + (2 * nb_line);
     line++;
     nb_line++;
+    forward();
   }
-  //TODO call nb_line times forward function
-  ressource_case = x - (nb_case - (1 + 2 * (nb_line - 1)));
-  if (ressource_case > ((nb_case_line - 1) / 2)) { //TODO calculate total cases for the line that contains the x
+  nb_case_line = nb_case - old_case;
+  ressource_case = x - old_case;
+  if (ressource_case > ((nb_case_line - 1) / 2)) {
     right();
   }
-  else if (ressource_case < ((nb_case_line - 1) / 2)) { 
+  else { 
     left();
   }
-  nb_forward = ressource_case - ((nb_case_line - 1) / 2); //TODO call nb_forward times forward function and manage negative numbers
+  nb_forward = std::abs(ressource_case - ((nb_case_line - 1) / 2));
+  for (int i = 0; i < nb_forward; i++) {
+    forward();
+  }
 }
-*/
 
 int Player::update() {
   bool oneShot = false;

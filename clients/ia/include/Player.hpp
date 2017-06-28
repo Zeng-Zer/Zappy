@@ -67,7 +67,7 @@ public:
    */
   int update();
 
-  void move(int x, int y);
+  void move(int x);
   bool canLevelUp();
   Broadcast signalBroadcast(std::string const& msg);
   /**
