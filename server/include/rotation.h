@@ -18,10 +18,10 @@
  */
 typedef enum	e_rotation
   {
+    UP = 1,
     RIGHT,
-    LEFT,
-    UP,
     DOWN,
+    LEFT,
   }		t_rotation;
 
 /**
@@ -33,5 +33,11 @@ t_rotation	turn(t_rotation current, t_rotation direction);
  * get front cell, pos[0] -> next row, pos[1] next cell on the row
  */
 void		get_front_dir(t_rotation rot, t_pos *pos);
+
+/**
+ * -> -> : from = left,  player = left -> DOWN
+ * direction that it comes from for the player
+ */
+t_rotation	related_dir(t_rotation from, t_rotation player);
 
 #endif /* !ROTATION_H_ */

@@ -39,6 +39,15 @@ const t_cmd	g_graphic_cmd[] = {
   /* {"sst", cmd_sst}, */
 };
 
+static void	delete_player_tile(t_server *server, t_player *player)
+{
+  t_tile	*tile;
+
+  tile = at(server->world, player->pos);
+  vector_remove_item(tile->players, player);
+  free_player(vector_remove_item(server->players, player));
+}
+
 /**
  * delete connection if package->close == true
  */
@@ -48,22 +57,26 @@ static t_entity	get_entity(t_server *server, t_package *package, void **item)
 
   i = -1;
   while (++i < server->players->length)
-    if (package->fd == ((t_player *)server->players->items[i])->id)
-      {
-	*item = server->players->items[i];
-	if (package->close)
-	  free_player(vector_remove(server->players, i));
-	return (PLAYER);
-      }
+    {
+      if (package->fd == ((t_player *)server->players->items[i])->id)
+	{
+	  *item = server->players->items[i];
+	  if (package->close)
+	    delete_player_tile(server, *item);
+	  return (PLAYER);
+	}
+    }
   i = -1;
   while (++i < server->graphic->length)
-    if (package->fd == ((t_graphic *)server->graphic->items[i])->id)
-      {
-	*item = server->graphic->items[i];
-	if (package->close)
-	  free_graphic(vector_remove(server->graphic, i));
-	return (GRAPHIC);
-      }
+    {
+      if (package->fd == ((t_graphic *)server->graphic->items[i])->id)
+	{
+	  *item = server->graphic->items[i];
+	  if (package->close)
+	    free_graphic(vector_remove(server->graphic, i));
+	  return (GRAPHIC);
+	}
+    }
   return (CLIENT);
 }
 

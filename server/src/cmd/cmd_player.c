@@ -15,25 +15,7 @@ void		cmd_forward(t_server *server, t_command *command)
   t_player	*player;
 
   player = command->entity;
-  vector_remove_item(server->world->map[player->pos.y][player->pos.x].players,
-		     player);
-  if (player->rotation == UP)
-    --player->pos.y;
-  else if (player->rotation == DOWN)
-    ++player->pos.y;
-  else if (player->rotation == LEFT)
-    --player->pos.x;
-  else if (player->rotation == RIGHT)
-    ++player->pos.x;
-  if (player->pos.y < 0)
-    player->pos.y += server->world->dimension.y;
-  else if (player->pos.y >= server->world->dimension.y)
-    player->pos.y -= server->world->dimension.y;
-  if (player->pos.x < 0)
-    player->pos.x += server->world->dimension.x;
-  else if (player->pos.x >= server->world->dimension.x)
-    player->pos.x -= server->world->dimension.x;
-  vector_push(server->world->map[player->pos.y][player->pos.x].players, player);
+  move_player(server->world, player, player->rotation);
   dprintf(player->id, "ok\n");
 }
 

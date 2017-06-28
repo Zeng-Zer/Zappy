@@ -57,5 +57,6 @@ void	world_dump(int fd, t_world *world);
  */
 t_tile	*at(t_world *world, t_pos pos);
 void	print_tile(int fd, t_world *world, t_pos pos);
+void	actualize_pos(t_world *world, t_pos *pos);
 
 #endif /* !WORLD_H_ */

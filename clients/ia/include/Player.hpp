@@ -42,8 +42,8 @@ public:
   void connect_nbr() const;
   void fork() const;
   void eject() const;
-  void take(Resource res) const;
-  void set(Resource res) const;
+  void take(Resource::Resource res) const;
+  void set(Resource::Resource res) const;
   void incantation() const;
 
   /**
@@ -83,7 +83,7 @@ private:
   int _desty;
   std::string _team;
   // Resource = type de resource, et int le nombre
-  std::map<Resource, int> _resource;
+  std::map<Resource::Resource, int> _resource;
 };
 
 #endif /* !PLAYER_HPP_ */

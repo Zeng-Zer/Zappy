@@ -10,6 +10,7 @@
 
 #include "cmd.h"
 #include "graphic.h"
+#include "egg.h"
 
 void		cmd_graphic(t_server *server, t_package *package)
 {
@@ -40,40 +41,60 @@ static int	get_team_id(t_server *server, char *str)
   return (-1);
 }
 
-static char	*first_word(char *str)
+static t_pos	get_pos_or_egg(t_server *server, int team_id)
 {
-  char		*word;
-  char		*sep;
+  t_pos		pos;
+  t_egg		*egg;
+  size_t	i;
 
-  sep = index(str, ' ');
-  if (!(word = strndup(str, sep - str)))
-    return (NULL);
-  return (word);
+  i = -1;
+  while (++i < server->eggs->length)
+    {
+      egg = server->eggs->items[i];
+      if (egg->hatched && egg->team_id == team_id)
+	{
+	  pos = egg->pos;
+	  free_egg(vector_remove(server->eggs, i));
+	  return (pos);
+	}
+    }
+  pos.x = rand() % server->world->dimension.x;
+  pos.y = rand() % server->world->dimension.y;
+  return (pos);
 }
 
-// TODO ADD RESOURCES
-void		cmd_player(t_server *server, t_package *package)
+static t_player	*add_player(t_server *server, t_package *package)
 {
   t_player	*player;
   int		team_id;
   t_pos		pos;
   char		*word;
 
-  pos.x = rand() % server->world->dimension.x;
-  pos.y = rand() % server->world->dimension.y;
-  if (!(word = first_word(package->msg)))
-    return;
-  if ((team_id = get_team_id(server, word)) == -1 ||
-      !(player = create_player(package->fd, team_id, pos)))
+  if (!(word = first_word(package->msg)) ||
+      (team_id = get_team_id(server, word)) == -1)
     {
       free(word);
-      return ((void)dprintf(package->fd, "ko\n"));
+      dprintf(package->fd, "ko\n");
+      return (NULL);
     }
-  vector_push(server->world->map[pos.y][pos.x].players, player);
-  vector_push(server->players, player);
-  dprintf(package->fd, "%d\n%d %d\n",
-	  server->max_client - nb_player_team(server->players, team_id),
-	  server->world->dimension.x,
-	  server->world->dimension.y);
+  pos = get_pos_or_egg(server, team_id);
+  if ((player = create_player(package->fd, team_id, pos)))
+    {
+      vector_push(server->world->map[pos.y][pos.x].players, player);
+      vector_push(server->players, player);
+      dprintf(package->fd, "%d\n%d %d\n",
+	      server->max_client - nb_player_team(server->players, team_id),
+	      server->world->dimension.x, server->world->dimension.y);
+    }
   free(word);
+  return (player);
+}
+
+void		cmd_player(t_server *server, t_package *package)
+{
+  t_player	*player;
+
+  if (!(player = add_player(server, package)))
+    return;
+  // TODO ADD FOOD + GRAPHIC
 }

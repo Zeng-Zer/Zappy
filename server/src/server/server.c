@@ -12,6 +12,7 @@
 #include "server.h"
 #include "player.h"
 #include "graphic.h"
+#include "egg.h"
 
 t_server	init_server(t_param *param)
 {
@@ -27,7 +28,8 @@ t_server	init_server(t_param *param)
   server.frequency = param->frequency;
   server.players = vector_new();
   server.graphic = vector_new();
-  if (!server.cmds || !server.players || !server.graphic)
+  server.eggs = vector_new();
+  if (!server.cmds || !server.players || !server.graphic || !server.eggs)
     exit(84);
   return (server);
 }
@@ -38,6 +40,7 @@ void		close_server(t_server *server)
   vector_delete(server->cmds, NULL);
   vector_delete(server->players, free_player);
   vector_delete(server->graphic, free_graphic);
+  vector_delete(server->eggs, free_egg);
   free_tab(server->teams);
   free_world(server->world);
 }

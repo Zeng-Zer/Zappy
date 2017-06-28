@@ -12,6 +12,7 @@
 #include "cmd.h"
 #include "player.h"
 #include "graphic.h"
+#include "egg.h"
 
 static void	player_update(t_server *server, t_player *player,
 			      long long time)
@@ -42,6 +43,23 @@ static void	graphic_update(t_server *server, t_graphic *graphic)
   free_command(vector_remove_item(graphic->cmds, cmd));
 }
 
+static void	eggs_update(t_server *server, long long time)
+{
+  t_egg		*egg;
+  size_t	i;
+
+  i = -1;
+  while (++i < server->eggs->length)
+    {
+      egg = server->eggs->items[i];
+      if (!egg->hatched && time > egg->end_time)
+	{
+	  // TODO GRAPHIC
+	  egg->hatched = true;
+	}
+    }
+}
+
 void		server_update(t_server *server)
 {
   size_t	i;
@@ -64,4 +82,5 @@ void		server_update(t_server *server)
       if (graphic->cmds->length > 0)
 	graphic_update(server, graphic);
     }
+  eggs_update(server, time);
 }
