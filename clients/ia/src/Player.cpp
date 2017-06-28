@@ -191,6 +191,10 @@ void Player::signalEject(std::string const& msg) {
   (void) msg;
 }
 
+void Player::signalIncantation(void) {
+
+}
+
 void Player::move(int x) {
   int ressource_case;
   int nb_forward;
@@ -243,6 +247,9 @@ int Player::update() {
     }
     else if (firstWord == "dead") {
       return 0;
+    }
+    else if (responce == "Elevation underway") {
+      signalIncantation();
     }
     else {
       RequestBuffer::getInstance().front().second(*this, responce);

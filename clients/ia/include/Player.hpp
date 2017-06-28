@@ -95,6 +95,11 @@ public:
    * temporary prototype, writed to compile but does nothing
    */
   void signalEject(std::string const& msg);
+  /**
+   * TODO
+   * temporary prototype, writed to compile but does nothing
+   */
+  void signalIncantation(void);
 
 private:
   int _x;
