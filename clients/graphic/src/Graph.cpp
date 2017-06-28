@@ -50,6 +50,7 @@ void		        Graph::handle_keyboard(sf::Event const &event)
     _view.zoom(1.3);
   else if (event.key.code == sf::Keyboard::Escape)
     _window.close();
+  _player.update(_map.getTileSize());
 }
 
 void			Graph::eventLoop()
@@ -79,10 +80,9 @@ void			Graph::run()
   while (_window.isOpen())
     {
       eventLoop();
-      _player.update(_map.getTileSize());
 
-      position.x = _player.getPosition().x + _player.getSize().x / 2;
-      position.y = _player.getPosition().y + _player.getSize().y / 2;
+      position.x = _player.getPosition().x + _player.getSize().x * _player.getScale().x / 2;
+      position.y = _player.getPosition().y + _player.getSize().y * _player.getScale().y / 2;
       _view.setCenter(position.x, position.y);
 
       _window.setView(_view);

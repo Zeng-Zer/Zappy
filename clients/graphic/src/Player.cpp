@@ -55,12 +55,13 @@ void			Player::move(float const x, float const y, int const posy)
 sf::Vector2f const	&Player::getPosition() const {return (_sprite.getPosition());}
 sf::Sprite const	&Player::getSprite() const {return (_sprite);}
 sf::Vector2i const	&Player::getSize() const {return (_size);}
+sf::Vector2f const	&Player::getScale() const {return (_scale);}
 
 void			Player::setPosition(sf::Vector2f const &p) {_sprite.setPosition(p.x, p.y);}
 void			Player::setTextureRect(sf::IntRect const &r){_sprite.setTextureRect(r);}
 void			Player::setColor(sf::Color const &c){_sprite.setColor(c);}
 
-void			Player::setPosOnGrid(sf::Vector2i const &pos) {_curPos = pos;}
+void			Player::setPosOnGrid(sf::Vector2i const &pos) {_curPos = pos; _oldPos = _curPos;}
 void			Player::scale(sf::Vector2f const &s)
 {
   _scale = s;
@@ -86,9 +87,26 @@ void			Player::turnLeft()
 
 void			Player::turnRight()
 {
-  int		        s = 4;
+  _curDir = static_cast<Player::Direction>((_curDir + 3) % 4);
+}
 
-  _curDir = static_cast<Player::Direction>((_curDir + (s - 1)) % s);
+void			Player::animate(sf::Vector2f oldPos, sf::Vector2f newPos)
+{
+  float			a = (newPos.y - oldPos.y) / (newPos.x - oldPos.x);
+  float			b = oldPos.y - a * oldPos.x;
+  
+  float			x = oldPos.x;
+  float			y;
+
+  while (x != newPos.x)
+    {
+      y = a * x + b;
+      setPosition(sf::Vector2f(x - _size.x * _scale.x / 2, y - _size.y * _scale.y));
+      if (oldPos.x < newPos.x)
+	x += 0.2;
+      else
+	x -= 0.2;
+    }
 }
 
 void			Player::update(sf::Vector2i const &tileSize)
@@ -96,5 +114,6 @@ void			Player::update(sf::Vector2i const &tileSize)
   sf::Vector2i		p = coordsToMapCoords(tileSize, _curPos);
 
   setTextureRect(sf::IntRect(0, getDirFromE(_curDir) * _size.y, _size.x, _size.y));
+  //animate(static_cast<sf::Vector2f>(coordsToMapCoords(tileSize, _oldPos)), static_cast<sf::Vector2f>(coordsToMapCoords(tileSize, _curPos)));
   setPosition(sf::Vector2f(p.x - _size.x * _scale.x / 2, p.y - _size.y * _scale.y));
 }
