@@ -59,76 +59,100 @@ void Player::incantation() const {
   RequestBuffer::getInstance().push("Incantation", std::function<void(std::string&)>(incantationResponce));
 }
 
-void Player::forwardResponce(std::string& responce) {
+bool Player::forwardResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Forward: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::rightResponce(std::string& responce) {
+bool Player::rightResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Right: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::leftResponce(std::string& responce) {
+bool Player::leftResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Left: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::lookResponce(std::string& responce) {
+bool Player::lookResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Look: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::inventoryResponce(std::string& responce) {
+bool Player::inventoryResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Inventory: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::broadcastResponce(std::string& responce) {
+bool Player::broadcastResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Broadcast: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::connect_nbrResponce(std::string& responce) {
+bool Player::connect_nbrResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Connect_nbr: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::forkResponce(std::string& responce) {
+bool Player::forkResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Fork: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::ejectResponce(std::string& responce) {
+bool Player::ejectResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Eject: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::takeResponce(std::string& responce) {
+bool Player::takeResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Take: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::setResponce(std::string& responce) {
+bool Player::setResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Set: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
-void Player::incantationResponce(std::string& responce) {
+bool Player::incantationResponce(std::string& responce) {
   if (responce != "ok") {
     std::cerr << "Incantation: bad responce" << std::endl;
+    return false;
   }
+  return true;
 }
 
 Broadcast Player::signalBroadcast(std::string const& msg) {

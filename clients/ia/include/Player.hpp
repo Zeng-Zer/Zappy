@@ -49,18 +49,18 @@ public:
   /**
    * RESPONCES
    */
-  static void forwardResponce(std::string&);
-  static void rightResponce(std::string&);
-  static void leftResponce(std::string&);
-  static void lookResponce(std::string&);
-  static void inventoryResponce(std::string&);
-  static void broadcastResponce(std::string&);
-  static void connect_nbrResponce(std::string&);
-  static void forkResponce(std::string&);
-  static void ejectResponce(std::string&);
-  static void takeResponce(std::string&);
-  static void setResponce(std::string&);
-  static void incantationResponce(std::string&);
+  static bool forwardResponce(std::string&);
+  static bool rightResponce(std::string&);
+  static bool leftResponce(std::string&);
+  static bool lookResponce(std::string&);
+  static bool inventoryResponce(std::string&);
+  static bool broadcastResponce(std::string&);
+  static bool connect_nbrResponce(std::string&);
+  static bool forkResponce(std::string&);
+  static bool ejectResponce(std::string&);
+  static bool takeResponce(std::string&);
+  static bool setResponce(std::string&);
+  static bool incantationResponce(std::string&);
 
   /**
    * temporary return int value to quit loop
