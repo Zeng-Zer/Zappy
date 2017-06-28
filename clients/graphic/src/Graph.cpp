@@ -37,45 +37,56 @@ Graph::Graph(unsigned int const width, unsigned int const height, std::string co
 Graph::~Graph()
 {}
 
-void		        Graph::handle_player_mvmt(Player &player)
+void		        Graph::handle_keyboard(sf::Event const &event)
 {
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    player.moveForward();
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    player.turnLeft();
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    player.turnRight();
+  if (event.key.code == sf::Keyboard::Up)
+    _player.moveForward();
+  else if (event.key.code == sf::Keyboard::Left)
+    _player.turnLeft();
+  else if (event.key.code == sf::Keyboard::Right)
+    _player.turnRight();
+  if (event.key.code == sf::Keyboard::A)
+    _view.zoom(0.7);
+  else if (event.key.code == sf::Keyboard::E)
+    _view.zoom(1.3);
+  else if (event.key.code == sf::Keyboard::Escape)
+    _window.close();
+}
+
+void			Graph::eventLoop()
+{
+  sf::Event		event;
+
+  while (_window.pollEvent(event))
+    {
+      switch (event.type)
+	{
+	case sf::Event::Closed:
+	  _window.close();
+	  break ;
+	case sf::Event::KeyPressed:
+	  handle_keyboard(event);
+	  break ;
+	default:
+	  break ;
+	}
+    }
 }
 
 void			Graph::run()
 {
-  sf::Event		event;
   sf::Vector2f		position;
 
   while (_window.isOpen())
     {
-      while (_window.pollEvent(event))
-	{
-	  if (event.type == sf::Event::Closed)
-	    _window.close();
-	}
-
-      handle_player_mvmt(_player);
-
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	_view.zoom(0.999);
-      else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-	_view.zoom(1.001);
-      else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-	_window.close();
+      eventLoop();
+      _player.update(_map.getTileSize());
 
       position.x = _player.getPosition().x + _player.getSize().x / 2;
       position.y = _player.getPosition().y + _player.getSize().y / 2;
       _view.setCenter(position.x, position.y);
 
       _window.setView(_view);
-
-      _player.update(_map.getTileSize());
       _window.clear();
       _window.draw(_map);
       _window.draw(_player.getSprite());

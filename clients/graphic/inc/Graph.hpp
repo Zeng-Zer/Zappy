@@ -22,7 +22,8 @@ private:
   sf::View			_view;
   Player			_player;
 
-  void				handle_player_mvmt(Player&);
+  void				handle_keyboard(sf::Event const&);
+  void				eventLoop();
 
 public:
   Graph(unsigned int const, unsigned int const, std::string const&);
