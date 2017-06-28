@@ -58,12 +58,12 @@ void Player::eject() const{
 }
 
 void Player::take(Resource::Resource res) const {
-  RequestBuffer::getInstance().push("Take",
+  RequestBuffer::getInstance().push("Take " + Resource::resourceToString(res),
 				    std::function<bool(Player&, std::string&)>(&Player::takeResponce));
 }
 
 void Player::set(Resource::Resource res) const {
-  RequestBuffer::getInstance().push("Set",
+  RequestBuffer::getInstance().push("Set " + Resource::resourceToString(res),
 				    std::function<bool(Player&, std::string&)>(&Player::setResponce));
 }
 
