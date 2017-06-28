@@ -97,10 +97,26 @@ bool Player::leftResponce(std::string& responce) const{
 }
 
 bool Player::lookResponce(std::string& responce) {
-  if (responce != "ok") {
-    std::cerr << "Look: bad responce" << std::endl;
-    return false;
+  std::stringstream ss(responce);
+  std::string word;
+  std::vector<std::vector<Resource::Resource> > vec(0);
+  int lenght = 0;
+  int j;
+
+  ss << responce;
+  while (!ss.fail()) {
+    j = lenght;
+    vec.resize(j + 1);
+    ss >> word;
+    if (std::isalpha(word.front())) {
+      if (word.back() == ',') {
+	word.erase(std::find(word.begin(), word.end(), ','));
+	lenght++;
+      }
+      vec[j].emplace_back(Resource::stringToResource(word));
+    }
   }
+  _data.look = vec;
   return true;
 }
 
@@ -112,7 +128,7 @@ bool Player::inventoryResponce(std::string& responce) {
   return true;
 }
 
-bool Player::broadcastResponce(std::string& responce) {
+bool Player::broadcastResponce(std::string& responce) const {
   if (responce != "ok") {
     std::cerr << "Broadcast: bad responce" << std::endl;
     return false;
@@ -134,7 +150,7 @@ bool Player::forkResponce(std::string& responce) const{
   return true;
 }
 
-bool Player::ejectResponce(std::string& responce) {
+bool Player::ejectResponce(std::string& responce) const {
   if (responce != "ok") {
     std::cerr << "Eject: bad responce" << std::endl;
     return false;
@@ -142,7 +158,7 @@ bool Player::ejectResponce(std::string& responce) {
   return true;
 }
 
-bool Player::takeResponce(std::string& responce) {
+bool Player::takeResponce(std::string& responce) const {
   if (responce != "ok") {
     std::cerr << "Take: bad responce" << std::endl;
     return false;
@@ -150,7 +166,7 @@ bool Player::takeResponce(std::string& responce) {
   return true;
 }
 
-bool Player::setResponce(std::string& responce) {
+bool Player::setResponce(std::string& responce) const {
   if (responce != "ok") {
     std::cerr << "Set: bad responce" << std::endl;
     return false;

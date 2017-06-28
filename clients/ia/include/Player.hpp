@@ -18,8 +18,25 @@ struct Broadcast {
 
 class Player {
 
+  /**
+   * data updated by commands response
+   */
   struct dataResponce {
+    /**
+     * number of team unused slots
+     */
     int connect_nbr;
+
+    /**
+     * vector of cone of vision
+     * vector of resource per square in the cone
+     */
+    std::vector<std::vector<Resource::Resource>> look;
+
+    /**
+     * map de resource et de la quantité de resource
+     */
+    std::map<Resource::Resource, int> inventory;
   };
 
 
@@ -33,24 +50,13 @@ public:
   void forward() const;
   void right() const;
   void left() const;
-  /**
-   * vector du cone de vision
-   * vector de ressource par cas dans le cone
-   */
-  // std::vector<std::vector<Resource> > look();
   void look() const;
-  /**
-   * map de resource et de la quantité de resource
-   */
-  // std::map<Resource, int> inventory();
   void inventory() const;
   void broadcast(std::string const& msg) const;
   void connect_nbr() const;
   void fork() const;
   void eject() const;
-  // TODO
   void take(Resource::Resource res) const;
-  // TODO
   void set(Resource::Resource res) const;
   void incantation() const;
 
@@ -60,19 +66,15 @@ public:
   bool forwardResponce(std::string&) const;
   bool rightResponce(std::string&) const;
   bool leftResponce(std::string&) const;
-  // TODO
   bool lookResponce(std::string&);
   // TODO
   bool inventoryResponce(std::string&);
-  bool broadcastResponce(std::string&);
+  bool broadcastResponce(std::string&) const;
   bool connect_nbrResponce(std::string&);
   bool forkResponce(std::string&) const;
-  // TODO
-  bool ejectResponce(std::string&);
-  // TODO
-  bool takeResponce(std::string&);
-  // TODO
-  bool setResponce(std::string&);
+  bool ejectResponce(std::string&) const;
+  bool takeResponce(std::string&) const;
+  bool setResponce(std::string&) const;
   // TODO
   bool incantationResponce(std::string&);
 
@@ -83,8 +85,13 @@ public:
 
   void move(int x, int y);
   bool canLevelUp();
+  /**
+   * TODO
+   * Need details
+   */
   Broadcast signalBroadcast(std::string const& msg);
   /**
+   * TODO
    * temporary prototype, writed to compile but does nothing
    */
   void signalEject(std::string const& msg);
