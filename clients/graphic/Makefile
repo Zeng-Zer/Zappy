@@ -21,7 +21,8 @@ ARROW		=	$(BLUE)"\t=>\t"
 SRC		=	$(DIR_SRC)/main.cpp \
 			$(DIR_SRC)/Graph.cpp \
 			$(DIR_SRC)/Player.cpp \
-			$(DIR_SRC)/TileMap.cpp
+			$(DIR_SRC)/TileMap.cpp \
+			$(DIR_SRC)/Ressource.cpp
 
 OBJ		=	$(SRC:.cpp=.o)
 

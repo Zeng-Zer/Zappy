@@ -28,13 +28,21 @@ Graph::Graph(unsigned int const width, unsigned int const height, std::string co
   _player.setColor(sf::Color(255, 0, 0));
   _player.update(_map.getTileSize());
 
+  _ressources.push_back(Ressource("./media/food.png", sf::Vector2i(15, 15), Ressource::FOOD));
+  _ressources[0].scale(sf::Vector2f(0.5, 0.5));
+  _ressources[0].setPosition(sf::Vector2f(0, 0));
+  _ressources.push_back(Ressource("./media/minecraft_sheet.png", sf::Vector2i(32, 16), Ressource::LINEMATE));
+  _ressources[1].setPosition(sf::Vector2f(200, 200));
+
   _view.setSize(_resolution.x, _resolution.y);
   _view.setViewport(sf::FloatRect(0, 0, 1, 1));
   delete [] level;
 }
 
 Graph::~Graph()
-{}
+{
+  _ressources.clear();
+}
 
 void		        Graph::handle_keyboard(sf::Event const &event)
 {
@@ -89,6 +97,8 @@ void			Graph::run()
       _window.clear();
       _window.draw(_map);
       _window.draw(_player.getSprite());
+      _window.draw(_ressources[0].getSprite());
+      _window.draw(_ressources[1].getSprite());
       _window.display();
     }
 }

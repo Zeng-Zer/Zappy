@@ -63,11 +63,7 @@ void			Player::setTextureRect(sf::IntRect const &r){_sprite.setTextureRect(r);}
 void			Player::setColor(sf::Color const &c){_sprite.setColor(c);}
 
 void			Player::setPosOnGrid(sf::Vector2i const &pos) {_curPos = pos; _oldPos = _curPos;}
-void			Player::scale(sf::Vector2f const &s)
-{
-  _scale = s;
-  _sprite.scale(_scale);
-}
+void			Player::scale(sf::Vector2f const &s) {_scale = s; _sprite.scale(_scale);}
 
 void			Player::moveForward()
 {

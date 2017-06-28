@@ -5,7 +5,9 @@
 # include <string>
 # include <exception>
 # include <SFML/Graphics.hpp>
+# include <vector>
 # include "Player.hpp"
+# include "Ressource.hpp"
 # include "TileMap.hpp"
 
 # define WIDTH			1600
@@ -21,6 +23,7 @@ private:
   TileMap			_map;
   sf::View			_view;
   Player			_player;
+  std::vector<Ressource>	_ressources;
 
   void				handle_keyboard(sf::Event const&);
   void				eventLoop();
