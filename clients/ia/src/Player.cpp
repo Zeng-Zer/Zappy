@@ -222,12 +222,12 @@ void Player::move(int x) {
 }
 
 int Player::update() {
-  bool oneShot = false;
-  if (!oneShot) {
-    std::cout << "broadcast: hello" << std::endl;
-    broadcast("Hello");
-  }
-  oneShot = true;
+  // bool oneShot = false;
+  // if (!oneShot) {
+  //   std::cout << "broadcast: hello" << std::endl;
+  //   broadcast("Hello");
+  // }
+  // oneShot = true;
 
   std::string responce = Connection::getInstance().recvMsg();
   if (!responce.empty()) {
