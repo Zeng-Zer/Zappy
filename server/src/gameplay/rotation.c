@@ -35,22 +35,22 @@ void	get_front_dir(t_rotation rot, t_pos *pos)
 {
   if (rot == UP)
     {
-      pos[0] = (t_pos){1, -1};
-      pos[1] = (t_pos){-1, 0};
+      pos[0] = (t_pos){-1, -1};
+      pos[1] = (t_pos){1, 0};
     }
   else if (rot == LEFT)
     {
-      pos[0] = (t_pos){-1, -1};
-      pos[1] = (t_pos){0, 1};
+      pos[0] = (t_pos){-1, 1};
+      pos[1] = (t_pos){0, -1};
     }
   else if (rot == RIGHT)
     {
-      pos[0] = (t_pos){1, 1};
-      pos[1] = (t_pos){0, -1};
+      pos[0] = (t_pos){1, -1};
+      pos[1] = (t_pos){0, 1};
     }
   else
     {
-      pos[0] = (t_pos){-1, 1};
-      pos[1] = (t_pos){1, 0};
+      pos[0] = (t_pos){1, 1};
+      pos[1] = (t_pos){-1, 0};
     }
 }
