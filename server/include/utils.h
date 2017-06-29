@@ -51,4 +51,22 @@ bool	match_first_word(char const *str, char const *to_match);
  */
 char		*first_word(char *str);
 
+/**
+ * bresenham line algorithm
+ */
+typedef struct	s_line
+{
+  int		dx;
+  int		sx;
+  int		dy;
+  int		sy;
+  int		err;
+  int		e2;
+}		t_line;
+
+/**
+ * send first 2 pos from p0 to p1 in *pos
+ */
+void		line(t_pos p0, t_pos p1, t_pos *pos);
+
 #endif /* !UTILS_H_ */

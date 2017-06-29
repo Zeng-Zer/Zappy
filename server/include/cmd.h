@@ -115,5 +115,6 @@ void		cmd_sst(t_server *server, t_command *command);
  */
 int		nb_player_team(t_vector *players, int team_id);
 t_player	*find_player(t_vector *players, int id);
+int		broadcast_dir(t_world *world, t_player *from, t_player *other);
 
 #endif /* !CMD_H_ */

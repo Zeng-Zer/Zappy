@@ -9,13 +9,26 @@
 */
 
 #include "cmd.h"
-# include "egg.h"
+#include "egg.h"
 
 void		cmd_broadcast(t_server *server, t_command *command)
 {
   t_player	*player;
+  size_t	i;
+  int		dir;
 
   player = command->entity;
+  i = -1;
+  while (++i < server->players->length)
+    {
+      if (server->players->items[i] == player)
+	continue;
+      dir = broadcast_dir(server->world, player,
+			  server->players->items[i]);
+      dprintf(((t_player*)server->players->items[i])->id,
+	      "message %d, %s\n",
+	      dir, (char*)command->item + strlen("Broadcast "));
+    }
   dprintf(player->id, "ok\n");
 }
 
