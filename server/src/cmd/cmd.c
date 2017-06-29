@@ -28,15 +28,15 @@ const t_cmd	g_player_cmd[] = {
 };
 
 const t_cmd	g_graphic_cmd[] = {
-  /* {"msz", cmd_msz}, */
-  /* {"bct", cmd_bct}, */
-  /* {"mct", cmd_mct}, */
-  /* {"tna", cmd_tna}, */
-  /* {"ppo", cmd_ppo}, */
-  /* {"plv", cmd_plv}, */
-  /* {"pin", cmd_pin}, */
-  /* {"sgt", cmd_sgt}, */
-  /* {"sst", cmd_sst}, */
+  {"msz", cmd_msz, 0.0f},
+  {"bct", cmd_bct, 0.0f},
+  {"mct", cmd_mct, 0.0f},
+  {"tna", cmd_tna, 0.0f},
+  {"ppo", cmd_ppo, 0.0f},
+  {"plv", cmd_plv, 0.0f},
+  {"pin", cmd_pin, 0.0f},
+  {"sgt", cmd_sgt, 0.0f},
+  {"sst", cmd_sst, 0.0f},
 };
 
 static void	delete_player_tile(t_server *server, t_player *player)
@@ -118,8 +118,7 @@ static void		handle_graphic(t_server *server, t_package *package,
     {
       if (match_first_word(package->msg, g_graphic_cmd[i].key))
 	{
-	  if ((cmd = create_command(g_graphic_cmd[i].cmd,
-				    END_TIME(g_graphic_cmd[i].time),
+	  if ((cmd = create_command(g_graphic_cmd[i].cmd, 0,
 				    graphic, package->msg)))
 	    {
 	      package->msg = NULL;

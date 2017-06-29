@@ -39,7 +39,7 @@ static void	graphic_update(t_server *server, t_graphic *graphic)
   t_command	*cmd;
 
   cmd = graphic->cmds->items[0];
-  cmd->action ? cmd->action(server, cmd) : dprintf(graphic->id, "ko\n");
+  cmd->action ? cmd->action(server, cmd) : dprintf(graphic->id, "suc\n");
   free_command(vector_remove_item(graphic->cmds, cmd));
 }
 

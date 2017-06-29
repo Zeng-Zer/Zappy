@@ -40,6 +40,10 @@ SRC :=		main.c \
 		cmd/cmd_utils.c \
 		cmd/commands.c \
 		cmd/broadcast.c \
+		cmd/cmd_graphic.c \
+		cmd/cmd_graphic2.c \
+		cmd/graphic_cmd.c \
+		cmd/graphic_cmd2.c \
 		gameplay/elevation.c \
 		gameplay/move.c \
 		gameplay/stone.c \
