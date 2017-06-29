@@ -63,18 +63,18 @@ public:
   /**
    * RESPONCES
    */
-  bool forwardResponce(std::string&) const;
-  bool rightResponce(std::string&) const;
-  bool leftResponce(std::string&) const;
-  bool lookResponce(std::string&);
-  bool inventoryResponce(std::string&);
-  bool broadcastResponce(std::string&) const;
-  bool connect_nbrResponce(std::string&);
-  bool forkResponce(std::string&) const;
-  bool ejectResponce(std::string&) const;
-  bool takeResponce(std::string&) const;
-  bool setResponce(std::string&) const;
-  bool incantationResponce(std::string&);
+  bool forwardResponce(std::string const&) const;
+  bool rightResponce(std::string const&) const;
+  bool leftResponce(std::string const&) const;
+  bool lookResponce(std::string const&);
+  bool inventoryResponce(std::string const&);
+  bool broadcastResponce(std::string const&) const;
+  bool connect_nbrResponce(std::string const&);
+  bool forkResponce(std::string const&) const;
+  bool ejectResponce(std::string const&) const;
+  bool takeResponce(std::string const&) const;
+  bool setResponce(std::string const&) const;
+  bool incantationResponce(std::string const&);
 
   /**
    * temporary return int value to quit loop

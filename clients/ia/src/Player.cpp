@@ -14,65 +14,65 @@ Player::~Player() {
 
 void Player::forward() const {
   RequestBuffer::getInstance().push("Forward",
-				    std::function<bool(Player&, std::string&)>(&Player::forwardResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::forwardResponce));
 }
 
 void Player::right() const {
   RequestBuffer::getInstance().push("Right",
-				    std::function<bool(Player&, std::string&)>(&Player::rightResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::rightResponce));
 }
 
 void Player::left() const {
   RequestBuffer::getInstance().push("Left",
-				    std::function<bool(Player&, std::string&)>(&Player::leftResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::leftResponce));
 }
 
 void Player::look() const {
   RequestBuffer::getInstance().push("Look",
-				    std::function<bool(Player&, std::string&)>(&Player::lookResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::lookResponce));
 }
 
 void Player::inventory() const {
   RequestBuffer::getInstance().push("Inventory",
-				    std::function<bool(Player&, std::string&)>(&Player::inventoryResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::inventoryResponce));
 }
 
 void Player::broadcast(std::string const& msg) const {
   RequestBuffer::getInstance().push("Broadcast " + msg,
-				    std::function<bool(Player&, std::string&)>(&Player::broadcastResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::broadcastResponce));
 }
 
 void Player::connect_nbr() const {
   RequestBuffer::getInstance().push("Connect_nbr",
-				    std::function<bool(Player&, std::string&)>(&Player::connect_nbrResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::connect_nbrResponce));
 }
 
 void Player::fork() const {
   RequestBuffer::getInstance().push("Fork",
-				    std::function<bool(Player&, std::string&)>(&Player::forkResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::forkResponce));
 }
 
 void Player::eject() const{
   RequestBuffer::getInstance().push("Eject",
-				    std::function<bool(Player&, std::string&)>(&Player::ejectResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::ejectResponce));
 }
 
 void Player::take(Resource::Resource res) const {
   RequestBuffer::getInstance().push("Take " + Resource::resourceToString(res),
-				    std::function<bool(Player&, std::string&)>(&Player::takeResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::takeResponce));
 }
 
 void Player::set(Resource::Resource res) const {
   RequestBuffer::getInstance().push("Set " + Resource::resourceToString(res),
-				    std::function<bool(Player&, std::string&)>(&Player::setResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::setResponce));
 }
 
 void Player::incantation() const {
   RequestBuffer::getInstance().push("Incantation",
-				    std::function<bool(Player&, std::string&)>(&Player::incantationResponce));
+				    std::function<bool(Player&, std::string const&)>(&Player::incantationResponce));
 }
 
-bool Player::forwardResponce(std::string& responce) const {
+bool Player::forwardResponce(std::string const& responce) const {
   if (responce != "ok") {
     std::cerr << "Forward: bad responce" << std::endl;
     return false;
@@ -80,7 +80,7 @@ bool Player::forwardResponce(std::string& responce) const {
   return true;
 }
 
-bool Player::rightResponce(std::string& responce) const {
+bool Player::rightResponce(std::string const& responce) const {
   if (responce != "ok") {
     std::cerr << "Right: bad responce" << std::endl;
     return false;
@@ -88,7 +88,7 @@ bool Player::rightResponce(std::string& responce) const {
   return true;
 }
 
-bool Player::leftResponce(std::string& responce) const{
+bool Player::leftResponce(std::string const& responce) const{
   if (responce != "ok") {
     std::cerr << "Left: bad responce" << std::endl;
     return false;
@@ -96,7 +96,7 @@ bool Player::leftResponce(std::string& responce) const{
   return true;
 }
 
-bool Player::lookResponce(std::string& responce) {
+bool Player::lookResponce(std::string const& responce) {
   std::stringstream ss(responce);
   std::string word;
   std::vector<std::vector<Resource::Resource> > vec(0);
@@ -119,7 +119,7 @@ bool Player::lookResponce(std::string& responce) {
   return true;
 }
 
-bool Player::inventoryResponce(std::string& responce) {
+bool Player::inventoryResponce(std::string const& responce) {
   std::stringstream ss(responce);
   std::string word;
   int q;
@@ -136,7 +136,7 @@ bool Player::inventoryResponce(std::string& responce) {
   return true;
 }
 
-bool Player::broadcastResponce(std::string& responce) const {
+bool Player::broadcastResponce(std::string const& responce) const {
   if (responce != "ok") {
     std::cerr << "Broadcast: bad responce" << std::endl;
     return false;
@@ -144,13 +144,13 @@ bool Player::broadcastResponce(std::string& responce) const {
   return true;
 }
 
-bool Player::connect_nbrResponce(std::string& responce) {
+bool Player::connect_nbrResponce(std::string const& responce) {
   std::string::size_type size;
   _data.connect_nbr = std::stoi(responce, &size);
   return (size != 0);
 }
 
-bool Player::forkResponce(std::string& responce) const{
+bool Player::forkResponce(std::string const& responce) const{
   if (responce != "ok") {
     std::cerr << "Fork: bad responce" << std::endl;
     return false;
@@ -158,7 +158,7 @@ bool Player::forkResponce(std::string& responce) const{
   return true;
 }
 
-bool Player::ejectResponce(std::string& responce) const {
+bool Player::ejectResponce(std::string const& responce) const {
   if (responce != "ok") {
     std::cerr << "Eject: bad responce" << std::endl;
     return false;
@@ -166,7 +166,7 @@ bool Player::ejectResponce(std::string& responce) const {
   return true;
 }
 
-bool Player::takeResponce(std::string& responce) const {
+bool Player::takeResponce(std::string const& responce) const {
   if (responce != "ok") {
     std::cerr << "Take: bad responce" << std::endl;
     return false;
@@ -174,7 +174,7 @@ bool Player::takeResponce(std::string& responce) const {
   return true;
 }
 
-bool Player::setResponce(std::string& responce) const {
+bool Player::setResponce(std::string const& responce) const {
   if (responce != "ok") {
     std::cerr << "Set: bad responce" << std::endl;
     return false;
@@ -182,7 +182,7 @@ bool Player::setResponce(std::string& responce) const {
   return true;
 }
 
-bool Player::incantationResponce(std::string& responce) {
+bool Player::incantationResponce(std::string const& responce) {
   return signalIncantation(responce);
 }
 
