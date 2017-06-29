@@ -187,8 +187,10 @@ bool Player::incantationResponce(std::string const& responce) {
 }
 
 Broadcast Player::signalBroadcast(std::string const& msg) {
+  Broadcast b;
   int i;
   i = std::stoi(msg);
+  return b;
 }
 
 void Player::signalEject(std::string const& msg) {
