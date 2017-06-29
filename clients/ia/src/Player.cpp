@@ -132,6 +132,7 @@ bool Player::inventoryResponce(std::string& responce) {
       map.insert(std::make_pair(Resource::stringToResource(word), q));
     }
   }
+  _data.inventory = map;
   return true;
 }
 
@@ -182,11 +183,7 @@ bool Player::setResponce(std::string& responce) const {
 }
 
 bool Player::incantationResponce(std::string& responce) {
-  if (responce != "ok") {
-    std::cerr << "Incantation: bad responce" << std::endl;
-    return false;
-  }
-  return true;
+  return signalIncantation(responce);
 }
 
 Broadcast Player::signalBroadcast(std::string const& msg) {
@@ -198,8 +195,31 @@ void Player::signalEject(std::string const& msg) {
   (void) msg;
 }
 
-void Player::signalIncantation(void) {
+bool Player::signalIncantation(std::string const& msg) {
+  if (msg == "Elevation underway") {
+    std::string responce = Connection::getInstance().recvMsg(MSG_DONTWAIT);
+    std::stringstream ss(responce);
+    std::string word;
+    int lvl;
 
+    if (responce == "ko") {
+      return false;
+    }
+    do {
+      ss >> word;
+    } while (!std::isdigit(word[0]));
+    lvl = std::stoi(word);
+    if (lvl > 0) {
+      _level = lvl;
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  else {
+    return false;
+  }
 }
 
 void Player::move(int x) {
@@ -257,7 +277,7 @@ int Player::update() {
       return 0;
     }
     else if (responce == "Elevation underway") {
-      signalIncantation();
+      signalIncantation(responce);
     }
     else {
       retResponce = RequestBuffer::getInstance().front().second(*this, responce);

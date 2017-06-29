@@ -74,7 +74,6 @@ public:
   bool ejectResponce(std::string&) const;
   bool takeResponce(std::string&) const;
   bool setResponce(std::string&) const;
-  // TODO
   bool incantationResponce(std::string&);
 
   /**
@@ -95,10 +94,9 @@ public:
    */
   void signalEject(std::string const& msg);
   /**
-   * TODO
-   * temporary prototype, writed to compile but does nothing
+   * Blocking signal
    */
-  void signalIncantation(void);
+  bool signalIncantation(std::string const& msg);
 
 private:
   int _x;
