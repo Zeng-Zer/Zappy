@@ -22,9 +22,9 @@ public:
    * If there is not enough space the request is ignored
    * the request is immediately sent to the server
    */
-  void push(std::string request, std::function<bool(Player&, std::string&)> responce_function);
-  void push(std::pair<std::string, std::function<bool(Player&, std::string&)>> request);
-  std::pair<std::string, std::function<bool(Player&, std::string&)>> front(void) const;
+  void push(std::string const request, std::function<bool(Player&, std::string const&)> responce_function);
+  void push(std::pair<std::string const, std::function<bool(Player&, std::string const&)>> request);
+  std::pair<std::string const, std::function<bool(Player&, std::string const&)>> front(void) const;
   void pop(void);
   /**
    * return true if the buffer is full
@@ -40,7 +40,7 @@ private:
   static std::unique_ptr<RequestBuffer> _instance;
 
   int _maxSize;
-  std::queue<std::pair<std::string, std::function<bool(Player&, std::string&)>>> _buffer;
+  std::queue<std::pair<std::string const, std::function<bool(Player&, std::string const&)>>> _buffer;
 };
 
 #endif /* !REQUESTBUFFER_HPP_ */
