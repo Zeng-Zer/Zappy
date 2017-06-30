@@ -9,6 +9,7 @@
 */
 
 #include "cmd.h"
+#include "graphic.h"
 
 void		cmd_forward(t_server *server, t_command *command)
 {
@@ -17,6 +18,7 @@ void		cmd_forward(t_server *server, t_command *command)
   player = command->entity;
   move_player(server->world, player, player->rotation);
   dprintf(player->id, "ok\n");
+  multi_graphic_ppo(server->graphic, player);
 }
 
 void		cmd_right(t_server *server, t_command *command)
@@ -27,6 +29,7 @@ void		cmd_right(t_server *server, t_command *command)
   player = command->entity;
   player->rotation = turn(player->rotation, RIGHT);
   dprintf(player->id, "ok\n");
+  multi_graphic_ppo(server->graphic, player);
 }
 
 void		cmd_left(t_server *server, t_command *command)
@@ -37,6 +40,7 @@ void		cmd_left(t_server *server, t_command *command)
   player = command->entity;
   player->rotation = turn(player->rotation, LEFT);
   dprintf(player->id, "ok\n");
+  multi_graphic_ppo(server->graphic, player);
 }
 
 void		cmd_look(t_server *server, t_command *command)

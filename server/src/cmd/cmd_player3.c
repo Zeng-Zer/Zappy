@@ -10,6 +10,7 @@
 
 #include "cmd.h"
 #include "elevation.h"
+#include "graphic.h"
 
 void		cmd_set(t_server *server, t_command *command)
 {
@@ -27,6 +28,7 @@ void		cmd_set(t_server *server, t_command *command)
       --player->stones[stone];
       ++server->world->map[player->pos.y][player->pos.x].stones[stone];
       dprintf(player->id, "ok\n");
+      multi_graphic_set(server->graphic, server->world, player, stone);
     }
   free_tab(msg);
 }
@@ -76,17 +78,15 @@ void		cmd_incant(t_server *server, t_command *command)
       command->end_time = END_TIME(300.0f);
       command->start = false;
       command->delete = false;
-      if (elevate)
-	notify_player(server, player);
-      else
-	dprintf(player->id, "ko\n");
+      elevate ? notify_player(server, player) : dprintf(player->id, "ko\n");
+      multi_graphic_pic(server->graphic, player,
+			at(server->world, player->pos));
     }
   else
     {
       command->delete = true;
-      if (elevate)
-	lvlup(&server->world->map[player->pos.y][player->pos.x], player->level);
-      else
+      elevate ? lvlup(at(server->world, player->pos), player->level) :
 	dprintf(player->id, "ko\n");
+      multi_graphic_pie(server->graphic, player->pos, elevate, server);
     }
 }

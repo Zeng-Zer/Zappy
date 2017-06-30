@@ -44,6 +44,12 @@ SRC :=		main.c \
 		cmd/cmd_graphic2.c \
 		cmd/graphic_cmd.c \
 		cmd/graphic_cmd2.c \
+		cmd/graphic_cmd3.c \
+		cmd/graphic_cmd4.c \
+		cmd/graphic_cmd5.c \
+		cmd/multi_graphic.c \
+		cmd/multi_graphic2.c \
+		cmd/multi_graphic3.c \
 		gameplay/elevation.c \
 		gameplay/move.c \
 		gameplay/stone.c \
@@ -51,7 +57,7 @@ SRC :=		main.c \
 		gameplay/related_dir.c \
 
 CC :=		gcc
-CFLAGS :=	-W -Wall -Wextra -g
+CFLAGS :=	-W -Wall -Wextra -g -Wno-pointer-to-int-cast
 SRC :=		$(addprefix $(SRCDIR), $(SRC))
 OBJ :=		$(SRC:.c=.o)
 RM :=		rm -f

@@ -15,16 +15,24 @@
 void		cmd_graphic(t_server *server, t_package *package)
 {
   t_graphic	*graphic;
+  size_t	i;
 
   if ((graphic = new_graphic(package->fd)))
     {
       vector_push(server->graphic, graphic);
-      // TODO send map
+      graphic_msz(graphic->id, server->world);
+      graphic_sgt(graphic->id, server);
+      graphic_mct(graphic->id, server->world);
+      graphic_tna(graphic->id, server);
+      i = -1;
+      while (++i < server->players->length)
+	graphic_pnw(graphic->id, server, server->players->items[i]);
+      i = -1;
+      while (++i < server->eggs->length)
+	graphic_enw(graphic->id, 4, server->eggs->items[i]);
     }
   else
-    {
-      dprintf(package->fd, "ko\n");
-    }
+    dprintf(package->fd, "ko\n");
 }
 
 static int	get_team_id(t_server *server, char *str)
@@ -54,6 +62,7 @@ static t_pos	get_pos_or_egg(t_server *server, int team_id)
       if (egg->hatched && egg->team_id == team_id)
 	{
 	  pos = egg->pos;
+	  multi_graphic_ebo(server->graphic, egg);
 	  free_egg(vector_remove(server->eggs, i));
 	  return (pos);
 	}
@@ -93,8 +102,16 @@ static t_player	*add_player(t_server *server, t_package *package)
 void		cmd_player(t_server *server, t_package *package)
 {
   t_player	*player;
+  t_pos		pos;
 
   if (!(player = add_player(server, package)))
     return;
-  // TODO ADD FOOD + GRAPHIC
+  multi_graphic_pnw(server->graphic, server, player);
+  pos.y = -1;
+  while (++pos.y < server->world->dimension.y)
+    {
+      pos.x = -1;
+      while (++pos.x < server->world->dimension.x)
+	server->world->map[pos.y][pos.x].stones[FOOD] += 1;
+    }
 }

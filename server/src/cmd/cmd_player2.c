@@ -10,6 +10,7 @@
 
 #include "cmd.h"
 #include "egg.h"
+#include "graphic.h"
 
 void		cmd_broadcast(t_server *server, t_command *command)
 {
@@ -30,6 +31,8 @@ void		cmd_broadcast(t_server *server, t_command *command)
 	      dir, (char*)command->item + strlen("Broadcast "));
     }
   dprintf(player->id, "ok\n");
+  multi_graphic_broadcast(server->graphic, player,
+			  (char*)command->item + strlen("Broadcast "));
 }
 
 void		cmd_connect(t_server *server, t_command *command)
@@ -47,10 +50,22 @@ void		cmd_fork(t_server *server, t_command *command)
   t_egg		*egg;
 
   player = command->entity;
-  if (!(egg = create_egg(player->team_id, &player->pos, END_TIME(600.0f))))
-    return;
-  vector_push(server->eggs, egg);
-  dprintf(player->id, "ok\n");
+  if (command->delete)
+    {
+      command->end_time = END_TIME(42.0f);
+      command->start = false;
+      command->delete = false;
+      multi_graphic_pfk(server->graphic, player);
+    }
+  else
+    {
+      command->delete = true;
+      if (!(egg = create_egg(player->team_id, &player->pos, END_TIME(600.0f))))
+	return;
+      vector_push(server->eggs, egg);
+      dprintf(player->id, "ok\n");
+      multi_graphic_enw(server->graphic, player, egg);
+    }
 }
 
 void		cmd_eject(t_server *server, t_command *command)
@@ -74,6 +89,7 @@ void		cmd_eject(t_server *server, t_command *command)
 	      related_dir(player->rotation, ejected->rotation));
     }
   dprintf(player->id, "ok\n");
+  multi_graphic_eject(server->graphic, server, player);
 }
 
 void		cmd_take(t_server *server, t_command *command)
@@ -92,6 +108,7 @@ void		cmd_take(t_server *server, t_command *command)
       ++player->stones[stone];
       --server->world->map[player->pos.y][player->pos.x].stones[stone];
       dprintf(player->id, "ok\n");
+      multi_graphic_take(server->graphic, server->world, player, stone);
     }
   free_tab(msg);
 }

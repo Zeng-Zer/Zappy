@@ -20,7 +20,7 @@ const t_cmd	g_player_cmd[] = {
   {"Inventory", cmd_inventory, 1.0f},
   {"Broadcast", cmd_broadcast, 7.0f},
   {"Connect_nbr", cmd_connect, 0.0f},
-  {"Fork", cmd_fork, 42.0f},
+  {"Fork", cmd_fork, 0.0f},
   {"Eject", cmd_eject, 7.0f},
   {"Take", cmd_take, 7.0f},
   {"Set", cmd_set, 7.0f},
@@ -39,10 +39,11 @@ const t_cmd	g_graphic_cmd[] = {
   {"sst", cmd_sst, 0.0f},
 };
 
-static void	delete_player_tile(t_server *server, t_player *player)
+void		delete_player_tile(t_server *server, t_player *player)
 {
   t_tile	*tile;
 
+  multi_graphic_pdi(server->graphic, player);
   tile = at(server->world, player->pos);
   vector_remove_item(tile->players, player);
   free_player(vector_remove_item(server->players, player));
@@ -113,6 +114,7 @@ static void		handle_graphic(t_server *server, t_package *package,
   static const size_t	size = sizeof(g_graphic_cmd) / sizeof(*g_graphic_cmd);
   t_command		*cmd;
 
+  (void)server;
   i = -1;
   while (++i < size)
     {
