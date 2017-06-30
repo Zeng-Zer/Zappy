@@ -50,12 +50,12 @@ void			zap::TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSiz
 
 sf::Vector2i const		&zap::TileMap::getTileSize() const {return (_tileSize);}
 
-int				*zap::TileMap::createMap(sf::Vector2i const &size)
+int				*zap::TileMap::createMap(sf::Vector2i const &size, Terrain t)
 {
   int				*lvl = new int [size.x * size.y];
 
   for (int i = 0; i < size.y; i++)
     for (int j = 0; j < size.x; j++)
-      lvl[j + i * size.x] = GRASS;
+      lvl[j + i * size.x] = t;
   return (lvl);
 }

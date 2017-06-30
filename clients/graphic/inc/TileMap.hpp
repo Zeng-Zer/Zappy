@@ -29,7 +29,7 @@ namespace			zap
     void			load(sf::Texture const&, sf::Vector2i const&, int const*, sf::Vector2i const&);
     sf::Vector2i const		&getTileSize() const;
 
-    static int			*createMap(sf::Vector2i const&);
+    static int			*createMap(sf::Vector2i const&, Terrain);
   };
 }
 

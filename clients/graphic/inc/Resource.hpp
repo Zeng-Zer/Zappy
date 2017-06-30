@@ -18,10 +18,11 @@ namespace			zap
     virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
 
   public:
-    Resource();
+    Resource(sf::Texture const&, sf::Vector2i const&, Type);
     virtual ~Resource();
 
-    void			load(sf::Texture const&, sf::Vector2i const&, Type);
+    sf::Vector2i const		&getSetSize() const;
+    sf::Sprite const		&getSprite() const;
   };
 }
 

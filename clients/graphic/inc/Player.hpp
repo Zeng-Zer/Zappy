@@ -21,12 +21,13 @@ namespace			zap
     virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
 
   public:
-    Player();
+    Player(sf::Texture const&, sf::Vector2i const&, Direction);
     virtual ~Player();
 
-    void			load(sf::Texture const&, sf::Vector2i const&, Direction);
     void			turn(Side);
     void			moveForward(sf::Vector2i const&);
+    sf::Vector2i const		&getSetSize() const;
+    sf::Sprite const		&getSprite() const;
   };
 }
 

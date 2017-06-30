@@ -1,16 +1,6 @@
 #include "Player.hpp"
 
-zap::Player::Player() {}
-zap::Player::~Player() {}
-
-void			zap::Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
-  states.transform *= getTransform();
-  states.texture = &_texture;
-  target.draw(_sprite, states);
-}
-
-void			zap::Player::load(sf::Texture const &texture, sf::Vector2i const &setSize, Direction d)
+zap::Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Direction d)
 {
   sf::Vector2f		tmp;
 
@@ -20,6 +10,15 @@ void			zap::Player::load(sf::Texture const &texture, sf::Vector2i const &setSize
   tmp.x = 0;
   tmp.y = (d + 1) * 2 * _texture.getSize().y / setSize.y;
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
+}
+
+zap::Player::~Player() {}
+
+void			zap::Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+  states.transform *= getTransform();
+  states.texture = &_texture;
+  target.draw(_sprite, states);
 }
 
 void			zap::Player::turn(Side s)
@@ -38,3 +37,6 @@ void			zap::Player::moveForward(sf::Vector2i const &m)
   else if (_curDir == SOUTH)
     _curPos.y = (_curPos.y + 1) % m.y;
 }
+
+sf::Vector2i const	&zap::Player::getSetSize() const { return (_setSize); }
+sf::Sprite const	&zap::Player::getSprite() const { return (_sprite); }
