@@ -30,6 +30,7 @@ SRC :=		main.c \
 		server/egg.c \
 		server/server.c \
 		server/server_update.c \
+		server/server_update2.c \
 		server/world.c \
 		server/world2.c \
 		cmd/cmd.c \

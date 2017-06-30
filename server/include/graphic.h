@@ -69,5 +69,6 @@ void		multi_graphic_pfk(t_vector *graphics, t_player *player);
 void		multi_graphic_enw(t_vector *, t_player *, t_egg *);
 void		multi_graphic_eht(t_vector *graphics, t_egg *egg);
 void		multi_graphic_pdi(t_vector *graphics, t_player *player);
+void		multi_graphic_seg(t_vector *graphics, char *team);
 
 #endif /* !GRAPHIC_H_ */

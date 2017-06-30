@@ -39,6 +39,7 @@ int		main(int argc, char *argv[])
       handle_packages(&server, packages);
       server_update(&server);
       vector_delete(packages, free_package);
+      usleep(0);
     }
   close_server(&server);
   return (0);

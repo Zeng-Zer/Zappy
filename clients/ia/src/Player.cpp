@@ -100,17 +100,17 @@ bool Player::lookResponce(std::string const& responce) {
   std::stringstream ss(responce);
   std::string word;
   std::vector<std::vector<Resource::Resource> > vec(0);
-  int lenght = 0;
+  int length = 0;
   int j;
 
   while (!ss.fail()) {
-    j = lenght;
+    j = length;
     vec.resize(j + 1);
     ss >> word;
     if (std::isalpha(word.front())) {
       if (word.back() == ',') {
-	word.erase(std::find(word.begin(), word.end(), ','));
-	lenght++;
+	word.erase(word.find(','));
+	length++;
       }
       vec[j].emplace_back(Resource::stringToResource(word));
     }
@@ -194,7 +194,7 @@ Broadcast Player::signalBroadcast(std::string const& msg) {
 }
 
 void Player::signalEject(std::string const& msg) {
-  (void) msg;
+
 }
 
 bool Player::signalIncantation(std::string const& msg) {
@@ -279,6 +279,7 @@ int Player::update() {
       signalEject(responce);
     }
     else if (firstWord == "dead") {
+      std::cout << "dead" << std::endl;
       return 0;
     }
     else if (responce == "Elevation underway") {
@@ -296,10 +297,10 @@ int Player::update() {
 }
 
 bool Player::canLevelUp() {
-  return this->_level < 8 && this->_resource[Resource::LINEMATE] >= Lvl::level[this->_level + 1][Resource::LINEMATE]
-    && this->_resource[Resource::DERAUMERE] >= Lvl::level[this->_level + 1][Resource::DERAUMERE]
-    && this->_resource[Resource::SIBUR] >= Lvl::level[this->_level + 1][Resource::SIBUR]
-    && this->_resource[Resource::MENDIANE] >= Lvl::level[this->_level + 1][Resource::MENDIANE]
-    && this->_resource[Resource::PHIRAS] >= Lvl::level[this->_level + 1][Resource::PHIRAS]
-    && this->_resource[Resource::THYSTAME] >= Lvl::level[this->_level + 1][Resource::THYSTAME];
+  return _level < 8 && _resource[Resource::LINEMATE] >= Lvl::level[_level + 1][Resource::LINEMATE]
+    && _resource[Resource::DERAUMERE] >= Lvl::level[_level + 1][Resource::DERAUMERE]
+    && _resource[Resource::SIBUR] >= Lvl::level[_level + 1][Resource::SIBUR]
+    && _resource[Resource::MENDIANE] >= Lvl::level[_level + 1][Resource::MENDIANE]
+    && _resource[Resource::PHIRAS] >= Lvl::level[_level + 1][Resource::PHIRAS]
+    && _resource[Resource::THYSTAME] >= Lvl::level[_level + 1][Resource::THYSTAME];
 }
