@@ -1,9 +1,13 @@
 #include "Error.hpp"
 #include "AudioHandler.hpp"
 
+std::unique_ptr<zap::AudioHandler> zap::AudioHandler::_instance(nullptr);
+
 zap::AudioHandler::AudioHandler() {}
 
-zap::AudioHandler	&zap::AudioHandler::getInstance() { return (*_instance); }
+zap::AudioHandler&	zap::AudioHandler::getInstance() {
+  return *_instance;
+}
 
 void			zap::AudioHandler::initAudioHandler()
 {
