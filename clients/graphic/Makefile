@@ -19,10 +19,14 @@ DELETED		=	$(RED)"[DELETED]\t"
 ARROW		=	$(BLUE)"\t=>\t"
 
 SRC		=	$(DIR_SRC)/main.cpp \
-			$(DIR_SRC)/Graph.cpp \
+			$(DIR_SRC)/AudioHandler.cpp \
+			$(DIR_SRC)/Error.cpp \
+			$(DIR_SRC)/ImageHandler.cpp \
+			$(DIR_SRC)/Logic.cpp \
+			$(DIR_SRC)/Network.cpp \
 			$(DIR_SRC)/Player.cpp \
-			$(DIR_SRC)/TileMap.cpp \
-			$(DIR_SRC)/Ressource.cpp
+			$(DIR_SRC)/Ressource.cpp \
+			$(DIR_SRC)/TileMap.cpp
 
 OBJ		=	$(SRC:.cpp=.o)
 

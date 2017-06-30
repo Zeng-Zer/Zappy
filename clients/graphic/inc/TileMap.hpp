@@ -1,25 +1,36 @@
 #ifndef TILEMAP_HPP_
 # define TILEMAP_HPP_
 
-# include <string>
 # include <SFML/Graphics.hpp>
 
-class				TileMap : public sf::Drawable, public sf::Transformable
+namespace			zap
 {
-private:
-  sf::VertexArray		_vertices;
-  sf::Texture			_tileset;
-  sf::Vector2i			_tileSize;
+  class				TileMap : public sf::Drawable, public sf::Transformable
+  {
+  public:
+    enum			Terrain
+      {
+	DIRT = 0,
+	GRASS = 40
+      };
 
-  virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
+  private:
+    sf::VertexArray		_vertices;
+    sf::Texture			_tileset;
+    sf::Vector2i		_setSize;
+    sf::Vector2i		_tileSize;
 
-public:
-  TileMap();
-  ~TileMap();
+    virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
 
-  bool			load(std::string const&, sf::Vector2i const&, int const*, sf::Vector2i const&);
+  public:
+    TileMap();
+    virtual ~TileMap();
 
-  sf::Vector2i const	&getTileSize() const;
-};
+    void			load(sf::Texture const&, sf::Vector2i const&, int const*, sf::Vector2i const&);
+    sf::Vector2i const		&getTileSize() const;
+
+    static int			*createMap(sf::Vector2i const&);
+  };
+}
 
 #endif /* !TILEMAP_HPP_ */
