@@ -55,6 +55,7 @@ void			zap::Logic::createMap(sf::Vector2i const &map, TileMap::Terrain t)
 {
   _map.load(ImageHandler::getInstance().getTexture(ImageHandler::MAP), ImageHandler::getInstance().getSetSize(ImageHandler::MAP), TileMap::createMap(map, t), map);
   _map_size = map;
+  _map.quad();
 }
 
 void			zap::Logic::createPlayer(sf::Vector2i const &pos, Player::Direction d) // Peut etre prendre equipe en parametre
