@@ -1,16 +1,16 @@
-#include "Ressource.hpp"
+#include "Resource.hpp"
 
-zap::Ressource::Ressource() {}
-zap::Ressource::~Ressource() {}
+zap::Resource::Resource() {}
+zap::Resource::~Resource() {}
 
-void			zap::Ressource::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void			zap::Resource::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   states.transform *= getTransform();
   states.texture = &_texture;
   target.draw(_sprite, states);
 }
 
-void			zap::Ressource::load(sf::Texture const &texture, sf::Vector2i const &setSize, Type t)
+void			zap::Resource::load(sf::Texture const &texture, sf::Vector2i const &setSize, Type t)
 {
   sf::Vector2f		tmp;
 

@@ -19,7 +19,7 @@ void			zap::Player::load(sf::Texture const &texture, sf::Vector2i const &setSize
   _sprite.setTexture(_texture);
   tmp.x = 0;
   tmp.y = (d + 1) * 2 * _texture.getSize().y / setSize.y;
-  _sprite.setTextureRect(sf::IntRect(tmp.y, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
+  _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
 }
 
 void			zap::Player::turn(Side s)

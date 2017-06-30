@@ -5,7 +5,7 @@
 #include "AudioHandler.hpp"
 #include "TileMap.hpp"
 #include "Player.hpp"
-#include "Ressource.hpp"
+#include "Resource.hpp"
 
 static void		eventLoop(sf::RenderWindow &window)
 {
@@ -40,7 +40,7 @@ static void		main_loop()
   zap::AudioHandler	audioh;
   zap::TileMap		map;
   zap::Player		player;
-  zap::Ressource	ressource;
+  zap::Resource	ressource;
 
   imgh.load();
   audioh.load();
@@ -50,7 +50,7 @@ static void		main_loop()
   player.load(imgh.getTexture(zap::ImageHandler::PLAYER), imgh.getSetSize(zap::ImageHandler::PLAYER), zap::Player::SOUTH);
   player.setPosition(sf::Vector2f(0, 0));
 
-  ressource.load(imgh.getTexture(zap::ImageHandler::RESSOURCE), imgh.getSetSize(zap::ImageHandler::RESSOURCE), zap::Ressource::THYSTAME);
+  ressource.load(imgh.getTexture(zap::ImageHandler::RESSOURCE), imgh.getSetSize(zap::ImageHandler::RESSOURCE), zap::Resource::THYSTAME);
   ressource.setPosition(sf::Vector2f(100, 100));
 
   view.setSize(resolution.x, resolution.y);
