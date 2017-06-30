@@ -254,6 +254,7 @@ void Player::move(int x) {
 
 void Player::move_sound(int x) {
   //TODO this function is like the same above but with the sound
+  (void) x;
 }
 
 int Player::update() {

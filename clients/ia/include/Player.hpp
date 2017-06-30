@@ -83,6 +83,7 @@ public:
   int update();
 
   void move(int x);
+  void move_sound(int x);
   bool canLevelUp();
   /**
    * TODO
