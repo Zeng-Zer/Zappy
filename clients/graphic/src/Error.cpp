@@ -1,13 +1,16 @@
 #include "Error.hpp"
 
-zap::Error::Error(std::string const &s) throw()
+Error::Error(std::string const &s) throw()
 {
   _msg = "Error : " + s;
 }
 
-zap::Error::~Error() {}
+Error::~Error() {}
 
-char const		*zap::Error::what() const throw()
+char const		*Error::what() const throw()
 {
-  return (_msg.c_str());
+  return _msg.c_str();
+}
+
+NetworkException::NetworkException(std::string const& msg) : Error(msg) {
 }

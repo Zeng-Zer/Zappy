@@ -41,7 +41,7 @@ int			main()
 	  logic.display();
 	}
     }
-  catch (zap::Error e)
+  catch (Error e)
     {
       std::cerr << e.what() << std::endl;
     }

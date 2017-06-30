@@ -3,8 +3,9 @@
 
 # include <vector>
 # include <string>
-# include <sstream>
 # include <map>
+# include <sstream>
+# include <iostream>
 # include "Connection.hpp"
 # include "RequestBuffer.hpp"
 # include "Resource.hpp"
