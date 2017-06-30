@@ -1,6 +1,8 @@
 #include "Error.hpp"
 #include "ImageHandler.hpp"
 
+std::unique_ptr<zap::ImageHandler>	zap::ImageHandler::_instance(nullptr);
+
 zap::ImageHandler::ImageHandler() {
   if (!std::get<0>(_textures[PLAYER]).loadFromFile("./media/images/player.png"))
     throw(zap::Error());
