@@ -8,6 +8,8 @@ namespace			zap
   public:
     Logic();
     ~Logic();
+
+    void			update() const;
   };
 }
 

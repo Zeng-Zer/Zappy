@@ -30,7 +30,7 @@ static void		eventLoop(sf::RenderWindow &window)
     }
 }
 
-int			main()
+static void		main_loop()
 {
   sf::Vector2i		resolution(800, 480);
   sf::Vector2i		map_size(10, 10);
@@ -42,34 +42,39 @@ int			main()
   zap::Player		player;
   zap::Ressource	ressource;
 
+  imgh.load();
+  audioh.load();
+
+  map.load(imgh.getTexture(zap::ImageHandler::MAP), sf::Vector2i(9, 9), zap::TileMap::createMap(map_size), map_size);
+
+  player.load(imgh.getTexture(zap::ImageHandler::PLAYER), imgh.getSetSize(zap::ImageHandler::PLAYER), zap::Player::SOUTH);
+  player.setPosition(sf::Vector2f(0, 0));
+
+  ressource.load(imgh.getTexture(zap::ImageHandler::RESSOURCE), imgh.getSetSize(zap::ImageHandler::RESSOURCE), zap::Ressource::THYSTAME);
+  ressource.setPosition(sf::Vector2f(100, 100));
+
+  view.setSize(resolution.x, resolution.y);
+  view.setViewport(sf::FloatRect(0, 0, 1, 1));
+  view.setCenter(player.getPosition().x, player.getPosition().y);
+  window.setView(view);
+
+  while (window.isOpen())
+    {
+      eventLoop(window);
+
+      window.clear();
+      window.draw(map);
+      window.draw(player);
+      window.draw(ressource);
+      window.display();
+    }
+}
+
+int			main()
+{
   try
     {
-      imgh.load();
-      audioh.load();
- 
-      map.load(imgh.getTexture(zap::ImageHandler::MAP), sf::Vector2i(9, 9), zap::TileMap::createMap(map_size), map_size);
-
-      player.load(imgh.getTexture(zap::ImageHandler::PLAYER), imgh.getSetSize(zap::ImageHandler::PLAYER));
-      player.setPosition(sf::Vector2f(0, 0));
-
-      ressource.load(imgh.getTexture(zap::ImageHandler::RESSOURCE), imgh.getSetSize(zap::ImageHandler::RESSOURCE));
-      ressource.setPosition(sf::Vector2f(100, 100));
-
-      view.setSize(resolution.x, resolution.y);
-      view.setViewport(sf::FloatRect(0, 0, 1, 1));
-      view.setCenter(player.getPosition().x, player.getPosition().y);
-
-      window.setView(view);
-      while (window.isOpen())
-	{
-	  eventLoop(window);
-
-	  window.clear();
-	  window.draw(map);
-	  window.draw(player);
-	  window.draw(ressource);
-	  window.display();
-	}
+      main_loop();
     }
   catch (zap::Error e)
     {
