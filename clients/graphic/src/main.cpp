@@ -83,7 +83,7 @@ int			main()
     {
       main_block();
     }
-  catch (zap::Error e)
+  catch (Error e)
     {
       std::cerr << e.what() << std::endl;
     }
