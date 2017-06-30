@@ -8,9 +8,7 @@
 # include <sys/socket.h>
 # include <netdb.h>
 # include <arpa/inet.h>
-# include <Exception.hpp>
-
-# include <iostream>
+# include "Exception.hpp"
 
 class Connection
 {

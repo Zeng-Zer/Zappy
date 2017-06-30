@@ -2,8 +2,8 @@ NAME		=	zappy_graphic
 DIR_SRC		=	src
 DIR_INC		=	inc
 
-CC		=	g++
-CFLAGS		=	-W -Wall -Werror -Wextra -I./$(DIR_INC)
+CXX		=	g++
+CXXFLAGS	=	-std=c++14 -W -Wall -Werror -Wextra -I./$(DIR_INC)
 LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio #-lsfml-network
 
 ECHO		=	/bin/echo -e
@@ -35,11 +35,11 @@ OBJ		=	$(SRC:.cpp=.o)
 all:			$(NAME)
 
 $(NAME):		$(OBJ)
-			@$(CC) -o $@ $^ $(LDFLAGS)
+			@$(CXX) -o $@ $^ $(LDFLAGS)
 			@$(ECHO) $(LINKED) $(YELLOW) $(NAME) $(DEFAULT)
 
 %.o:			%.cpp
-			@$(CC) -c $< -o $@ $(CFLAGS)
+			@$(CXX) -c $< -o $@ $(CXXFLAGS)
 			@$(ECHO) $(COMPILED) $(GREY) $< $(ARROW) $(GREY) $@ $(DEFAULT)
 
 clean:
