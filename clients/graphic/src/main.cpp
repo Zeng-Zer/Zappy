@@ -30,27 +30,34 @@ static void		eventLoop(sf::RenderWindow &window)
     }
 }
 
-static void		main_loop()
+static void		main_block()
 {
   sf::Vector2i		resolution(800, 480);
   sf::Vector2i		map_size(10, 10);
   sf::RenderWindow	window(sf::VideoMode(resolution.x, resolution.y), "Zappy");
   sf::View		view;
-  zap::ImageHandler	imgh;
-  zap::AudioHandler	audioh;
   zap::TileMap		map;
   zap::Player		player;
-  zap::Resource	ressource;
+  zap::Resource		ressource;
 
-  imgh.load();
-  audioh.load();
+  struct		ImageHandlerInit
+  {
+    ImageHandlerInit(){ zap::ImageHandler::initImageHandler(); }
+    ~ImageHandlerInit(){ zap::ImageHandler::destroyImageHandler(); }
+  }			ImageHandlerIniter;
 
-  map.load(imgh.getTexture(zap::ImageHandler::MAP), sf::Vector2i(9, 9), zap::TileMap::createMap(map_size), map_size);
+  struct		AudioHandlerInit
+  {
+    AudioHandlerInit(){ zap::AudioHandler::initAudioHandler(); }
+    ~AudioHandlerInit(){ zap::AudioHandler::destroyAudioHandler(); }
+  };
 
-  player.load(imgh.getTexture(zap::ImageHandler::PLAYER), imgh.getSetSize(zap::ImageHandler::PLAYER), zap::Player::SOUTH);
+  map.load(zap::ImageHandler::getInstance().getTexture(zap::ImageHandler::MAP), sf::Vector2i(9, 9), zap::TileMap::createMap(map_size), map_size);
+
+  player.load(zap::ImageHandler::getInstance().getTexture(zap::ImageHandler::PLAYER), zap::ImageHandler::getInstance().getSetSize(zap::ImageHandler::PLAYER), zap::Player::SOUTH);
   player.setPosition(sf::Vector2f(0, 0));
 
-  ressource.load(imgh.getTexture(zap::ImageHandler::RESSOURCE), imgh.getSetSize(zap::ImageHandler::RESSOURCE), zap::Resource::THYSTAME);
+  ressource.load(zap::ImageHandler::getInstance().getTexture(zap::ImageHandler::RESSOURCE), zap::ImageHandler::getInstance().getSetSize(zap::ImageHandler::RESSOURCE), zap::Resource::THYSTAME);
   ressource.setPosition(sf::Vector2f(100, 100));
 
   view.setSize(resolution.x, resolution.y);
@@ -74,7 +81,7 @@ int			main()
 {
   try
     {
-      main_loop();
+      main_block();
     }
   catch (zap::Error e)
     {

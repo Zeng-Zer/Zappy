@@ -3,25 +3,26 @@
 
 # include <SFML/Audio.hpp>
 # include <map>
+# include <memory>
 
 namespace				zap
 {
   class					AudioHandler
   {
   public:
-    enum				Sound
-      {
-	MUSIC // temporary
-      };
+    enum				Sound { MUSIC }; //temp
 
   private:
+    AudioHandler();
+
     std::map<Sound, sf::SoundBuffer>	_sounds;
+    std::unique_ptr<AudioHandler>	_instance;
 
   public:
-    AudioHandler();
-    ~AudioHandler();
+    static AudioHandler			&getInstance();
+    static void				initAudioHandler();
+    static void				destroyAudioHandler();
 
-    void				load();
     sf::SoundBuffer			getSound(Sound);
   };
 }
