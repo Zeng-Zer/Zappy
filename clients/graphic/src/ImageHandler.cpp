@@ -3,13 +3,11 @@
 
 zap::ImageHandler::ImageHandler() {}
 
-zap::ImageHandler::~ImageHandler()
-{
-  _textures.clear();
-}
+zap::ImageHandler	&zap::ImageHandler::getInstance() { return (*_instance); }
 
-void			zap::ImageHandler::load()
+void			zap::ImageHandler::initImageHandler()
 {
+  _instance.reset(new ImageHandler());
   if (!std::get<0>(_textures[PLAYER]).loadFromFile("./media/images/player.png"))
     throw(zap::Error());
   std::get<0>(_textures[PLAYER]).setSmooth(true);
@@ -22,6 +20,12 @@ void			zap::ImageHandler::load()
     throw(zap::Error());
   std::get<0>(_textures[MAP]).setSmooth(true);
   std::get<1>(_textures[MAP]) = sf::Vector2i(9, 9);
+}
+
+void			zap::ImageHandler::destroyImageHandler()
+{
+  _textures.clear();
+  _instance.reset(nullptr);
 }
 
 sf::Texture		zap::ImageHandler::getTexture(Texture t) {return (std::get<0>(_textures[t]));}

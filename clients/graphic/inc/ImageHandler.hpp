@@ -4,25 +4,26 @@
 # include <SFML/Graphics.hpp>
 # include <map>
 # include <tuple>
+# include <memory>
 
 namespace			zap
 {
   class					ImageHandler
   {
   public:
-    enum				Texture
-      {
-	PLAYER, RESSOURCE, MAP
-      };
+    enum				Texture { PLAYER, RESSOURCE, MAP };
 
   private:
+    ImageHandler();
+
     std::map<Texture, std::tuple<sf::Texture, sf::Vector2i>>	_textures;
+    std::unique_ptr<ImageHandler>				_instance;
 
   public:
-    ImageHandler();
-    ~ImageHandler();
+    static ImageHandler			&getInstance();
+    static void			        initImageHandler();
+    static void				destroyImageHandler();
 
-    void				load();
     sf::Texture				getTexture(Texture);
     sf::Vector2i const			&getSetSize(Texture);
   };
