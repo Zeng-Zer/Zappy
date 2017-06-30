@@ -14,7 +14,6 @@ void			zap::AudioHandler::initAudioHandler()
 
 void			zap::AudioHandler::destroyAudioHandler()
 {
-  _sounds.clear();
   _instance.reset(nullptr);
 }
 

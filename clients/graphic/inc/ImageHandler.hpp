@@ -17,7 +17,7 @@ namespace			zap
     ImageHandler();
 
     std::map<Texture, std::tuple<sf::Texture, sf::Vector2i>>	_textures;
-    std::unique_ptr<ImageHandler>				_instance;
+    static std::unique_ptr<ImageHandler>			_instance;
 
   public:
     static ImageHandler			&getInstance();

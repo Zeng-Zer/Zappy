@@ -15,8 +15,8 @@ namespace				zap
   private:
     AudioHandler();
 
-    std::map<Sound, sf::SoundBuffer>	_sounds;
-    std::unique_ptr<AudioHandler>	_instance;
+    std::map<Sound, sf::SoundBuffer>		_sounds;
+    static std::unique_ptr<AudioHandler>	_instance;
 
   public:
     static AudioHandler			&getInstance();
