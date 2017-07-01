@@ -19,10 +19,12 @@ namespace			zap
 
   private:
     sf::VertexArray		_vertices;
+    sf::VertexArray		_lineStrip;
     sf::Texture			_tileset;
     sf::Vector2i		_setSize;
     sf::Vector2i		_tileSize;
     std::map<sf::Vector2i, std::vector<Entity*>>	_grid;
+    bool			_quad;
 
     virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
 
@@ -32,6 +34,7 @@ namespace			zap
 
     void			load(sf::Texture const&, sf::Vector2i const&, int const*, sf::Vector2i const&);
     sf::Vector2i const		&getTileSize() const;
+    void			quad();
 
     static int			*createMap(sf::Vector2i const&, Terrain);
   };

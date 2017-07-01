@@ -63,3 +63,16 @@ void		multi_graphic_pdi(t_vector *graphics, t_player *player)
       graphic_pdi(graphic->id, player);
     }
 }
+
+void		multi_graphic_seg(t_vector *graphics, char *team)
+{
+  t_graphic	*graphic;
+  size_t	i;
+
+  i = -1;
+  while (++i < graphics->length)
+    {
+      graphic = graphics->items[i];
+      graphic_seg(graphic->id, team);
+    }
+}

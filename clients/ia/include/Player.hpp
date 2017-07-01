@@ -12,8 +12,6 @@
 # include "Level.hpp"
 
 struct Broadcast {
-  int x;
-  int y;
   int lvl;
 };
 
@@ -77,12 +75,11 @@ public:
   bool setResponce(std::string const&) const;
   bool incantationResponce(std::string const&);
 
-  /**
-   * temporary return int value to quit loop
-   */
-  int update();
+  void update();
+  bool isAlive() const;
 
   void move(int x);
+  void move_sound(int x);
   bool canLevelUp();
   /**
    * TODO
@@ -103,9 +100,8 @@ private:
   int _x;
   int _y;
   int _level;
-  int _destx;
-  int _desty;
   std::string _team;
+  bool _alive;
   struct dataResponce _data;
   // Resource = type de resource, et int le nombre
   std::map<Resource::Resource, int> _resource;

@@ -3,17 +3,11 @@
 std::unique_ptr<RequestBuffer> RequestBuffer::_instance(nullptr);
 
 RequestBuffer::RequestBuffer(void) {
-
 }
 
 void RequestBuffer::initRequestBuffer(int maxSize) {
   _instance.reset(new RequestBuffer());
   _instance->_maxSize = maxSize;
-}
-
-void RequestBuffer::destroyRequestBuffer(void)
-{
-  _instance.reset(nullptr);
 }
 
 RequestBuffer& RequestBuffer::getInstance(void) {

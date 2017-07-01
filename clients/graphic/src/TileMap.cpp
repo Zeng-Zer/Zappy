@@ -1,6 +1,8 @@
 #include "TileMap.hpp"
 
-zap::TileMap::TileMap() {}
+#include <iostream>
+
+zap::TileMap::TileMap() :_quad(false) {}
 zap::TileMap::~TileMap() {}
 
 void			zap::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -8,19 +10,22 @@ void			zap::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) con
   states.transform *= getTransform();
   states.texture = &_tileset;
   target.draw(_vertices, states);
+  if (_quad == true)
+    target.draw(_lineStrip, states);
 }
 
 void			zap::TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, int const *tiles, sf::Vector2i const &map_size)
 {
-  unsigned int		        x, y, tileNb;
-  sf::Vertex			*quad;
-  sf::Vector2f			tmp;
+  unsigned int	        x, y, tileNb;
+  sf::Vertex		*quad;
+  sf::Vector2f		tmp;
+  int			vSize = map_size.x * map_size.y * 4;
 
   _tileset = tileset;
   _tileSize.x = _tileset.getSize().x / setSize.x;
   _tileSize.y = _tileset.getSize().y / setSize.y;
   _vertices.setPrimitiveType(sf::Quads);
-  _vertices.resize(map_size.x * map_size.y * 4);
+  _vertices.resize(vSize);
   for (int i = 0; i < map_size.y; i++)
     {
       tmp.x = -i * _tileSize.x / 2;
@@ -48,11 +53,25 @@ void			zap::TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSiz
     }
 }
 
-sf::Vector2i const		&zap::TileMap::getTileSize() const {return (_tileSize);}
-
-int				*zap::TileMap::createMap(sf::Vector2i const &size, Terrain t)
+void			zap::TileMap::quad()
 {
-  int				*lvl = new int [size.x * size.y];
+  int			vSize = _vertices.getVertexCount();
+
+  _quad = true;
+  _lineStrip.setPrimitiveType(sf::LineStrip);
+  _lineStrip.resize(vSize);
+  for (int i = 0; i < vSize; i++)
+    {
+      _lineStrip[i].position = _vertices[i].position;
+      _lineStrip[i].color = sf::Color::White;
+    }
+}
+
+sf::Vector2i const	&zap::TileMap::getTileSize() const {return (_tileSize);}
+
+int			*zap::TileMap::createMap(sf::Vector2i const &size, Terrain t)
+{
+  int			*lvl = new int [size.x * size.y];
 
   for (int i = 0; i < size.y; i++)
     for (int j = 0; j < size.x; j++)

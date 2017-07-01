@@ -52,5 +52,6 @@ void		server_update(t_server *server);
  * parse and interpret every packages
  */
 void		handle_packages(t_server *server, t_vector *packages);
+bool		check_win(t_server *server);
 
 #endif /* !SERVER_H_ */

@@ -14,7 +14,6 @@ class RequestBuffer
 public:
 
   static void initRequestBuffer(int maxSize);
-  static void destroyRequestBuffer(void);
   static RequestBuffer& getInstance(void);
 
   /**

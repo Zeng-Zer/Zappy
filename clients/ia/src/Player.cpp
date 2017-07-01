@@ -1,10 +1,8 @@
 #include "Player.hpp"
 #include "Level.hpp"
 
-Player::Player(int x, int y, std::string const& team) {
-  this->_x = x;
-  this->_y = y;
-  this->_team = team;
+Player::Player(int x, int y, std::string const& team)
+  : _x(x), _y(y), _team(team), _alive(true) {
   _data.connect_nbr = 0;
 }
 
@@ -13,63 +11,53 @@ Player::~Player() {
 }
 
 void Player::forward() const {
-  RequestBuffer::getInstance().push("Forward",
-				    std::function<bool(Player&, std::string const&)>(&Player::forwardResponce));
+  RequestBuffer::getInstance().push("Forward", {&Player::forwardResponce});
 }
 
 void Player::right() const {
-  RequestBuffer::getInstance().push("Right",
-				    std::function<bool(Player&, std::string const&)>(&Player::rightResponce));
+  RequestBuffer::getInstance().push("Right", {&Player::rightResponce});
 }
 
 void Player::left() const {
-  RequestBuffer::getInstance().push("Left",
-				    std::function<bool(Player&, std::string const&)>(&Player::leftResponce));
+  RequestBuffer::getInstance().push("Left", {&Player::leftResponce});
 }
 
 void Player::look() const {
-  RequestBuffer::getInstance().push("Look",
-				    std::function<bool(Player&, std::string const&)>(&Player::lookResponce));
+  RequestBuffer::getInstance().push("Look", {&Player::lookResponce});
 }
 
 void Player::inventory() const {
-  RequestBuffer::getInstance().push("Inventory",
-				    std::function<bool(Player&, std::string const&)>(&Player::inventoryResponce));
+  RequestBuffer::getInstance().push("Inventory", {&Player::inventoryResponce});
 }
 
 void Player::broadcast(std::string const& msg) const {
-  RequestBuffer::getInstance().push("Broadcast " + msg,
-				    std::function<bool(Player&, std::string const&)>(&Player::broadcastResponce));
+  RequestBuffer::getInstance().push("Broadcast " + msg, {&Player::broadcastResponce});
 }
 
 void Player::connect_nbr() const {
-  RequestBuffer::getInstance().push("Connect_nbr",
-				    std::function<bool(Player&, std::string const&)>(&Player::connect_nbrResponce));
+  RequestBuffer::getInstance().push("Connect_nbr", {&Player::connect_nbrResponce});
 }
 
 void Player::fork() const {
-  RequestBuffer::getInstance().push("Fork",
-				    std::function<bool(Player&, std::string const&)>(&Player::forkResponce));
+  RequestBuffer::getInstance().push("Fork", {&Player::forkResponce});
 }
 
 void Player::eject() const{
-  RequestBuffer::getInstance().push("Eject",
-				    std::function<bool(Player&, std::string const&)>(&Player::ejectResponce));
+  RequestBuffer::getInstance().push("Eject", {&Player::ejectResponce});
 }
 
 void Player::take(Resource::Resource res) const {
   RequestBuffer::getInstance().push("Take " + Resource::resourceToString(res),
-				    std::function<bool(Player&, std::string const&)>(&Player::takeResponce));
+				    {&Player::takeResponce});
 }
 
 void Player::set(Resource::Resource res) const {
   RequestBuffer::getInstance().push("Set " + Resource::resourceToString(res),
-				    std::function<bool(Player&, std::string const&)>(&Player::setResponce));
+				    {&Player::setResponce});
 }
 
 void Player::incantation() const {
-  RequestBuffer::getInstance().push("Incantation",
-				    std::function<bool(Player&, std::string const&)>(&Player::incantationResponce));
+  RequestBuffer::getInstance().push("Incantation", {&Player::incantationResponce});
 }
 
 bool Player::forwardResponce(std::string const& responce) const {
@@ -100,17 +88,17 @@ bool Player::lookResponce(std::string const& responce) {
   std::stringstream ss(responce);
   std::string word;
   std::vector<std::vector<Resource::Resource> > vec(0);
-  int lenght = 0;
+  int length = 0;
   int j;
 
   while (!ss.fail()) {
-    j = lenght;
+    j = length;
     vec.resize(j + 1);
     ss >> word;
     if (std::isalpha(word.front())) {
       if (word.back() == ',') {
-	word.erase(std::find(word.begin(), word.end(), ','));
-	lenght++;
+	word.erase(word.find(','));
+	length++;
       }
       vec[j].emplace_back(Resource::stringToResource(word));
     }
@@ -187,14 +175,13 @@ bool Player::incantationResponce(std::string const& responce) {
 }
 
 Broadcast Player::signalBroadcast(std::string const& msg) {
-  Broadcast b;
-  int i;
-  i = std::stoi(msg);
+  Broadcast b = { std::stoi(msg) };
   return b;
 }
 
+// do nothing
 void Player::signalEject(std::string const& msg) {
-  (void) msg;
+  (void)msg;
 }
 
 bool Player::signalIncantation(std::string const& msg) {
@@ -225,36 +212,40 @@ bool Player::signalIncantation(std::string const& msg) {
 }
 
 void Player::move(int x) {
-  int ressource_case;
-  int nb_forward;
-  int nb_case_line;
-
   int old_case = 0;
   int nb_case = 0;
   int nb_line = 0;
-  int line = 0;
   while (nb_case < x) {
     old_case = nb_case;
     nb_case += 1 + (2 * nb_line);
-    line++;
     nb_line++;
     forward();
   }
-  nb_case_line = nb_case - old_case;
-  ressource_case = x - old_case;
+
+  int nb_case_line = nb_case - old_case;
+  int ressource_case = x - old_case + 1;
   if (ressource_case > ((nb_case_line + 1) / 2)) {
     right();
-  }
-  else {
+  } else {
     left();
   }
-  nb_forward = std::abs(ressource_case - ((nb_case_line + 1) / 2));
+
+  int nb_forward = std::abs(ressource_case - ((nb_case_line + 1) / 2));
   for (int i = 0; i < nb_forward; i++) {
     forward();
   }
 }
 
-int Player::update() {
+void Player::move_sound(int x) {
+  //TODO this function is like the same above but with the sound
+  (void) x;
+}
+
+bool Player::isAlive() const {
+  return _alive;
+}
+
+void Player::update() {
   // bool oneShot = false;
   // if (!oneShot) {
   //   std::cout << "broadcast: hello" << std::endl;
@@ -276,7 +267,9 @@ int Player::update() {
       signalEject(responce);
     }
     else if (firstWord == "dead") {
-      return 0;
+      std::cout << "dead" << std::endl;
+      _alive = false;
+      return;
     }
     else if (responce == "Elevation underway") {
       signalIncantation(responce);
@@ -289,14 +282,13 @@ int Player::update() {
   /**
    * IA CODE
    */
-  return 1;
 }
 
 bool Player::canLevelUp() {
-  return this->_level < 8 && this->_resource[Resource::LINEMATE] >= Lvl::level[this->_level + 1][Resource::LINEMATE]
-    && this->_resource[Resource::DERAUMERE] >= Lvl::level[this->_level + 1][Resource::DERAUMERE]
-    && this->_resource[Resource::SIBUR] >= Lvl::level[this->_level + 1][Resource::SIBUR]
-    && this->_resource[Resource::MENDIANE] >= Lvl::level[this->_level + 1][Resource::MENDIANE]
-    && this->_resource[Resource::PHIRAS] >= Lvl::level[this->_level + 1][Resource::PHIRAS]
-    && this->_resource[Resource::THYSTAME] >= Lvl::level[this->_level + 1][Resource::THYSTAME];
+  return _level < 8 && _resource[Resource::LINEMATE] >= Lvl::level[_level + 1][Resource::LINEMATE]
+    && _resource[Resource::DERAUMERE] >= Lvl::level[_level + 1][Resource::DERAUMERE]
+    && _resource[Resource::SIBUR] >= Lvl::level[_level + 1][Resource::SIBUR]
+    && _resource[Resource::MENDIANE] >= Lvl::level[_level + 1][Resource::MENDIANE]
+    && _resource[Resource::PHIRAS] >= Lvl::level[_level + 1][Resource::PHIRAS]
+    && _resource[Resource::THYSTAME] >= Lvl::level[_level + 1][Resource::THYSTAME];
 }

@@ -19,6 +19,7 @@ namespace Resource {
   };
 
   extern const std::map<Resource, std::string> resourceMap;
+  extern const std::map<std::string, Resource> resourceString;
 
   Resource stringToResource(std::string const& str);
   std::string resourceToString(Resource res);
