@@ -31,6 +31,20 @@ std::string Protocol::cmdToString(Cmd res) {
   }
 }
 
+void Protocol::initDataGame(Logic& l) {
+  Network::getInstance().sendMsg("GRAPHIC");
+  std::string line = Network::getInstance().recvMsg();
+  std::stringstream ss(line);
+  std::string cmdString;
+
+  std::cout << "Line: " << line << std::endl;
+  ss >> cmdString;
+  std::cout << "Command: " << cmdString << std::endl;
+  Protocol::Cmd cmd = Protocol::stringToCmd(cmdString);
+  std::cout << "Enum cmd: " << cmd << std::endl;
+  Protocol::cmdFun.at(cmd)(l, line);
+}
+
 void Protocol::msz(Logic& l, std::string const& str) {
   std::stringstream ss(str);
   std::string cmd;

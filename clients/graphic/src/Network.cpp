@@ -74,3 +74,7 @@ std::string Network::recvMsg(int flags) {
   }
   return line;
 }
+
+// void Network::getCmd() {
+//   std::string line = recvMsg();
+// }

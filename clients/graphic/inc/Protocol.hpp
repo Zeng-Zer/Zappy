@@ -7,6 +7,9 @@
 # include <map>
 # include <functional>
 # include "Logic.hpp"
+# include "Network.hpp"
+
+# include <iostream>
 
 namespace Protocol
 {
@@ -22,6 +25,8 @@ namespace Protocol
 
   Cmd stringToCmd(std::string const& str);
   std::string cmdToString(Cmd res);
+
+  void initDataGame(Logic &);
 
   void msz(Logic&, std::string const&);
   void bct(Logic&, std::string const&);
