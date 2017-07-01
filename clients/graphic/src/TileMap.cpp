@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-zap::TileMap::TileMap() : _isGrid(false) {}
-zap::TileMap::~TileMap() {}
+TileMap::TileMap() : _isGrid(false) {}
+TileMap::~TileMap() {}
 
-void			zap::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void			TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   states.transform *= getTransform();
   states.texture = &_tileset;
@@ -15,7 +15,7 @@ void			zap::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) con
       target.draw(_lineGrid[i], states);
 }
 
-void			zap::TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, int const *tiles, sf::Vector2i const &map_size)
+void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, int const *tiles, sf::Vector2i const &map_size)
 {
   unsigned int	        x, y, tileNb;
   sf::Vertex		*quad;
@@ -54,7 +54,7 @@ void			zap::TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSiz
     }
 }
 
-void			zap::TileMap::grid()
+void			TileMap::grid()
 {
   int			vSize = _vertices.getVertexCount() / 4;
   sf::Vertex		*quad;
@@ -78,9 +78,9 @@ void			zap::TileMap::grid()
     }
 }
 
-sf::Vector2i const	&zap::TileMap::getTileSize() const {return (_tileSize);}
+sf::Vector2i const	&TileMap::getTileSize() const {return (_tileSize);}
 
-int			*zap::TileMap::createMap(sf::Vector2i const &size, Terrain t)
+int			*TileMap::createMap(sf::Vector2i const &size, Terrain t)
 {
   int			*lvl = new int [size.x * size.y];
 

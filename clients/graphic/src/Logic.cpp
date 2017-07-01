@@ -1,6 +1,6 @@
 #include "Logic.hpp"
 
-zap::Logic::Logic(sf::Vector2i const &res, std::string const &name)
+Logic::Logic(sf::Vector2i const &res, std::string const &name)
   : _resolution(res)
 {
   _window.create(sf::VideoMode(_resolution.x, _resolution.y), name);
@@ -11,12 +11,12 @@ zap::Logic::Logic(sf::Vector2i const &res, std::string const &name)
   _window.setView(_view);
 }
 
-zap::Logic::~Logic() {}
+Logic::~Logic() {}
 
-// sf::Vector2i		zap::Logic::coordsToMap(sf::Vector2f const &p)
+// sf::Vector2i		Logic::coordsToMap(sf::Vector2f const &p)
 // {}
 
-sf::Vector2f		zap::Logic::mapToCoords(sf::Vector2i const &p)
+sf::Vector2f		Logic::mapToCoords(sf::Vector2i const &p)
 {
   sf::Vector2f		v;
   sf::Vector2i	        map = _map.getTileSize();
@@ -26,7 +26,7 @@ sf::Vector2f		zap::Logic::mapToCoords(sf::Vector2i const &p)
   return (v);
 }
 
-sf::Vector2f		zap::Logic::adaptCoords(sf::Vector2f const &p, Entity const &entity)
+sf::Vector2f		Logic::adaptCoords(sf::Vector2f const &p, Entity const &entity)
 {
   sf::Vector2f		v;
   sf::Vector2f		tmp = static_cast<sf::Vector2f>(entity.getSprite().getTexture()->getSize());
@@ -36,30 +36,30 @@ sf::Vector2f		zap::Logic::adaptCoords(sf::Vector2f const &p, Entity const &entit
   return (v);
 }
 
-void			zap::Logic::update() const {}
+void			Logic::update() const {}
 
-void			zap::Logic::createMap(sf::Vector2i const &map, TileMap::Terrain t)
+void			Logic::createMap(sf::Vector2i const &map, TileMap::Terrain t)
 {
   _map.load(ImageHandler::getInstance().getTexture(ImageHandler::MAP), ImageHandler::getInstance().getSetSize(ImageHandler::MAP), TileMap::createMap(map, t), map);
   _map_size = map;
   _map.grid();
 }
 
-void			zap::Logic::createPlayer(sf::Vector2i const &pos, Player::Direction d) // Peut etre prendre equipe en parametre
+void			Logic::createPlayer(sf::Vector2i const &pos, Player::Direction d) // Peut etre prendre equipe en parametre
 {
   _players.push_back(new Player(ImageHandler::getInstance().getTexture(ImageHandler::PLAYER), ImageHandler::getInstance().getSetSize(ImageHandler::PLAYER), d));
   _players.back()->scale(sf::Vector2f(0.5, 0.5));
   _players.back()->setPosition(adaptCoords(mapToCoords(pos), *(_players.back())));
 }
 
-void			zap::Logic::createResource(sf::Vector2i const &pos, Resource::Type t)
+void			Logic::createResource(sf::Vector2i const &pos, Resource::Type t)
 {
   _resources.push_back(new Resource(ImageHandler::getInstance().getTexture(ImageHandler::RESSOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESSOURCE), t));
   _resources.back()->scale(sf::Vector2f(0.5, 0.5));
   _resources.back()->setPosition(adaptCoords(mapToCoords(pos), *(_resources.back())));
 }
 
-void			zap::Logic::drawAll()
+void			Logic::drawAll()
 {
   unsigned int		i;
   unsigned int		size;
@@ -73,7 +73,7 @@ void			zap::Logic::drawAll()
     _window.draw(*_resources[i]);
 }
 
-void			zap::Logic::eventLoop()
+void			Logic::eventLoop()
 {
   sf::Event		event;
 
@@ -96,8 +96,8 @@ void			zap::Logic::eventLoop()
     }
 }
 
-bool			zap::Logic::isOpen() const { return (_window.isOpen()); }
-void			zap::Logic::clear() { _window.clear(); }
-void			zap::Logic::display() { _window.display(); }
+bool			Logic::isOpen() const { return (_window.isOpen()); }
+void			Logic::clear() { _window.clear(); }
+void			Logic::display() { _window.display(); }
 
-void			zap::Logic::setMapSize(sf::Vector2i const &s) { _map_size = s; }
+void			Logic::setMapSize(sf::Vector2i const &s) { _map_size = s; }

@@ -7,38 +7,35 @@
 # include <tuple>
 # include "Entity.hpp"
 
-namespace			zap
+class				TileMap : public sf::Drawable, public sf::Transformable
 {
-  class				TileMap : public sf::Drawable, public sf::Transformable
-  {
-  public:
-    enum			Terrain
-      {
-	DIRT = 0,
-	GRASS = 40
-      };
+public:
+  enum			Terrain
+    {
+      DIRT = 0,
+      GRASS = 40
+    };
 
-  private:
-    sf::VertexArray			_vertices;
-    std::vector<sf::VertexArray>	_lineGrid;
-    sf::Texture				_tileset;
-    sf::Vector2i			_setSize;
-    sf::Vector2i			_tileSize;
-    std::map<sf::Vector2i, std::vector<std::tuple<sf::Vector2i, Entity*>>>	_grid;
-    bool				_isGrid;
+private:
+  sf::VertexArray		_vertices;
+  std::vector<sf::VertexArray>	_lineGrid;
+  sf::Texture			_tileset;
+  sf::Vector2i			_setSize;
+  sf::Vector2i			_tileSize;
+  std::map<sf::Vector2i, std::vector<std::tuple<sf::Vector2i, Entity*>>>	_grid;
+  bool				_isGrid;
 
-    virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
+  virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
 
-  public:
-    TileMap();
-    virtual ~TileMap();
+public:
+  TileMap();
+  virtual ~TileMap();
 
-    void			load(sf::Texture const&, sf::Vector2i const&, int const*, sf::Vector2i const&);
-    sf::Vector2i const		&getTileSize() const;
-    void		        grid();
+  void			load(sf::Texture const&, sf::Vector2i const&, int const*, sf::Vector2i const&);
+  sf::Vector2i const		&getTileSize() const;
+  void		        grid();
 
-    static int			*createMap(sf::Vector2i const&, Terrain);
-  };
-}
+  static int			*createMap(sf::Vector2i const&, Terrain);
+};
 
 #endif /* !TILEMAP_HPP_ */

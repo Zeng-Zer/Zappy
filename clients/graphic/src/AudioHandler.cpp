@@ -1,24 +1,24 @@
 #include "Error.hpp"
 #include "AudioHandler.hpp"
 
-std::unique_ptr<zap::AudioHandler> zap::AudioHandler::_instance(nullptr);
+std::unique_ptr<AudioHandler> AudioHandler::_instance(nullptr);
 
-zap::AudioHandler::AudioHandler() {}
+AudioHandler::AudioHandler() {}
 
-zap::AudioHandler&	zap::AudioHandler::getInstance() {
+AudioHandler&		AudioHandler::getInstance() {
   return *_instance;
 }
 
-void			zap::AudioHandler::initAudioHandler()
+void			AudioHandler::initAudioHandler()
 {
   _instance.reset(new AudioHandler());
   // if (!_sounds[MUSIC].loadFromFile("./media/sounds/music.wav"))
-  //   throw(zap::Error());
+  //   throw(Error());
 }
 
-void			zap::AudioHandler::destroyAudioHandler()
+void			AudioHandler::destroyAudioHandler()
 {
   _instance.reset(nullptr);
 }
 
-sf::SoundBuffer		zap::AudioHandler::getSound(Sound s) {return (_sounds[s]);}
+sf::SoundBuffer		AudioHandler::getSound(Sound s) {return (_sounds[s]);}

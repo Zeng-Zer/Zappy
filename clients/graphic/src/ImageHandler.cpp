@@ -1,9 +1,9 @@
 #include "Error.hpp"
 #include "ImageHandler.hpp"
 
-std::unique_ptr<zap::ImageHandler>	zap::ImageHandler::_instance(nullptr);
+std::unique_ptr<ImageHandler>	ImageHandler::_instance(nullptr);
 
-zap::ImageHandler::ImageHandler() {
+ImageHandler::ImageHandler() {
   if (!std::get<0>(_textures[PLAYER]).loadFromFile("./media/images/player.png"))
     throw(Error());
   std::get<0>(_textures[PLAYER]).setSmooth(true);
@@ -18,17 +18,17 @@ zap::ImageHandler::ImageHandler() {
   std::get<1>(_textures[MAP]) = sf::Vector2i(9, 9);
 }
 
-zap::ImageHandler	&zap::ImageHandler::getInstance() { return (*_instance); }
+ImageHandler		&ImageHandler::getInstance() { return (*_instance); }
 
-void			zap::ImageHandler::initImageHandler()
+void			ImageHandler::initImageHandler()
 {
   _instance.reset(new ImageHandler());
 }
 
-void			zap::ImageHandler::destroyImageHandler()
+void			ImageHandler::destroyImageHandler()
 {
   _instance.reset(nullptr);
 }
 
-sf::Texture		zap::ImageHandler::getTexture(Texture t) {return (std::get<0>(_textures[t]));}
-sf::Vector2i const	&zap::ImageHandler::getSetSize(Texture t) {return (std::get<1>(_textures[t]));}
+sf::Texture		ImageHandler::getTexture(Texture t) {return (std::get<0>(_textures[t]));}
+sf::Vector2i const	&ImageHandler::getSetSize(Texture t) {return (std::get<1>(_textures[t]));}

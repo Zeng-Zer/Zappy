@@ -1,6 +1,6 @@
 #include "Resource.hpp"
 
-zap::Resource::Resource(sf::Texture const &texture, sf::Vector2i const &setSize, Type t):
+Resource::Resource(sf::Texture const &texture, sf::Vector2i const &setSize, Type t):
   Entity(texture, setSize)
 {
   sf::Vector2f		tmp;
@@ -20,4 +20,4 @@ zap::Resource::Resource(sf::Texture const &texture, sf::Vector2i const &setSize,
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
 }
 
-zap::Resource::~Resource() {}
+Resource::~Resource() {}

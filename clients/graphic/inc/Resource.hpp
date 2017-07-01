@@ -4,17 +4,14 @@
 # include <SFML/Graphics.hpp>
 # include "Entity.hpp"
 
-namespace			zap
+class				Resource : public Entity
 {
-  class				Resource : public Entity
-  {
-  public:
-    enum			Type { FOOD, LINEMATE, DERAUMERE, SIBUR, MENDIANE, PHIRAS, THYSTAME };
+public:
+  enum			Type { FOOD, LINEMATE, DERAUMERE, SIBUR, MENDIANE, PHIRAS, THYSTAME };
 
-  public:
-    Resource(sf::Texture const&, sf::Vector2i const&, Type);
-    virtual ~Resource();
-  };
-}
+public:
+  Resource(sf::Texture const&, sf::Vector2i const&, Type);
+  virtual ~Resource();
+};
 
 #endif /* !RESOURCE_HPP_ */

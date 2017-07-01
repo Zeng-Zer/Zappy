@@ -12,28 +12,28 @@
 
 int			main()
 {
-  zap::Logic		logic(sf::Vector2i(1600, 900));
+  Logic			logic(sf::Vector2i(1600, 900));
 
   try
     {
       struct		ImageHandlerInit
       {
-      	ImageHandlerInit(){ zap::ImageHandler::initImageHandler(); }
-      	~ImageHandlerInit(){ zap::ImageHandler::destroyImageHandler(); }
+      	ImageHandlerInit(){ ImageHandler::initImageHandler(); }
+      	~ImageHandlerInit(){ ImageHandler::destroyImageHandler(); }
       }			ImageHandlerIniter;
 
       struct		AudioHandlerInit
       {
-      	AudioHandlerInit(){ zap::AudioHandler::initAudioHandler(); }
-      	~AudioHandlerInit(){ zap::AudioHandler::destroyAudioHandler(); }
+      	AudioHandlerInit(){ AudioHandler::initAudioHandler(); }
+      	~AudioHandlerInit(){ AudioHandler::destroyAudioHandler(); }
       }			AudiHandlerIniter;
 
-      logic.createMap(sf::Vector2i(10, 10), zap::TileMap::GRASS);
-      logic.createPlayer(sf::Vector2i(0, 0), zap::Player::EAST);
-      logic.createResource(sf::Vector2i(0, 1), zap::Resource::FOOD);
-      logic.createResource(sf::Vector2i(1, 0), zap::Resource::LINEMATE);
-      logic.createResource(sf::Vector2i(2, 0), zap::Resource::THYSTAME);
-      logic.createResource(sf::Vector2i(0, 2), zap::Resource::PHIRAS);
+      logic.createMap(sf::Vector2i(10, 10), TileMap::GRASS);
+      logic.createPlayer(sf::Vector2i(0, 0), Player::EAST);
+      logic.createResource(sf::Vector2i(0, 1), Resource::FOOD);
+      logic.createResource(sf::Vector2i(1, 0), Resource::LINEMATE);
+      logic.createResource(sf::Vector2i(2, 0), Resource::THYSTAME);
+      logic.createResource(sf::Vector2i(0, 2), Resource::PHIRAS);
 
       while (logic.isOpen())
       	{
