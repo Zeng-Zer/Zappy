@@ -29,7 +29,7 @@ int			main()
       logic.setMapSize(sf::Vector2i(1, 1));
       logic.createMap(TileMap::GRASS);
 
-      resource_list	l = {1, 1, 1, 1, 1, 1, 1};
+      resource_list	l = {{1, 1, 1, 1, 1, 1, 1}};
       logic.setMapContent(sf::Vector2i(0, 0), l);
 
       while (logic.isOpen())

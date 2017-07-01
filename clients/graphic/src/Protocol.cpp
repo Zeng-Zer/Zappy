@@ -10,7 +10,7 @@ const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
   {"bct", Cmd::BCT}
 };
 
-const std::map<Protocol::Cmd, std::function<void(std::string const&)>> Protocol::cmdFun = {
+const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> Protocol::cmdFun = {
   {Cmd::MSZ, &msz},
   {Cmd::BCT, &bct}
 };
@@ -31,10 +31,17 @@ std::string Protocol::cmdToString(Cmd res) {
   }
 }
 
-void Protocol::msz(std::string const& str) {
-  (void) str;
+void Protocol::msz(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  unsigned x;
+  unsigned y;
+  ss >> x;
+  ss >> y;
+  l.setMapSize(sf::Vector2i(x, y));
 }
 
-void Protocol::bct(std::string const& str) {
+void Protocol::bct(Logic&, std::string const& str) {
   (void) str;
 }
