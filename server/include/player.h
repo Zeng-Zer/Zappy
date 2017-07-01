@@ -18,7 +18,7 @@
 # include "rotation.h"
 # include "vector.h"
 
-# define DEFAULT_FOOD 10
+# define DEFAULT_FOOD 9
 
 /**
  * structure that represents a player

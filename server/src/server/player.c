@@ -23,7 +23,7 @@ t_player	*create_player(int fd, int team_id, t_pos pos)
   player->pos = pos;
   player->rotation = 1 + rand() % 4;
   player->time = current_time();
-  memcpy(player->stones, (int[7]){DEFAULT_FOOD, 0, 0, 0, 0, 0, 0},
+  memcpy(player->stones, ((int[7]){DEFAULT_FOOD, 0, 0, 0, 0, 0, 0}),
 	 sizeof(player->stones));
   player->cmds = vector_new();
   if (!player->cmds)

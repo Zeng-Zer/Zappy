@@ -2,7 +2,7 @@
 #include "Level.hpp"
 
 Player::Player(int x, int y, std::string const& team)
-  : _x(x), _y(y), _team(team), _alive(true) {
+  : _x(x), _y(y), _team(team), _alive(true), _incanting(false) {
   _data.connect_nbr = 0;
 }
 
@@ -10,54 +10,170 @@ Player::~Player() {
 
 }
 
-void Player::forward() const {
-  RequestBuffer::getInstance().push("Forward", {&Player::forwardResponce});
+void Player::forward() {
+  Connection::getInstance().sendMsg("Forward");
+  std::cout << "Forward()" << std::endl;
+
+  Option<std::string> msg;
+  while (!(msg = recvMsg()));
+
+  if (*msg != "ok") {
+    std::cerr << "Forward: bad responce" << std::endl;
+  }
 }
 
-void Player::right() const {
-  RequestBuffer::getInstance().push("Right", {&Player::rightResponce});
+void Player::right() {
+  Connection::getInstance().sendMsg("Right");
+  std::cout << "Right()" << std::endl;
+
+  Option<std::string> msg;
+  while (!(msg = recvMsg()));
+
+  if (*msg != "ok") {
+    std::cerr << "Right: bad responce" << std::endl;
+  }
 }
 
-void Player::left() const {
-  RequestBuffer::getInstance().push("Left", {&Player::leftResponce});
+void Player::left() {
+  Connection::getInstance().sendMsg("Left");
+  std::cout << "Left()" << std::endl;
+
+  Option<std::string> msg;
+  while (!(msg = recvMsg()));
+
+  if (*msg != "ok") {
+    std::cerr << "Left: bad responce" << std::endl;
+  }
 }
 
-void Player::look() const {
-  RequestBuffer::getInstance().push("Look", {&Player::lookResponce});
+std::vector<std::map<Resource::Resource, int>> Player::look() {
+  Connection::getInstance().sendMsg("Look");
+  std::cout << "Look()" << std::endl;
+
+  Option<std::string> msg;
+  while (!(msg = recvMsg()));
+
+  if (msg->size() < 5) {
+    return {};
+  }
+
+  std::vector<std::map<Resource::Resource, int>> items;
+  std::stringstream ss(msg->substr(1, msg->size() - 2));
+  std::string str;
+  int i = 0;
+  while (std::getline(ss, str, ',')) {
+    items.resize(i + 1);
+    str.erase(0, 1);
+
+    std::stringstream ssRes(str);
+    std::string strRes;
+    while (ssRes >> strRes) {
+      std::cout << strRes << std::endl;
+      Resource::Resource res = Resource::stringToResource(strRes);
+      if (res != Resource::UNKNOWN) {
+	++items[i][res];
+      }
+    }
+
+    ++i;
+  }
+
+  return items;
 }
 
-void Player::inventory() const {
-  RequestBuffer::getInstance().push("Inventory", {&Player::inventoryResponce});
+void Player::inventory() {
+  Connection::getInstance().sendMsg("Inventory");
+  std::cout << "Inventory()" << std::endl;
+
+  Option<std::string> msg;
+  while (!(msg = recvMsg()));
+
+  if (msg->size() < 5) {
+    return;
+  }
+
+  std::stringstream ss(msg->substr(1, msg->size() - 2));
+  std::string str;
+  while (std::getline(ss, str, ',')) {
+    str.erase(0, 1);
+
+    std::stringstream ssRes(str);
+    std::string strRes;
+    int nb;
+    ssRes >> strRes;
+    ssRes >> nb;
+    std::cout << strRes << std::endl;
+    std::cout << nb << std::endl;
+    Resource::Resource res = Resource::stringToResource(strRes);
+    if (res != Resource::UNKNOWN) {
+      _resource[res] = nb;
+    }
+  }
 }
 
-void Player::broadcast(std::string const& msg) const {
-  RequestBuffer::getInstance().push("Broadcast " + msg, {&Player::broadcastResponce});
+void Player::broadcast(std::string const& message) {
+  Connection::getInstance().sendMsg("Broadcast " + message);
+  std::cout << "Broadcast()" << std::endl;
+
+  Option<std::string> msg;
+  while (!(msg = recvMsg()));
+
+  if (*msg != "ok") {
+    std::cerr << "Broadcast: bad responce" << std::endl;
+  }
 }
 
-void Player::connect_nbr() const {
+void Player::connect_nbr() {
   RequestBuffer::getInstance().push("Connect_nbr", {&Player::connect_nbrResponce});
 }
 
-void Player::fork() const {
+void Player::fork() {
   RequestBuffer::getInstance().push("Fork", {&Player::forkResponce});
 }
 
-void Player::eject() const {
+void Player::eject() {
   RequestBuffer::getInstance().push("Eject", {&Player::ejectResponce});
 }
 
-void Player::take(Resource::Resource res) const {
-  RequestBuffer::getInstance().push("Take " + Resource::resourceToString(res),
-				    {&Player::takeResponce});
+void Player::take(Resource::Resource res) {
+  Connection::getInstance().sendMsg("Take " + Resource::resourceToString(res));
+  std::cout << "Take()" << std::endl;
+
+  Option<std::string> msg;
+  while (!(msg = recvMsg()));
+
+  if (*msg != "ok") {
+    std::cerr << "Take: bad responce" << std::endl;
+  }
 }
 
-void Player::set(Resource::Resource res) const {
-  RequestBuffer::getInstance().push("Set " + Resource::resourceToString(res),
-				    {&Player::setResponce});
+void Player::set(Resource::Resource res) {
+  Connection::getInstance().sendMsg("Set " + Resource::resourceToString(res));
+  std::cout << "Set()" << std::endl;
+
+  Option<std::string> msg;
+  while (!(msg = recvMsg()));
+
+  if (*msg != "ok") {
+    std::cerr << "Set: ko" << std::endl;
+  } else {
+    --_resource[res];
+  }
 }
 
-void Player::incantation() const {
-  RequestBuffer::getInstance().push("Incantation", {&Player::incantationResponce});
+// TODO MODIFY THIS
+void Player::incantation() {
+  Connection::getInstance().sendMsg("Incantation");
+  std::cout << "Incantation()" << std::endl;
+
+  _incanting = true;
+  Option<std::string> msg;
+  while (_incanting && !(msg = recvMsg()));
+  _incanting = false;
+
+  if (*msg == "ko") {
+    std::cerr << "Incantation: ko" << std::endl;
+  }
 }
 
 bool Player::forwardResponce(std::string const& responce) const {
@@ -175,44 +291,47 @@ bool Player::incantationResponce(std::string const& responce) {
 }
 
 Broadcast Player::signalBroadcast(std::string const& msg) {
-  Broadcast b = { std::stoi(msg) };
+  Broadcast b;
   return b;
 }
 
-// do nothing
-void Player::signalEject(std::string const& msg) {
-  (void)msg;
-}
-
 bool Player::signalIncantation(std::string const& msg) {
-  if (msg == "Elevation underway") {
-    std::string responce = Connection::getInstance().recvMsg(MSG_DONTWAIT);
-    std::stringstream ss(responce);
-    std::string word;
-    int lvl;
-
-    if (responce == "ko") {
-      return false;
-    }
-    do {
-      ss >> word;
-    } while (!std::isdigit(word[0]));
-    lvl = std::stoi(word);
-    if (lvl > 0) {
-      _level = lvl;
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-  else {
-    return false;
-  }
+  return true;
 }
 
 Option<std::string> Player::recvMsg() {
-  std::string responce = Connection::getInstance().recvMsg();
+  std::string response = Connection::getInstance().recvMsg();
+  std::cout << response << std::endl;
+  std::stringstream ss(response);
+
+  std::string str;
+  ss >> str;
+  // broadcast
+  if (str == "message") {
+    int dir;
+    ss >> dir;
+    ss >> str;
+    ss.get();
+    std::getline(ss, str);
+    try {
+      _broadcast = { { dir, std::stoi(str) } };
+    } catch (...) {
+      _broadcast = {};
+    }
+  } else if (str == "dead") {
+    exit(0);
+  } else if (str == "Elevation") {
+    _incanting = true;
+  } else if (str == "eject:") {
+    // do nothing
+  } else if (str == "Current") {
+    ++_level;
+    std::cout << "New level: " << _level << std::endl;
+    _incanting = false;
+  } else {
+    return {response};
+  }
+  return {};
 }
 
 void Player::move(int x) {
@@ -245,12 +364,13 @@ void Player::move(int x) {
   }
 }
 
-void Player::move_sound(int x) {
+void Player::move_sound(int k) {
   //TODO this function is like the same above but with the sound
-  (void) x;
+  (void) k;
 }
 
 void Player::search(Resource::Resource res) {
+
 }
 
 bool Player::isAlive() const {
@@ -258,35 +378,22 @@ bool Player::isAlive() const {
 }
 
 void Player::update() {
-  std::string responce = Connection::getInstance().recvMsg();
-  bool retResponce = false;
-  if (!responce.empty()) {
-    std::stringstream ss;
-    ss << responce;
-    std::string firstWord;
-    ss >> firstWord;
-    if (firstWord == "message") {
-      signalBroadcast(responce);
-    }
-    else if (firstWord == "eject:") {
-      signalEject(responce);
-    }
-    else if (firstWord == "dead") {
-      std::cout << "dead" << std::endl;
-      _alive = false;
-      return;
-    }
-    else if (responce == "Elevation underway") {
-      signalIncantation(responce);
-    }
-    else {
-      retResponce = RequestBuffer::getInstance().front().second(*this, responce);
-      RequestBuffer::getInstance().pop();
-    }
+  if (_incanting) {
+    return;
   }
   /**
    * IA CODE
    */
+  // look();
+  // inventory();
+  // forward();
+  // right();
+  // left();
+  // take(Resource::FOOD);
+  // inventory();
+  incantation();
+  // reset broadcast
+  _broadcast = {};
 }
 
 bool Player::canLevelUp() {
