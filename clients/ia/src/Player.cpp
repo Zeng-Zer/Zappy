@@ -212,14 +212,19 @@ bool Player::signalIncantation(std::string const& msg) {
 }
 
 void Player::move(int x) {
+  if (x == 0) {
+    return;
+  }
+
   int old_case = 0;
   int nb_case = 0;
   int nb_line = 0;
-  while (nb_case < x) {
+  while (nb_case <= x) {
     old_case = nb_case;
     nb_case += 1 + (2 * nb_line);
     nb_line++;
-    forward();
+    if (nb_case <= x)
+      forward();
   }
 
   int nb_case_line = nb_case - old_case;
@@ -246,13 +251,6 @@ bool Player::isAlive() const {
 }
 
 void Player::update() {
-  // bool oneShot = false;
-  // if (!oneShot) {
-  //   std::cout << "broadcast: hello" << std::endl;
-  //   broadcast("Hello");
-  // }
-  // oneShot = true;
-
   std::string responce = Connection::getInstance().recvMsg();
   bool retResponce = false;
   if (!responce.empty()) {
