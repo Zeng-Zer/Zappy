@@ -17,13 +17,11 @@ int main(int argc, char **argv)
 
   try
     {
+      ImageHandler::initImageHandler();
+      AudioHandler::initAudioHandler();
 
       Network::initNetwork(args.getPort(), args.getHost());
       Network::getInstance().sendMsg("GRAPHIC");
-
-      ImageHandler::initImageHandler();
-
-      AudioHandler::initAudioHandler();
 
       logic.setMapSize(sf::Vector2i(1, 1));
       logic.createMap(TileMap::GRASS);
