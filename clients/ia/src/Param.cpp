@@ -47,7 +47,7 @@ void Param::parse_arg(char *type, char *arg)
     teamName = std::string(arg);
   }
   else if (!strcmp(type, "h")) {
-    if (host == "localhost") {
+    if (std::string("arg") == "localhost") {
       return ;
     }
     host = std::string(arg);

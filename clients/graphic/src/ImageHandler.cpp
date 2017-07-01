@@ -18,16 +18,13 @@ ImageHandler::ImageHandler() {
   std::get<1>(_textures[MAP]) = sf::Vector2i(9, 9);
 }
 
+ImageHandler::~ImageHandler() {}
+
 ImageHandler		&ImageHandler::getInstance() { return (*_instance); }
 
 void			ImageHandler::initImageHandler()
 {
   _instance.reset(new ImageHandler());
-}
-
-void			ImageHandler::destroyImageHandler()
-{
-  _instance.reset(nullptr);
 }
 
 sf::Texture		ImageHandler::getTexture(Texture t) {return (std::get<0>(_textures[t]));}

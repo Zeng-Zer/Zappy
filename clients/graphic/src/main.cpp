@@ -17,21 +17,11 @@ int main(int argc, char **argv)
 
   try
     {
+      ImageHandler::initImageHandler();
+      AudioHandler::initAudioHandler();
 
       Network::initNetwork(args.getPort(), args.getHost());
       Network::getInstance().sendMsg("GRAPHIC");
-
-      struct		ImageHandlerInit
-      {
-      	ImageHandlerInit(){ ImageHandler::initImageHandler(); }
-      	~ImageHandlerInit(){ ImageHandler::destroyImageHandler(); }
-      }			ImageHandlerIniter;
-
-      struct		AudioHandlerInit
-      {
-      	AudioHandlerInit(){ AudioHandler::initAudioHandler(); }
-      	~AudioHandlerInit(){ AudioHandler::destroyAudioHandler(); }
-      }			AudiHandlerIniter;
 
       logic.setMapSize(sf::Vector2i(1, 1));
       logic.createMap(TileMap::GRASS);
