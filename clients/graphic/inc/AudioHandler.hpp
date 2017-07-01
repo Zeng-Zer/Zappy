@@ -17,9 +17,10 @@ private:
   static std::unique_ptr<AudioHandler>	_instance;
 
 public:
+  ~AudioHandler();
+
   static AudioHandler			&getInstance();
   static void				initAudioHandler();
-  static void				destroyAudioHandler();
 
   sf::SoundBuffer			getSound(Sound);
 };

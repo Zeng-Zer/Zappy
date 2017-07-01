@@ -21,17 +21,9 @@ int main(int argc, char **argv)
       Network::initNetwork(args.getPort(), args.getHost());
       Network::getInstance().sendMsg("GRAPHIC");
 
-      struct		ImageHandlerInit
-      {
-      	ImageHandlerInit(){ ImageHandler::initImageHandler(); }
-      	~ImageHandlerInit(){ ImageHandler::destroyImageHandler(); }
-      }			ImageHandlerIniter;
+      ImageHandler::initImageHandler();
 
-      struct		AudioHandlerInit
-      {
-      	AudioHandlerInit(){ AudioHandler::initAudioHandler(); }
-      	~AudioHandlerInit(){ AudioHandler::destroyAudioHandler(); }
-      }			AudiHandlerIniter;
+      AudioHandler::initAudioHandler();
 
       logic.setMapSize(sf::Vector2i(1, 1));
       logic.createMap(TileMap::GRASS);
