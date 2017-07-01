@@ -5,6 +5,7 @@
 # include <string>
 # include <sstream>
 # include <map>
+# include <functional>
 # include "Logic.hpp"
 
 namespace Protocol

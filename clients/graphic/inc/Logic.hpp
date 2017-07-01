@@ -25,8 +25,7 @@ public:
   ~Logic();
 
   void			createMap(TileMap::Terrain);
-  void			createPlayer(sf::Vector2i const&, Player::Direction);
-  void			createResource(sf::Vector2i const&, Resource::Type);
+  void			createPlayer(sf::Vector2i const&, unsigned int const);
 
   void			eventLoop();
   bool			isOpen() const;
@@ -35,6 +34,8 @@ public:
 
   void			setMapSize(sf::Vector2i const&);
   void			setMapContent(sf::Vector2i const&, resource_list);
+
+  void			setPlayerPosition(unsigned int const, sf::Vector2i const&, unsigned int const);
 
   void			update();
 };

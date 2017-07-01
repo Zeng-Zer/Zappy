@@ -42,7 +42,7 @@ public:
 
   static int			*createMap(sf::Vector2i const&, Terrain);
 
-  sf::Vector2f			mapToCoords(sf::Vector2i const&);
+  sf::Vector2f			mapToCoords(sf::Vector2i const&) const;
   void				setMapContent(sf::Vector2i const&, resource_list);
   void				update(sf::RenderWindow*);
 };

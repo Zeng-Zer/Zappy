@@ -94,13 +94,13 @@ int			*TileMap::createMap(sf::Vector2i const &size, Terrain t)
   return (lvl);
 }
 
-sf::Vector2f	        TileMap::mapToCoords(sf::Vector2i const &p)
+sf::Vector2f	        TileMap::mapToCoords(sf::Vector2i const &p) const
 {
   sf::Vector2f		v;
   sf::Vector2i	        map = getTileSize();
 
-  v.x = p.x * map.x / 2 - p.y * map.x / 2;
-  v.y = p.x * map.y / 2 + (p.y + 1) * map.y / 2;
+  v.x = (map.x / 2) * (p.x - p.y);
+  v.y = (map.y / 2) * (p.x + p.y + 1);
   return (v);
 }
 
@@ -116,16 +116,19 @@ void			TileMap::setMapContent(sf::Vector2i const &p, resource_list l)
         e = new Resource(ImageHandler::getInstance().getTexture(ImageHandler::RESSOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESSOURCE), static_cast<Resource::Type>(i));
         e->scale(sf::Vector2f(0.5, 0.5));
         e->setPosition(mapToCoords(p));
-	pos.y = e->getPosition().y - _tileSize.y / 2 + rand() % (_tileSize.y - 8) + 8;
+	pos.y = rand() % (_tileSize.y - 8) + 8;
 	if (pos.y <= _tileSize.y / 2)
 	  pos.x = e->getPosition().x - _tileSize.x / 2 + rand() % ((pos.y - 8) * 4 + 1) + 64 - (pos.y - 8) * 2;
 	else
 	  pos.x = e->getPosition().x - _tileSize.x / 2 + rand() % ((_tileSize.y - pos.y) * 4 + 1) + 64 - (_tileSize.y - pos.y) * 2;
+	pos.y += e->getPosition().y - _tileSize.y / 2;
 	e->setPosition(e->adaptCoords(static_cast<sf::Vector2f>(pos)));
 	v.push_back(e);
       }
-  _grid[(p.y + p.y * _map_size.x)] = v;
+  _grid[(p.y + p.x * _map_size.x)] = v;
 }
+
+#include <iostream>
 
 void			TileMap::update(sf::RenderWindow *window)
 {

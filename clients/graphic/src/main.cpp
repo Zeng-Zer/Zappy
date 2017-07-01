@@ -26,11 +26,19 @@ int			main()
       	~AudioHandlerInit(){ AudioHandler::destroyAudioHandler(); }
       }			AudiHandlerIniter;
 
-      logic.setMapSize(sf::Vector2i(1, 1));
+      logic.setMapSize(sf::Vector2i(10, 10));
       logic.createMap(TileMap::GRASS);
 
       resource_list	l = {{1, 1, 1, 1, 1, 1, 1}};
+      logic.setMapContent(sf::Vector2i(9, 0), l);
       logic.setMapContent(sf::Vector2i(0, 0), l);
+      logic.setMapContent(sf::Vector2i(4, 4), l);
+      logic.setMapContent(sf::Vector2i(1, 6), l);
+      logic.setMapContent(sf::Vector2i(2, 2), l);
+      logic.setMapContent(sf::Vector2i(3, 3), l);
+      logic.setMapContent(sf::Vector2i(6, 7), l);
+
+      logic.createPlayer(sf::Vector2i(3, 8), 3);
 
       while (logic.isOpen())
       	{
