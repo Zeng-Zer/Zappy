@@ -5,26 +5,23 @@
 # include <map>
 # include <memory>
 
-namespace				zap
+class					AudioHandler
 {
-  class					AudioHandler
-  {
-  public:
-    enum				Sound { MUSIC }; //temp
+public:
+  enum					Sound { MUSIC }; //temp
 
-  private:
-    AudioHandler();
+private:
+  AudioHandler();
 
-    std::map<Sound, sf::SoundBuffer>		_sounds;
-    static std::unique_ptr<AudioHandler>	_instance;
+  std::map<Sound, sf::SoundBuffer>	_sounds;
+  static std::unique_ptr<AudioHandler>	_instance;
 
-  public:
-    static AudioHandler			&getInstance();
-    static void				initAudioHandler();
-    static void				destroyAudioHandler();
+public:
+  static AudioHandler			&getInstance();
+  static void				initAudioHandler();
+  static void				destroyAudioHandler();
 
-    sf::SoundBuffer			getSound(Sound);
-  };
-}
+  sf::SoundBuffer			getSound(Sound);
+};
 
 #endif /* !AUDIOHANDLER_HPP_ */

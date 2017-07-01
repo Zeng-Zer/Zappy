@@ -1,12 +1,10 @@
 #include "Resource.hpp"
 
-zap::Resource::Resource(sf::Texture const &texture, sf::Vector2i const &setSize, Type t)
+Resource::Resource(sf::Texture const &texture, sf::Vector2i const &setSize, Type t):
+  Entity(texture, setSize)
 {
   sf::Vector2f		tmp;
 
-  _texture = texture;
-  _setSize = setSize;
-  _sprite.setTexture(_texture);
   if (t == THYSTAME)
     {
       t = MENDIANE;
@@ -22,14 +20,4 @@ zap::Resource::Resource(sf::Texture const &texture, sf::Vector2i const &setSize,
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
 }
 
-zap::Resource::~Resource() {}
-
-void			zap::Resource::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
-  states.transform *= getTransform();
-  states.texture = &_texture;
-  target.draw(_sprite, states);
-}
-
-sf::Vector2i const	&zap::Resource::getSetSize() const { return (_setSize); }
-sf::Sprite const	&zap::Resource::getSprite() const { return (_sprite); }
+Resource::~Resource() {}
