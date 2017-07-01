@@ -1,8 +1,11 @@
 #include "TileMap.hpp"
 
-#include <iostream>
+TileMap::TileMap() : _isGrid(false)
+{
+  _map_size.x = 1;
+  _map_size.y = 1;
+}
 
-TileMap::TileMap() : _isGrid(false) {}
 TileMap::~TileMap() {}
 
 void			TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -23,6 +26,7 @@ void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, in
   int			vSize = map_size.x * map_size.y * 4;
 
   _tileset = tileset;
+  _map_size = map_size;
   _tileSize.x = _tileset.getSize().x / setSize.x;
   _tileSize.y = _tileset.getSize().y / setSize.y;
   _vertices.setPrimitiveType(sf::Quads);
@@ -88,4 +92,45 @@ int			*TileMap::createMap(sf::Vector2i const &size, Terrain t)
     for (int j = 0; j < size.x; j++)
       lvl[j + i * size.x] = t;
   return (lvl);
+}
+
+sf::Vector2f	        TileMap::mapToCoords(sf::Vector2i const &p)
+{
+  sf::Vector2f		v;
+  sf::Vector2i	        map = getTileSize();
+
+  v.x = p.x * map.x / 2 - p.y * map.x / 2;
+  v.y = p.x * map.y / 2 + (p.y + 1) * map.y / 2;
+  return (v);
+}
+
+void			TileMap::setMapContent(sf::Vector2i const &p, resource_list l)
+{
+  sf::Vector2i		pos;
+  Entity		*e;
+  std::vector<Entity*>	v;
+
+  for (unsigned int i = 0; i < 7; i++)
+    for (unsigned int j = 0; j < l[i]; j++)
+      {
+        e = new Resource(ImageHandler::getInstance().getTexture(ImageHandler::RESSOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESSOURCE), static_cast<Resource::Type>(i));
+        e->scale(sf::Vector2f(0.5, 0.5));
+        e->setPosition(mapToCoords(p));
+	pos.y = e->getPosition().y - _tileSize.y / 2 + rand() % (_tileSize.y - 8) + 8;
+	if (pos.y <= _tileSize.y / 2)
+	  pos.x = e->getPosition().x - _tileSize.x / 2 + rand() % ((pos.y - 8) * 4 + 1) + 64 - (pos.y - 8) * 2;
+	else
+	  pos.x = e->getPosition().x - _tileSize.x / 2 + rand() % ((_tileSize.y - pos.y) * 4 + 1) + 64 - (_tileSize.y - pos.y) * 2;
+	e->setPosition(e->adaptCoords(static_cast<sf::Vector2f>(pos)));
+	v.push_back(e);
+      }
+  _grid[(p.y + p.y * _map_size.x)] = v;
+}
+
+void			TileMap::update(sf::RenderWindow *window)
+{
+  window->draw(*this);
+  for (std::map<int, std::vector<Entity*>>::iterator it = _grid.begin(); it != _grid.end(); ++it)
+    for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
+      window->draw(*std::get<1>(*it)[i]);
 }

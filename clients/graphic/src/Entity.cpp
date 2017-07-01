@@ -18,3 +18,13 @@ void			Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 sf::Vector2i const	&Entity::getSetSize() const { return (_setSize); }
 sf::Sprite const	&Entity::getSprite() const { return (_sprite); }
+
+sf::Vector2f	        Entity::adaptCoords(sf::Vector2f const &p) const
+{
+  sf::Vector2f		v;
+  sf::Vector2f		tmp = static_cast<sf::Vector2f>(getSprite().getTexture()->getSize());
+
+  v.x = p.x - tmp.x / getSetSize().x * getScale().x / 2;
+  v.y = p.y - tmp.y / getSetSize().y * getScale().y;
+  return (v);
+}

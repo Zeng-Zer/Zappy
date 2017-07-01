@@ -8,8 +8,6 @@
 #include "Resource.hpp"
 #include "Logic.hpp"
 
-#include <vector>
-
 int			main()
 {
   Logic			logic(sf::Vector2i(1600, 900));
@@ -28,18 +26,17 @@ int			main()
       	~AudioHandlerInit(){ AudioHandler::destroyAudioHandler(); }
       }			AudiHandlerIniter;
 
-      logic.createMap(sf::Vector2i(10, 10), TileMap::GRASS);
-      logic.createPlayer(sf::Vector2i(0, 0), Player::EAST);
-      logic.createResource(sf::Vector2i(0, 1), Resource::FOOD);
-      logic.createResource(sf::Vector2i(1, 0), Resource::LINEMATE);
-      logic.createResource(sf::Vector2i(2, 0), Resource::THYSTAME);
-      logic.createResource(sf::Vector2i(0, 2), Resource::PHIRAS);
+      logic.setMapSize(sf::Vector2i(1, 1));
+      logic.createMap(TileMap::GRASS);
+
+      resource_list	l = {1, 1, 1, 1, 1, 1, 1};
+      logic.setMapContent(sf::Vector2i(0, 0), l);
 
       while (logic.isOpen())
       	{
       	  logic.eventLoop();
       	  logic.clear();
-      	  logic.drawAll();
+	  logic.update();
       	  logic.display();
       	}
     }

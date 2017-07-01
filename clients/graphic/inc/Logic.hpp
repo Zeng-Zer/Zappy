@@ -19,28 +19,24 @@ private:
   sf::View		_view;
   TileMap		_map;
   std::vector<Player*>	_players;
-  std::vector<Resource*>	_resources;
-
-  // sf::Vector2i		coordsToMap(sf::Vector2f const&);
-  sf::Vector2f		mapToCoords(sf::Vector2i const&);
-  sf::Vector2f		adaptCoords(sf::Vector2f const&, Entity const&);
 
 public:
   Logic(sf::Vector2i const&, std::string const& = "Zappy");
   ~Logic();
 
-  void			update() const;
-  void			createMap(sf::Vector2i const&, TileMap::Terrain);
+  void			createMap(TileMap::Terrain);
   void			createPlayer(sf::Vector2i const&, Player::Direction);
   void			createResource(sf::Vector2i const&, Resource::Type);
 
-  void			drawAll();
   void			eventLoop();
   bool			isOpen() const;
   void			clear();
   void			display();
 
   void			setMapSize(sf::Vector2i const&);
+  void			setMapContent(sf::Vector2i const&, resource_list);
+
+  void			update();
 };
 
 #endif /* !LOGIC_HPP_ */
