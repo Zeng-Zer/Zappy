@@ -13,7 +13,8 @@
 # include "Option.hpp"
 
 struct Broadcast {
-  int lvl;
+  int dir;
+  int nbPlayerRequired;
 };
 
 class Player {
@@ -47,18 +48,18 @@ public:
   /**
    * COMMANDS
    */
-  void forward() const;
-  void right() const;
-  void left() const;
-  void look() const;
-  void inventory() const;
-  void broadcast(std::string const& msg) const;
-  void connect_nbr() const;
-  void fork() const;
-  void eject() const;
-  void take(Resource::Resource res) const;
-  void set(Resource::Resource res) const;
-  void incantation() const;
+  void forward();
+  void right();
+  void left();
+  std::vector<std::map<Resource::Resource, int>> look();
+  void inventory();
+  void broadcast(std::string const& msg);
+  void connect_nbr();
+  void fork();
+  void eject();
+  void take(Resource::Resource res);
+  void set(Resource::Resource res);
+  void incantation();
 
   /**
    * RESPONCES
@@ -114,6 +115,8 @@ private:
   struct dataResponce _data;
   // Resource = type de resource, et int le nombre
   std::map<Resource::Resource, int> _resource;
+  Option<Broadcast> _broadcast;
+  bool _incanting;
 };
 
 #endif /* !PLAYER_HPP_ */

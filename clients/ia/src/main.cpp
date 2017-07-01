@@ -28,9 +28,9 @@ static std::pair<int, int> getStartPosition(std::string str) {
 
 int main(int argc, char **argv) {
 
-  Param args(argc, argv);
-
   try {
+    Param args(argc, argv);
+
     Connection::initConnection(args.getPort(), args.getHost());
     RequestBuffer::initRequestBuffer(10);
 
