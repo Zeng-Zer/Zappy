@@ -12,6 +12,7 @@
 #include "Exception.hpp"
 #include "Param.hpp"
 #include "Connection.hpp"
+#include "RequestBuffer.hpp"
 #include "Player.hpp"
 
 static std::pair<int, int> getStartPosition(std::string str) {
