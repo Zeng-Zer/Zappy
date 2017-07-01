@@ -42,7 +42,7 @@ void Player::fork() const {
   RequestBuffer::getInstance().push("Fork", {&Player::forkResponce});
 }
 
-void Player::eject() const{
+void Player::eject() const {
   RequestBuffer::getInstance().push("Eject", {&Player::ejectResponce});
 }
 
@@ -76,7 +76,7 @@ bool Player::rightResponce(std::string const& responce) const {
   return true;
 }
 
-bool Player::leftResponce(std::string const& responce) const{
+bool Player::leftResponce(std::string const& responce) const {
   if (responce != "ok") {
     std::cerr << "Left: bad responce" << std::endl;
     return false;
@@ -87,7 +87,7 @@ bool Player::leftResponce(std::string const& responce) const{
 bool Player::lookResponce(std::string const& responce) {
   std::stringstream ss(responce);
   std::string word;
-  std::vector<std::vector<Resource::Resource> > vec(0);
+  std::vector<std::vector<Resource::Resource> > vec;
   int length = 0;
   int j;
 
@@ -211,6 +211,10 @@ bool Player::signalIncantation(std::string const& msg) {
   }
 }
 
+Option<std::string> Player::recvMsg() {
+  std::string responce = Connection::getInstance().recvMsg();
+}
+
 void Player::move(int x) {
   if (x == 0) {
     return;
@@ -244,6 +248,9 @@ void Player::move(int x) {
 void Player::move_sound(int x) {
   //TODO this function is like the same above but with the sound
   (void) x;
+}
+
+void Player::search(Resource::Resource res) {
 }
 
 bool Player::isAlive() const {
