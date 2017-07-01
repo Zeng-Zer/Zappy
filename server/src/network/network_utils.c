@@ -32,3 +32,11 @@ bool	has_event(t_network *network)
     }
   return (ret != 0);
 }
+
+bool	clean_pollin(t_vector *packages, t_network *network, int i)
+{
+  vector_push(packages, new_package(network->fds[i].fd, NULL, true));
+  close(network->fds[i].fd);
+  network->fds[i].fd = -1;
+  return (true);
+}

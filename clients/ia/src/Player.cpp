@@ -184,13 +184,14 @@ void Player::incantation() {
 
 Option<std::string> Player::recvMsg(int flags) {
   std::string response = Connection::getInstance().recvMsg(flags);
-  std::cout << response << std::endl;
+  // std::cout << response << std::endl;
   std::stringstream ss(response);
 
   std::string str;
   ss >> str;
   // broadcast
   if (str == "message") {
+    std::cout << response << std::endl;
     int dir;
     ss >> dir;
     ss >> str;
@@ -346,7 +347,8 @@ void Player::update() {
 
   if (_resource[Resource::FOOD] < 15) {
     search(Resource::FOOD);
-  } else {
+  }
+  else {
     Resource::Resource res = getMissingResource();
 
     // GET MISSING RESOURCE

@@ -97,5 +97,6 @@ char		*get_input(int fd, int *status);
  */
 void		network_fail(t_network *network, char const *msg);
 bool		has_event(t_network *network);
+bool		clean_pollin(t_vector *packages, t_network *network, int i);
 
 #endif /* !NETWORK_H_ */
