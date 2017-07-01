@@ -25,8 +25,7 @@ namespace			zap
 
     // sf::Vector2i		coordsToMap(sf::Vector2f const&);
     sf::Vector2f		mapToCoords(sf::Vector2i const&);
-    sf::Vector2f		adaptCoords(sf::Vector2f const&, Player const&);
-    sf::Vector2f		adaptCoords(sf::Vector2f const&, Resource const&); // Entity
+    sf::Vector2f		adaptCoords(sf::Vector2f const&, Entity const&);
 
   public:
     Logic(sf::Vector2i const&, std::string const& = "Zappy");

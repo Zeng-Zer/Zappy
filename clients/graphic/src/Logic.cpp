@@ -16,8 +16,6 @@ zap::Logic::~Logic() {}
 // sf::Vector2i		zap::Logic::coordsToMap(sf::Vector2f const &p)
 // {}
 
-#include <iostream>
-
 sf::Vector2f		zap::Logic::mapToCoords(sf::Vector2i const &p)
 {
   sf::Vector2f		v;
@@ -25,27 +23,16 @@ sf::Vector2f		zap::Logic::mapToCoords(sf::Vector2i const &p)
 
   v.x = p.x * map.x / 2 - p.y * map.x / 2;
   v.y = p.x * map.y / 2 + (p.y + 1) * map.y / 2;
-  //std::cout <<  << std::endl;
   return (v);
 }
 
-sf::Vector2f		zap::Logic::adaptCoords(sf::Vector2f const &p, Player const &player)
+sf::Vector2f		zap::Logic::adaptCoords(sf::Vector2f const &p, Entity const &entity)
 {
   sf::Vector2f		v;
-  sf::Vector2f		tmp = static_cast<sf::Vector2f>(player.getSprite().getTexture()->getSize());
+  sf::Vector2f		tmp = static_cast<sf::Vector2f>(entity.getSprite().getTexture()->getSize());
 
-  v.x = p.x - tmp.x / player.getSetSize().x * player.getScale().x / 2;
-  v.y = p.y - tmp.y / player.getSetSize().y * player.getScale().y;
-  return (v);
-}
-
-sf::Vector2f		zap::Logic::adaptCoords(sf::Vector2f const &p, Resource const &player) // Faire une classe entity
-{
-  sf::Vector2f		v;
-  sf::Vector2f		tmp = static_cast<sf::Vector2f>(player.getSprite().getTexture()->getSize());
-
-  v.x = p.x - tmp.x / player.getSetSize().x * player.getScale().x / 2;
-  v.y = p.y - tmp.y / player.getSetSize().y * player.getScale().y;
+  v.x = p.x - tmp.x / entity.getSetSize().x * entity.getScale().x / 2;
+  v.y = p.y - tmp.y / entity.getSetSize().y * entity.getScale().y;
   return (v);
 }
 

@@ -2,6 +2,9 @@
 # define TILEMAP_HPP_
 
 # include <SFML/Graphics.hpp>
+# include <map>
+# include <vector>
+# include "Entity.hpp"
 
 namespace			zap
 {
@@ -19,6 +22,7 @@ namespace			zap
     sf::Texture			_tileset;
     sf::Vector2i		_setSize;
     sf::Vector2i		_tileSize;
+    std::map<sf::Vector2i, std::vector<Entity*>>	_grid;
 
     virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
 

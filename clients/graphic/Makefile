@@ -24,6 +24,7 @@ SRC		=	$(DIR_SRC)/main.cpp \
 			$(DIR_SRC)/ImageHandler.cpp \
 			$(DIR_SRC)/Logic.cpp \
 			$(DIR_SRC)/Network.cpp \
+			$(DIR_SRC)/Entity.cpp \
 			$(DIR_SRC)/Player.cpp \
 			$(DIR_SRC)/Resource.cpp \
 			$(DIR_SRC)/TileMap.cpp
