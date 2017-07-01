@@ -4,8 +4,12 @@
 # include <SFML/Graphics.hpp>
 # include <map>
 # include <vector>
+# include <array>
 # include <tuple>
-# include "Entity.hpp"
+# include "ImageHandler.hpp"
+# include "Resource.hpp"
+
+typedef std::array<unsigned int, 7>	resource_list;
 
 class				TileMap : public sf::Drawable, public sf::Transformable
 {
@@ -22,20 +26,25 @@ private:
   sf::Texture			_tileset;
   sf::Vector2i			_setSize;
   sf::Vector2i			_tileSize;
-  std::map<sf::Vector2i, std::vector<std::tuple<sf::Vector2i, Entity*>>>	_grid;
+  sf::Vector2i			_map_size;
+  std::map<int, std::vector<Entity*>>	_grid;
   bool				_isGrid;
 
-  virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
+  virtual void			draw(sf::RenderTarget&, sf::RenderStates) const;
 
 public:
   TileMap();
   virtual ~TileMap();
 
-  void			load(sf::Texture const&, sf::Vector2i const&, int const*, sf::Vector2i const&);
+  void				load(sf::Texture const&, sf::Vector2i const&, int const*, sf::Vector2i const&);
   sf::Vector2i const		&getTileSize() const;
-  void		        grid();
+  void				grid();
 
   static int			*createMap(sf::Vector2i const&, Terrain);
+
+  sf::Vector2f			mapToCoords(sf::Vector2i const&);
+  void				setMapContent(sf::Vector2i const&, resource_list);
+  void				update(sf::RenderWindow*);
 };
 
 #endif /* !TILEMAP_HPP_ */

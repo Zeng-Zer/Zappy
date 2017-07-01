@@ -18,6 +18,7 @@ public:
 
   sf::Vector2i const		&getSetSize() const;
   sf::Sprite const		&getSprite() const;
+  sf::Vector2f			adaptCoords(sf::Vector2f const&) const;
 };
 
 #endif /* !ENTITY_HPP_ */

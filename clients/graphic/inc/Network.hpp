@@ -13,9 +13,9 @@
 class Network
 {
 public:
+  ~Network();
 
   static void initNetwork(int port, std::string host);
-  static void destroyNetwork();
   static Network& getInstance();
 
   /**

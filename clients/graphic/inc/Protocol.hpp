@@ -1,8 +1,12 @@
 #ifndef PROTOCOL_HPP_
 # define PROTOCOL_HPP_
 
+# include <SFML/Graphics.hpp>
 # include <string>
+# include <sstream>
 # include <map>
+# include <functional>
+# include "Logic.hpp"
 
 namespace Protocol
 {
@@ -14,13 +18,13 @@ namespace Protocol
 
   extern const std::map<Cmd, std::string> cmdMap;
   extern const std::map<std::string, Cmd> cmdString;
-  extern const std::map<Cmd, std::function<void(std::string const&)>> cmdFun;
+  extern const std::map<Cmd, std::function<void(Logic&, std::string const&)>> cmdFun;
 
   Cmd stringToCmd(std::string const& str);
   std::string cmdToString(Cmd res);
 
-  void msz(std::string const&);
-  void bct(std::string const&);
+  void msz(Logic&, std::string const&);
+  void bct(Logic&, std::string const&);
 
 };
 
