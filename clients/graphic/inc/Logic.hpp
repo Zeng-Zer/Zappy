@@ -41,6 +41,8 @@ namespace			zap
     bool			isOpen() const;
     void			clear();
     void			display();
+
+    void			setMapSize(sf::Vector2i const&);
   };
 }
 

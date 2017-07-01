@@ -8,6 +8,8 @@
 #include "Resource.hpp"
 #include "Logic.hpp"
 
+#include <vector>
+
 int			main()
 {
   zap::Logic		logic(sf::Vector2i(1600, 900));
@@ -16,14 +18,14 @@ int			main()
     {
       struct		ImageHandlerInit
       {
-	ImageHandlerInit(){ zap::ImageHandler::initImageHandler(); }
-	~ImageHandlerInit(){ zap::ImageHandler::destroyImageHandler(); }
+      	ImageHandlerInit(){ zap::ImageHandler::initImageHandler(); }
+      	~ImageHandlerInit(){ zap::ImageHandler::destroyImageHandler(); }
       }			ImageHandlerIniter;
 
       struct		AudioHandlerInit
       {
-	AudioHandlerInit(){ zap::AudioHandler::initAudioHandler(); }
-	~AudioHandlerInit(){ zap::AudioHandler::destroyAudioHandler(); }
+      	AudioHandlerInit(){ zap::AudioHandler::initAudioHandler(); }
+      	~AudioHandlerInit(){ zap::AudioHandler::destroyAudioHandler(); }
       }			AudiHandlerIniter;
 
       logic.createMap(sf::Vector2i(10, 10), zap::TileMap::GRASS);
@@ -34,12 +36,12 @@ int			main()
       logic.createResource(sf::Vector2i(0, 2), zap::Resource::PHIRAS);
 
       while (logic.isOpen())
-	{
-	  logic.eventLoop();
-	  logic.clear();
-	  logic.drawAll();
-	  logic.display();
-	}
+      	{
+      	  logic.eventLoop();
+      	  logic.clear();
+      	  logic.drawAll();
+      	  logic.display();
+      	}
     }
   catch (Error e)
     {

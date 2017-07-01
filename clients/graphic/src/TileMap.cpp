@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-zap::TileMap::TileMap() :_quad(false) {}
+zap::TileMap::TileMap() : _isGrid(false) {}
 zap::TileMap::~TileMap() {}
 
 void			zap::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -10,8 +10,9 @@ void			zap::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) con
   states.transform *= getTransform();
   states.texture = &_tileset;
   target.draw(_vertices, states);
-  if (_quad == true)
-    target.draw(_lineStrip, states);
+  if (_isGrid == true)
+    for (unsigned int i = 0; i < _lineGrid.size(); i++)
+      target.draw(_lineGrid[i], states);
 }
 
 void			zap::TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, int const *tiles, sf::Vector2i const &map_size)
@@ -53,17 +54,27 @@ void			zap::TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSiz
     }
 }
 
-void			zap::TileMap::quad()
+void			zap::TileMap::grid()
 {
-  int			vSize = _vertices.getVertexCount();
+  int			vSize = _vertices.getVertexCount() / 4;
+  sf::Vertex		*quad;
 
-  _quad = true;
-  _lineStrip.setPrimitiveType(sf::LineStrip);
-  _lineStrip.resize(vSize);
+  _isGrid = true;
+  for (int i = 0; i < vSize; i++)
+    _lineGrid.push_back(sf::VertexArray(sf::LineStrip, 4));
   for (int i = 0; i < vSize; i++)
     {
-      _lineStrip[i].position = _vertices[i].position;
-      _lineStrip[i].color = sf::Color::White;
+      quad = &_vertices[i * 4];
+
+      _lineGrid[i][0].position = quad[0].position;
+      _lineGrid[i][1].position = quad[1].position;
+      _lineGrid[i][2].position = quad[2].position;
+      _lineGrid[i][3].position = quad[3].position;
+
+      _lineGrid[i][0].color = sf::Color::White;
+      _lineGrid[i][1].color = sf::Color::White;
+      _lineGrid[i][2].color = sf::Color::White;
+      _lineGrid[i][3].color = sf::Color::White;
     }
 }
 

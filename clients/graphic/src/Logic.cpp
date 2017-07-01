@@ -42,7 +42,7 @@ void			zap::Logic::createMap(sf::Vector2i const &map, TileMap::Terrain t)
 {
   _map.load(ImageHandler::getInstance().getTexture(ImageHandler::MAP), ImageHandler::getInstance().getSetSize(ImageHandler::MAP), TileMap::createMap(map, t), map);
   _map_size = map;
-  _map.quad();
+  _map.grid();
 }
 
 void			zap::Logic::createPlayer(sf::Vector2i const &pos, Player::Direction d) // Peut etre prendre equipe en parametre
@@ -99,3 +99,5 @@ void			zap::Logic::eventLoop()
 bool			zap::Logic::isOpen() const { return (_window.isOpen()); }
 void			zap::Logic::clear() { _window.clear(); }
 void			zap::Logic::display() { _window.display(); }
+
+void			zap::Logic::setMapSize(sf::Vector2i const &s) { _map_size = s; }
