@@ -7,6 +7,10 @@ Connection::Connection() {
   _i = 0;
 }
 
+Connection::~Connection() {
+  close(_instance->_sock);
+}
+
 void Connection::initConnection(int port, std::string host) {
   _instance.reset(new Connection());
   struct protoent *pe;
@@ -29,12 +33,6 @@ void Connection::initConnection(int port, std::string host) {
       throw (ConnectionException("connect() failed"));
     }
   _instance->_isConnected = true;
-}
-
-void Connection::destroyConnection()
-{
-  close(_instance->_sock);
-  _instance.reset(nullptr);
 }
 
 Connection& Connection::getInstance() {

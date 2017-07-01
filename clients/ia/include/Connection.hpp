@@ -13,9 +13,9 @@
 class Connection
 {
 public:
+  ~Connection();
 
   static void initConnection(int port, std::string host);
-  static void destroyConnection();
   static Connection& getInstance();
 
   /**

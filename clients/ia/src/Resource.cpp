@@ -9,20 +9,31 @@ const std::map<Resource::Resource, std::string> Resource::resourceMap = {
   {Resource::MENDIANE, "mendiane"},
   {Resource::PHIRAS, "phiras"},
   {Resource::THYSTAME, "thystame"},
-  {Resource::UNKNOWN, "unknown"}
+};
+
+const std::map<std::string, Resource::Resource> Resource::resourceString = {
+  {"player", Resource::PLAYER},
+  {"food", Resource::FOOD},
+  {"linemate", Resource::LINEMATE},
+  {"deraumere", Resource::DERAUMERE},
+  {"sibur", Resource::SIBUR},
+  {"mendiane", Resource::MENDIANE},
+  {"phiras", Resource::PHIRAS},
+  {"thystame", Resource::THYSTAME},
 };
 
 Resource::Resource Resource::stringToResource(std::string const& str) {
-  int i = 0;
-  while (i < 7) {
-    if (resourceMap.at(static_cast<Resource>(i)) == str) {
-      return static_cast<Resource>(i);
-    }
-    i++;
+  if (resourceString.count(str) > 0) {
+    return resourceString.at(str);
+  } else {
+    return Resource::UNKNOWN;
   }
-  return (Resource::UNKNOWN);
 }
 
 std::string Resource::resourceToString(Resource res) {
-  return resourceMap.at(res);
+  if (resourceMap.count(res) > 0) {
+    return resourceMap.at(res);
+  } else {
+    return "";
+  }
 }
