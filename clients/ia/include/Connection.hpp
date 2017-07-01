@@ -36,7 +36,7 @@ private:
 
   int _sock;
   bool _isConnected;
-  char	_buff[4097];
+  char _buff[4097];
   int _i;
 };
 

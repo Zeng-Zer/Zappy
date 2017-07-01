@@ -42,7 +42,7 @@ void Player::fork() const {
   RequestBuffer::getInstance().push("Fork", {&Player::forkResponce});
 }
 
-void Player::eject() const{
+void Player::eject() const {
   RequestBuffer::getInstance().push("Eject", {&Player::ejectResponce});
 }
 
@@ -76,7 +76,7 @@ bool Player::rightResponce(std::string const& responce) const {
   return true;
 }
 
-bool Player::leftResponce(std::string const& responce) const{
+bool Player::leftResponce(std::string const& responce) const {
   if (responce != "ok") {
     std::cerr << "Left: bad responce" << std::endl;
     return false;
@@ -87,7 +87,7 @@ bool Player::leftResponce(std::string const& responce) const{
 bool Player::lookResponce(std::string const& responce) {
   std::stringstream ss(responce);
   std::string word;
-  std::vector<std::vector<Resource::Resource> > vec(0);
+  std::vector<std::vector<Resource::Resource> > vec;
   int length = 0;
   int j;
 
@@ -211,15 +211,24 @@ bool Player::signalIncantation(std::string const& msg) {
   }
 }
 
+Option<std::string> Player::recvMsg() {
+  std::string responce = Connection::getInstance().recvMsg();
+}
+
 void Player::move(int x) {
+  if (x == 0) {
+    return;
+  }
+
   int old_case = 0;
   int nb_case = 0;
   int nb_line = 0;
-  while (nb_case < x) {
+  while (nb_case <= x) {
     old_case = nb_case;
     nb_case += 1 + (2 * nb_line);
     nb_line++;
-    forward();
+    if (nb_case <= x)
+      forward();
   }
 
   int nb_case_line = nb_case - old_case;
@@ -241,18 +250,14 @@ void Player::move_sound(int x) {
   (void) x;
 }
 
+void Player::search(Resource::Resource res) {
+}
+
 bool Player::isAlive() const {
   return _alive;
 }
 
 void Player::update() {
-  // bool oneShot = false;
-  // if (!oneShot) {
-  //   std::cout << "broadcast: hello" << std::endl;
-  //   broadcast("Hello");
-  // }
-  // oneShot = true;
-
   std::string responce = Connection::getInstance().recvMsg();
   bool retResponce = false;
   if (!responce.empty()) {

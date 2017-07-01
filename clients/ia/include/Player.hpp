@@ -10,6 +10,7 @@
 # include "RequestBuffer.hpp"
 # include "Resource.hpp"
 # include "Level.hpp"
+# include "Option.hpp"
 
 struct Broadcast {
   int lvl;
@@ -75,12 +76,20 @@ public:
   bool setResponce(std::string const&) const;
   bool incantationResponce(std::string const&);
 
+  /*
+  **
+  */
+  Option<std::string> recvMsg();
+
+  /*
+  ** actual method
+  */
   void update();
   bool isAlive() const;
-
   void move(int x);
   void move_sound(int x);
   bool canLevelUp();
+  void search(Resource::Resource res);
   /**
    * TODO
    * Need details

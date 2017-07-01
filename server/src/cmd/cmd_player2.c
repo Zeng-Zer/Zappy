@@ -72,13 +72,10 @@ void		cmd_eject(t_server *server, t_command *command)
 {
   t_player	*player;
   t_player	*ejected;
-  t_pos		dir[2];
   t_tile	*tile;
 
   player = command->entity;
-  get_front_dir(player->rotation, dir);
-  tile = at(server->world, (t_pos){player->pos.x + dir[0].x + dir[1].x,
-	player->pos.y + dir[0].y + dir[1].y});
+  tile = at(server->world, player->pos);
   if (tile->players->length == 0)
     return ((void)dprintf(player->id, "ko\n"));
   while (tile->players->length > 0)
