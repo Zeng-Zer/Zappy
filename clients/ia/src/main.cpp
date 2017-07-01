@@ -30,10 +30,10 @@ int main(int argc, char **argv) {
 
   Param args(argc, argv);
 
-  Connection::initConnection(args.getPort(), args.getHost());
-  RequestBuffer::initRequestBuffer(10);
-
   try {
+    Connection::initConnection(args.getPort(), args.getHost());
+    RequestBuffer::initRequestBuffer(10);
+
     if (Connection::getInstance().recvMsg() != "WELCOME") {
       throw (std::logic_error("Connection not etablished"));
     }

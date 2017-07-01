@@ -1,6 +1,8 @@
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Error.hpp"
-#include <SFML/Graphics.hpp>
+#include "Param.hpp"
+#include "Network.hpp"
 #include "ImageHandler.hpp"
 #include "AudioHandler.hpp"
 #include "TileMap.hpp"
@@ -8,12 +10,17 @@
 #include "Resource.hpp"
 #include "Logic.hpp"
 
-int			main()
+int main(int argc, char **argv)
 {
-  Logic			logic(sf::Vector2i(1600, 900));
+  Param args(argc, argv);
+  Logic logic(sf::Vector2i(1600, 900));
 
   try
     {
+
+      Network::initNetwork(args.getPort(), args.getHost());
+      Network::getInstance().sendMsg("GRAPHIC");
+
       struct		ImageHandlerInit
       {
       	ImageHandlerInit(){ ImageHandler::initImageHandler(); }

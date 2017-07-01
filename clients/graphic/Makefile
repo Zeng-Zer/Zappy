@@ -19,6 +19,7 @@ DELETED		=	$(RED)"[DELETED]\t"
 ARROW		=	$(BLUE)"\t=>\t"
 
 SRC		=	$(DIR_SRC)/main.cpp \
+			$(DIR_SRC)/Param.cpp \
 			$(DIR_SRC)/AudioHandler.cpp \
 			$(DIR_SRC)/Error.cpp \
 			$(DIR_SRC)/ImageHandler.cpp \
