@@ -24,11 +24,6 @@ Logic::~Logic()
     delete _players[i];
 }
 
-void			Logic::setTeam(std::string const &team)
-{
-  _teams[team] = new Team(team);
-}
-
 void			Logic::createMap(TileMap::Terrain t)
 {
   sf::Vector2f		tmp;
@@ -102,6 +97,11 @@ void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, un
 {
   _players[id]->setPosOnGrid(p, _map);
   _players[id]->setDirection(Player::transformDirection(o));
+}
+
+void			Logic::addTeam(std::string const &team)
+{
+  _teams[team] = new Team(team);
 }
 
 void			Logic::update()

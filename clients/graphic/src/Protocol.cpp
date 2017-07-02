@@ -100,12 +100,14 @@ void Protocol::tna(Logic& l, std::string const& str) {
   std::string cmd;
   ss >> cmd;
   std::string team = Tools::parseStreamString(ss);
+  l.addTeam(team);
 }
 
 void Protocol::pnw(Logic& l, std::string const& str) {
   std::stringstream ss(str);
   std::string cmd;
   ss >> cmd;
+  unsigned id = Tools::parseStream<unsigned>(ss);
   sf::Vector2i coord = {
     Tools::parseStream<int>(ss),
     Tools::parseStream<int>(ss)
@@ -113,6 +115,7 @@ void Protocol::pnw(Logic& l, std::string const& str) {
   unsigned o = Tools::parseStream<unsigned>(ss);
   unsigned lvl = Tools::parseStream<unsigned>(ss);
   std::string team = Tools::parseStreamString(ss);
+  l.createPlayer(id, coord, o, lvl, team);
 }
 
 void Protocol::sgt(Logic& l, std::string const& str) {
