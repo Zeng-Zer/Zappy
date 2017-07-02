@@ -18,9 +18,6 @@ int main(int argc, char **argv)
 
   try
     {
-      ImageHandler::initImageHandler();
-      AudioHandler::initAudioHandler();
-
       Network::initNetwork(args.getPort(), args.getHost());
       if (Network::getInstance().recvMsg() != "WELCOME") {
 	NetworkException("First message is not \"WELCOME\"");

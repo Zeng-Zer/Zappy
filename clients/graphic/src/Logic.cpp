@@ -28,7 +28,9 @@ void			Logic::createMap(TileMap::Terrain t)
 {
   sf::Vector2f		tmp;
 
-  _map.load(ImageHandler::getInstance().getTexture(ImageHandler::MAP), ImageHandler::getInstance().getSetSize(ImageHandler::MAP), TileMap::createMap(_map_size, t));
+  _map.load(ImageHandler::getInstance().getTexture(ImageHandler::MAP),
+	    ImageHandler::getInstance().getSetSize(ImageHandler::MAP),
+	    TileMap::createMap(_map_size, t));
   _map.grid();
   tmp = _map.mapToCoords(sf::Vector2i(_map_size.x, _map_size.y));
   _view.setCenter(tmp.x / 2, tmp.y / 2);
@@ -161,7 +163,7 @@ void			Logic::playerDead(unsigned int const id)
 
 void			Logic::endGame(std::string const &s)
 {
-  
+
 }
 
 void			Logic::update()

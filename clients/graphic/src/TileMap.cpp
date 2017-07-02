@@ -1,4 +1,5 @@
 #include "TileMap.hpp"
+#include <iostream>
 
 TileMap::TileMap() : _isGrid(false)
 {
