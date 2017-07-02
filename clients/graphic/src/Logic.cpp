@@ -80,7 +80,7 @@ void			Logic::eventLoop()
 bool			Logic::isOpen() const { return (_window.isOpen()); }
 void			Logic::updateData()
 {
-  std::string line = Network::getInstance().recvMsg();
+  std::string line = Network::getInstance().recvMsg(MSG_DONTWAIT);
 
   while (!line.empty()) {
     std::cout << "Line: " << line << std::endl;
