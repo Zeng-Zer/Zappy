@@ -40,12 +40,12 @@ public:
   TileMap();
   virtual ~TileMap();
 
-  void				load(sf::Texture const&, sf::Vector2i const&, std::shared_ptr<int>);
+  void				load(sf::Texture const&, sf::Vector2i const&, int*);
   void				setMapSize(sf::Vector2i const&);
   sf::Vector2i const		&getTileSize() const;
   void				grid();
 
-  static std::shared_ptr<int>	createMap(sf::Vector2i const&, Terrain);
+  static int			*createMap(sf::Vector2i const&, Terrain);
 
   sf::Vector2f			mapToCoords(sf::Vector2i const&) const;
   sf::Vector2i			randCoords(std::shared_ptr<Entity>) const;

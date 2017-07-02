@@ -24,7 +24,7 @@ void			TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
       target.draw(_lineGrid[i], states);
 }
 
-void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, std::shared_ptr<int> tiles)
+void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, int *tiles)
 {
   unsigned int	        x, y, tileNb;
   sf::Vertex		*quad;
@@ -42,7 +42,7 @@ void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, st
       tmp.y = i * _tileSize.y / 2;
       for (int j = 0; j < _map_size.x; j++)
 	{
-	  tileNb = tiles.get()[j + i * _map_size.x];
+	  tileNb = tiles[j + i * _map_size.x];
 	  x = tileNb % (_tileset.getSize().x / _tileSize.x);
 	  y = tileNb / (_tileset.getSize().x / _tileSize.x);
 	  quad = &_vertices[(j + i * _map_size.x) * 4];
@@ -61,6 +61,7 @@ void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, st
 	  tmp.y = tmp.y + _tileSize.y / 2;
 	}
     }
+  delete[] tiles;
 }
 
 void			TileMap::grid()
@@ -91,13 +92,13 @@ void			TileMap::setMapSize(sf::Vector2i const &s) { _map_size = s; }
 
 sf::Vector2i const	&TileMap::getTileSize() const {return (_tileSize);}
 
-std::shared_ptr<int>	TileMap::createMap(sf::Vector2i const &size, Terrain t)
+int			*TileMap::createMap(sf::Vector2i const &size, Terrain t)
 {
-  std::shared_ptr<int>	lvl = std::make_shared<int>(size.x * size.y);
+  int			*lvl = new int[size.x * size.y];
 
   for (int i = 0; i < size.y; i++)
     for (int j = 0; j < size.x; j++)
-      lvl.get()[j + i * size.x] = t;
+      lvl[j + i * size.x] = t;
   return (lvl);
 }
 

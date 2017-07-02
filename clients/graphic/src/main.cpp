@@ -11,12 +11,22 @@
 #include "Resource.hpp"
 #include "Logic.hpp"
 
+
+sf::Texture createTexture(std::string const& path) {
+  sf::Texture texture;
+  if (!texture.loadFromFile(path)) {
+    throw Error();
+  }
+  texture.setSmooth(true);
+  return texture;
+}
+
 int main(int argc, char **argv)
 {
   Param args(argc, argv);
   Logic logic(sf::Vector2i(1600, 900));
 
-  try
+ try
     {
       Network::initNetwork(args.getPort(), args.getHost());
       if (Network::getInstance().recvMsg() != "WELCOME") {

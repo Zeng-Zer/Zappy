@@ -23,7 +23,7 @@ public:
   static ImageHandler			&getInstance();
   sf::Texture createTexture(std::string const& path);
 
-  sf::Texture				getTexture(Texture) const;
+  sf::Texture const			&getTexture(Texture) const;
   sf::Vector2i const			&getSetSize(Texture) const;
 };
 
