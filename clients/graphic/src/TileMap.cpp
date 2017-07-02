@@ -18,29 +18,28 @@ void			TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
       target.draw(_lineGrid[i], states);
 }
 
-void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, int const *tiles, sf::Vector2i const &map_size)
+void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, int const *tiles)
 {
   unsigned int	        x, y, tileNb;
   sf::Vertex		*quad;
   sf::Vector2f		tmp;
-  int			vSize = map_size.x * map_size.y * 4;
+  int			vSize = _map_size.x * _map_size.y * 4;
 
   _tileset = tileset;
-  _map_size = map_size;
   _tileSize.x = _tileset.getSize().x / setSize.x;
   _tileSize.y = _tileset.getSize().y / setSize.y;
   _vertices.setPrimitiveType(sf::Quads);
   _vertices.resize(vSize);
-  for (int i = 0; i < map_size.y; i++)
+  for (int i = 0; i < _map_size.y; i++)
     {
       tmp.x = -i * _tileSize.x / 2;
       tmp.y = i * _tileSize.y / 2;
-      for (int j = 0; j < map_size.x; j++)
+      for (int j = 0; j < _map_size.x; j++)
 	{
-	  tileNb = tiles[j + i * map_size.x];
+	  tileNb = tiles[j + i * _map_size.x];
 	  x = tileNb % (_tileset.getSize().x / _tileSize.x);
 	  y = tileNb / (_tileset.getSize().x / _tileSize.x);
-	  quad = &_vertices[(j + i * map_size.x) * 4];
+	  quad = &_vertices[(j + i * _map_size.x) * 4];
 
 	  quad[0].position = sf::Vector2f(tmp.x, tmp.y);
 	  quad[1].position = sf::Vector2f(tmp.x + _tileSize.x / 2, tmp.y + _tileSize.y / 2);

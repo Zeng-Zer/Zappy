@@ -20,7 +20,7 @@ void			Logic::createMap(TileMap::Terrain t)
 {
   sf::Vector2f		tmp;
 
-  _map.load(ImageHandler::getInstance().getTexture(ImageHandler::MAP), ImageHandler::getInstance().getSetSize(ImageHandler::MAP), TileMap::createMap(_map_size, t), _map_size);
+  _map.load(ImageHandler::getInstance().getTexture(ImageHandler::MAP), ImageHandler::getInstance().getSetSize(ImageHandler::MAP), TileMap::createMap(_map_size, t));
   _map.grid();
   tmp = _map.mapToCoords(sf::Vector2i(_map_size.x, _map_size.y));
   _view.setCenter(tmp.x / 2, tmp.y / 2);
@@ -48,6 +48,18 @@ void			Logic::eventLoop()
 	case sf::Event::KeyPressed:
 	  if (event.key.code == sf::Keyboard::Escape)
 	    _window.close();
+	  else if (event.key.code == sf::Keyboard::A)
+	    _view.zoom(1.01);
+	  else if (event.key.code == sf::Keyboard::E)
+	    _view.zoom(0.99);
+	  else if (event.key.code == sf::Keyboard::Up)
+	    _view.setCenter(_view.getCenter().x, _view.getCenter().y - 5);
+	  else if (event.key.code == sf::Keyboard::Left)
+	    _view.setCenter(_view.getCenter().x - 5, _view.getCenter().y);
+	  else if (event.key.code == sf::Keyboard::Down)
+	    _view.setCenter(_view.getCenter().x, _view.getCenter().y + 5);
+	  else if (event.key.code == sf::Keyboard::Right)
+	    _view.setCenter(_view.getCenter().x + 5, _view.getCenter().y);
 	  break ;
 
 	default :
