@@ -164,7 +164,12 @@ void			Logic::playerDead(unsigned int const id)
 
 void			Logic::endGame(std::string const &s)
 {
+  
+}
 
+void			Logic::quit()
+{
+  _window.close();
 }
 
 void			Logic::update()

@@ -57,6 +57,7 @@ public:
   void			playerDead(unsigned int const);
 
   void			endGame(std::string const&);
+  void			quit();
 
   void			update();
 };
