@@ -18,9 +18,10 @@ private:
   static std::unique_ptr<ImageHandler>				_instance;
 
 public:
+  ~ImageHandler();
+
   static ImageHandler			&getInstance();
   static void			        initImageHandler();
-  static void				destroyImageHandler();
 
   sf::Texture				getTexture(Texture);
   sf::Vector2i const			&getSetSize(Texture);

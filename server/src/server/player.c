@@ -23,7 +23,7 @@ t_player	*create_player(int fd, int team_id, t_pos pos)
   player->pos = pos;
   player->rotation = 1 + rand() % 4;
   player->time = current_time();
-  memcpy(player->stones, (int[7]){DEFAULT_FOOD, 0, 0, 0, 0, 0, 0},
+  memcpy(player->stones, ((int[7]){DEFAULT_FOOD, 0, 0, 0, 0, 0, 0}),
 	 sizeof(player->stones));
   player->cmds = vector_new();
   if (!player->cmds)
@@ -50,4 +50,11 @@ void		add_player_cmd(t_player *player, t_command *cmd)
   if (player->cmds->length >= 10)
     return (free_command(cmd));
   vector_push(player->cmds, cmd);
+}
+
+void		dump_player(t_player *player)
+{
+  printf("ID: %d, team: %d, lvl: %d, x: %d, y: %d, dir: %d\n", player->id,
+	 player->team_id, player->level, player->pos.x, player->pos.y,
+	 player->rotation);
 }

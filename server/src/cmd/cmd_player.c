@@ -19,6 +19,7 @@ void		cmd_forward(t_server *server, t_command *command)
   move_player(server->world, player, player->rotation);
   dprintf(player->id, "ok\n");
   multi_graphic_ppo(server->graphic, player);
+  dump_player(player);
 }
 
 void		cmd_right(t_server *server, t_command *command)

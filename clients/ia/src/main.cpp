@@ -12,6 +12,7 @@
 #include "Exception.hpp"
 #include "Param.hpp"
 #include "Connection.hpp"
+#include "RequestBuffer.hpp"
 #include "Player.hpp"
 
 static std::pair<int, int> getStartPosition(std::string str) {
@@ -28,18 +29,20 @@ static std::pair<int, int> getStartPosition(std::string str) {
 
 int main(int argc, char **argv) {
 
-  Param args(argc, argv);
-
-  Connection::initConnection(args.getPort(), args.getHost());
-  RequestBuffer::initRequestBuffer(10);
-
   try {
+    Param args(argc, argv);
+
+    Connection::initConnection(args.getPort(), args.getHost());
+    RequestBuffer::initRequestBuffer(10);
+
     if (Connection::getInstance().recvMsg() != "WELCOME") {
       throw (std::logic_error("Connection not etablished"));
     }
 
     Connection::getInstance().sendMsg(args.getTeamName());
-    Connection::getInstance().recvMsg();
+    if (Connection::getInstance().recvMsg() == "ko") {
+      throw (Exception("Team is full"));
+    }
     auto startPos = getStartPosition(Connection::getInstance().recvMsg());
 
     Player player(startPos.first, startPos.second, args.getTeamName());

@@ -18,7 +18,7 @@
 # include "rotation.h"
 # include "vector.h"
 
-# define DEFAULT_FOOD 10
+# define DEFAULT_FOOD 9
 
 /**
  * structure that represents a player
@@ -56,5 +56,6 @@ void		free_player(void *item);
 
 void		add_player_cmd(t_player *player, t_command *cmd);
 void		move_player(t_world *world, t_player *player, t_rotation dir);
+void		dump_player(t_player *player);
 
 #endif /* !PLAYER_H_ */

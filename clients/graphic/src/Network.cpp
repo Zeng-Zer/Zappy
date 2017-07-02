@@ -7,6 +7,11 @@ Network::Network() {
   _i = 0;
 }
 
+Network::~Network()
+{
+  close(_instance->_sock);
+}
+
 void Network::initNetwork(int port, std::string host) {
   _instance.reset(new Network());
   struct protoent *pe;
@@ -29,12 +34,6 @@ void Network::initNetwork(int port, std::string host) {
       throw (NetworkException("connect() failed"));
     }
   _instance->_isConnected = true;
-}
-
-void Network::destroyNetwork()
-{
-  close(_instance->_sock);
-  _instance.reset(nullptr);
 }
 
 Network& Network::getInstance() {
@@ -75,3 +74,7 @@ std::string Network::recvMsg(int flags) {
   }
   return line;
 }
+
+// void Network::getCmd() {
+//   std::string line = recvMsg();
+// }

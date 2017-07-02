@@ -61,8 +61,13 @@ void			Logic::clear() { _window.clear(); }
 void			Logic::display() { _window.display(); }
 
 void			Logic::setMapSize(sf::Vector2i const &s) { _map_size = s; }
- 
-void			Logic::setMapContent(sf::Vector2i const &p, resource_list l) { _map.setMapContent(p, l); }
+
+void			Logic::setMapContent(sf::Vector2i const &p, resource_list l) {
+  _map.setMapContent(p, l);
+}
+void			Logic::setUnitTime(int ut) {
+  _unitTime = ut;
+}
 
 void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, unsigned int const o)
 {

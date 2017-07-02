@@ -19,6 +19,7 @@ private:
   sf::View		_view;
   TileMap		_map;
   std::vector<Player*>	_players;
+  int			_unitTime;
 
 public:
   Logic(sf::Vector2i const&, std::string const& = "Zappy");
@@ -34,6 +35,7 @@ public:
 
   void			setMapSize(sf::Vector2i const&);
   void			setMapContent(sf::Vector2i const&, resource_list);
+  void			setUnitTime(int);
 
   void			setPlayerPosition(unsigned int const, sf::Vector2i const&, unsigned int const);
 

@@ -62,12 +62,12 @@ void			param_default(t_param *param)
       param->teams = malloc(sizeof(char *) * 5);
       if (!param->teams)
 	exit(84);
-      memcpy(param->teams, (char*[5]){
+      memcpy(param->teams, ((char*[5]){
 	       strdup("Team1"),
 	       strdup("Team2"),
 	       strdup("Team3"),
 	       strdup("Team4"),
-	       NULL},
+	       NULL}),
 	sizeof(char*[5]));
       if (!param->teams[0] || !param->teams[1] ||
 	  !param->teams[2] || !param->teams[3])
