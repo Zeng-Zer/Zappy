@@ -1,3 +1,4 @@
+#include "Logic.hpp"
 #include "Protocol.hpp"
 
 const std::map<Protocol::Cmd, std::string> Protocol::cmdMap = {
@@ -7,6 +8,8 @@ const std::map<Protocol::Cmd, std::string> Protocol::cmdMap = {
   {Cmd::PNW, "pnw"},
   {Cmd::PPO, "ppo"},
   {Cmd::PLV, "plv"},
+  {Cmd::PFK, "pfk"},
+  {Cmd::ENW, "enw"},
   {Cmd::SGT, "sgt"}
 };
 
@@ -17,6 +20,8 @@ const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
   {"pnw", Cmd::PNW},
   {"ppo", Cmd::PPO},
   {"plv", Cmd::PLV},
+  {"pfk", Cmd::PFK},
+  {"enw", Cmd::ENW},
   {"sgt", Cmd::SGT}
 };
 
@@ -27,6 +32,8 @@ const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> P
   {Cmd::PNW, &pnw},
   {Cmd::PPO, &ppo},
   {Cmd::PLV, &plv},
+  {Cmd::PFK, &pfk},
+  {Cmd::ENW, &enw},
   {Cmd::SGT, &sgt}
 };
 
@@ -144,6 +151,26 @@ void Protocol::plv(Logic& l, std::string const& str) {
   unsigned id = Tools::parseStream<unsigned>(ss);
   unsigned lvl = Tools::parseStream<unsigned>(ss);
   l.setPlayerLevel(id, lvl);
+}
+
+void Protocol::pfk(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  unsigned id = Tools::parseStream<unsigned>(ss);
+}
+
+void Protocol::enw(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  unsigned idEgg = Tools::parseStream<unsigned>(ss);
+  unsigned isPlayer = Tools::parseStream<unsigned>(ss);
+  sf::Vector2i coord = {
+    Tools::parseStream<int>(ss),
+    Tools::parseStream<int>(ss)
+  };
+
 }
 
 void Protocol::sgt(Logic& l, std::string const& str) {

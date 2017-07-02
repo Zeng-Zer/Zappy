@@ -27,7 +27,6 @@ int main(int argc, char **argv)
       }
       Protocol::initDataGame(logic);
 
-      logic.setTeam("Lol");
       logic.createPlayer(0, sf::Vector2i(4, 4), 3, 0, "Lol");
       logic.setMapContent(0);
       logic.setPlayerPosition(0, sf::Vector2i(2, 2), 1);
@@ -35,6 +34,7 @@ int main(int argc, char **argv)
       while (logic.isOpen())
       	{
       	  logic.eventLoop();
+	  logic.updateData();
       	  logic.clear();
 	  logic.update();
       	  logic.display();
