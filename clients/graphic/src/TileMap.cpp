@@ -157,6 +157,16 @@ void			TileMap::addMapContent(sf::Vector2i const &p, Resource::Type t)
   _grid[(p.y + p.x * _map_size.x)].push_back(e);
 }
 
+void			TileMap::removeMapContent(sf::Vector2i const &p, Resource::Type t)
+{
+  for (unsigned int i = 0; i < _grid[(p.y + p.x * _map_size.x)].size(); i++)
+    if (_grid[(p.y + p.x * _map_size.x)][i]->getType() == t)
+      {
+	_grid[(p.y + p.x * _map_size.x)].erase(_grid[(p.y + p.x * _map_size.x)].begin() + i - 1);
+	break ;
+      }
+}
+
 void			TileMap::update(sf::RenderWindow *window)
 {
   window->draw(*this);

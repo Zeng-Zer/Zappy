@@ -11,10 +11,12 @@ public:
 
 private:
   Type				_type;
-
+  
 public:
   Resource(sf::Texture const&, sf::Vector2i const&, Type);
   virtual ~Resource();
+
+  Type const			&getType() const;
 };
 
 #endif /* !RESOURCE_HPP_ */

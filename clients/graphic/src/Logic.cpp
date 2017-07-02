@@ -107,6 +107,7 @@ void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, un
   _players[id]->setDirection(Player::transformDirection(o));
 }
 
+
 void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
 {
   _players[id]->setLevel(lvl);
@@ -115,6 +116,11 @@ void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
 void			Logic::playerDropResource(unsigned int const id, unsigned int const r)
 {
   _map.addMapContent(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
+}
+
+void			Logic::playerTakeResource(unsigned int const id, unsigned int const r)
+{
+  _map.removeMapContent(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
 }
 
 void			Logic::addTeam(std::string const &team)

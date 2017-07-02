@@ -13,6 +13,7 @@
 typedef std::array<unsigned int, 7>	resource_list;
 
 class				Egg;
+class			        Resource;
 class				TileMap : public sf::Drawable, public sf::Transformable
 {
 public:
@@ -49,7 +50,9 @@ public:
   sf::Vector2f			mapToCoords(sf::Vector2i const&) const;
   void				setMapContent(sf::Vector2i const&, resource_list);
   void				setMapContent(sf::Vector2i const&);
+
   void				addMapContent(sf::Vector2i const&, Resource::Type);
+  void				removeMapContent(sf::Vector2i const&, Resource::Type);
   void				update(sf::RenderWindow*);
 };
 
