@@ -16,12 +16,12 @@ Logic::Logic(sf::Vector2i const &res, std::string const &name)
 
 Logic::~Logic()
 {
-  unsigned int		i;
-
   for (std::map<std::string, Team*>::iterator it = _teams.begin(); it != _teams.end(); ++it)
     delete std::get<1>(*it);
-  for (i = 0; i < _players.size(); i++)
-    delete _players[i];
+  for (std::map<unsigned int, Egg*>::iterator it = _eggs.begin(); it != _eggs.end(); ++it)
+    delete std::get<1>(*it);
+  for (std::map<unsigned int, Player*>::iterator it = _players.begin(); it != _players.end(); ++it)
+    delete std::get<1>(*it);
 }
 
 void			Logic::createMap(TileMap::Terrain t)
@@ -156,6 +156,11 @@ void			Logic::playerTakeResource(unsigned int const id, unsigned int const r)
 void			Logic::playerDead(unsigned int const id)
 {
   _players.erase(id);
+}
+
+void			Logic::endGame(std::string const &s)
+{
+  
 }
 
 void			Logic::update()

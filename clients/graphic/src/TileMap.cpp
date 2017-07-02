@@ -6,7 +6,12 @@ TileMap::TileMap() : _isGrid(false)
   _map_size.y = 1;
 }
 
-TileMap::~TileMap() {}
+TileMap::~TileMap()
+{
+  for (std::map<int, std::vector<Resource*>>::iterator it = _resources.begin(); it != _resources.end(); ++it)
+    for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
+      delete std::get<1>(*it)[i];
+}
 
 void			TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {

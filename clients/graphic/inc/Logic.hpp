@@ -57,6 +57,8 @@ public:
   void			playerTakeResource(unsigned int const, unsigned int const);
   void			playerDead(unsigned int const);
 
+  void			endGame(std::string const&);
+
   void			update();
 };
 
