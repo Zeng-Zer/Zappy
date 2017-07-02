@@ -5,8 +5,17 @@
 # include <sstream>
 
 namespace Tools {
-  unsigned parseStreamUnsignedInt(std::stringstream&);
-  int parseStreamInt(std::stringstream&);
+
+  template<typename T>
+  T parseStream(std::stringstream& ss) {
+    T value;
+    ss >> value;
+    if (ss.fail()) {
+      return 0;
+    }
+    return value;
+  }
+
   std::string parseStreamString(std::stringstream&);
 }
 

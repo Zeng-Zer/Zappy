@@ -52,11 +52,11 @@ void Protocol::msz(Logic& l, std::string const& str) {
   std::stringstream ss(str);
   std::string cmd;
   ss >> cmd;
-  unsigned x;
-  unsigned y;
-  ss >> x;
-  ss >> y;
-  l.setMapSize(sf::Vector2i(x, y));
+  sf::Vector2i coord = {
+    Tools::parseStream<int>(ss),
+    Tools::parseStream<int>(ss)
+  };
+  l.setMapSize(coord);
 }
 
 void Protocol::bct(Logic& l, std::string const& str) {
@@ -64,18 +64,18 @@ void Protocol::bct(Logic& l, std::string const& str) {
   std::string cmd;
   ss >> cmd;
   sf::Vector2i coord = {
-    Tools::parseStreamInt(ss),
-    Tools::parseStreamInt(ss)
+    Tools::parseStream<int>(ss),
+    Tools::parseStream<int>(ss)
   };
   resource_list	rl = {
     {
-      Tools::parseStreamUnsignedInt(ss),
-      Tools::parseStreamUnsignedInt(ss),
-      Tools::parseStreamUnsignedInt(ss),
-      Tools::parseStreamUnsignedInt(ss),
-      Tools::parseStreamUnsignedInt(ss),
-      Tools::parseStreamUnsignedInt(ss),
-      Tools::parseStreamUnsignedInt(ss),
+      Tools::parseStream<unsigned>(ss),
+      Tools::parseStream<unsigned>(ss),
+      Tools::parseStream<unsigned>(ss),
+      Tools::parseStream<unsigned>(ss),
+      Tools::parseStream<unsigned>(ss),
+      Tools::parseStream<unsigned>(ss),
+      Tools::parseStream<unsigned>(ss),
     }
   };
   l.setMapContent(coord, rl);
