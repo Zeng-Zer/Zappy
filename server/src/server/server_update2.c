@@ -30,6 +30,7 @@ bool		check_win(t_server *server)
 	    {
 	      multi_graphic_seg(server->graphic,
 				server->teams[player->team_id]);
+	      printf("WINNER: %s\n", server->teams[player->team_id]);
 	      return (true);
 	    }
 	}
