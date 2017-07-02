@@ -106,6 +106,8 @@ void			Logic::updateData()
     std::cout << "Enum cmd: " << cmd << std::endl;
 
     Protocol::cmdFun.at(cmd)(*this, line);
+    if (cmd == Protocol::QUIT)
+      break ;
     line = Network::getInstance().recvMsg(MSG_DONTWAIT);
   }
 }

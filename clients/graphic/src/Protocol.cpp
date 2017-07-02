@@ -237,7 +237,6 @@ void Protocol::seg(Logic& l, std::string const& str) {
 
 void Protocol::quit(Logic& l, std::string const& str) {
   (void) str;
-  std::cout << "YOLO" << std::endl;
   l.quit();
 }
 
