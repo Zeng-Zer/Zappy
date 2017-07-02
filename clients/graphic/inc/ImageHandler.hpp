@@ -15,13 +15,13 @@ private:
   ImageHandler();
 
   std::map<Texture, std::tuple<sf::Texture, sf::Vector2i>>	_textures;
-  static std::unique_ptr<ImageHandler>				_instance;
+  static ImageHandler						_instance;
 
 public:
   ~ImageHandler();
 
   static ImageHandler			&getInstance();
-  static void			        initImageHandler();
+  sf::Texture createTexture(std::string const& path);
 
   sf::Texture				getTexture(Texture) const;
   sf::Vector2i const			&getSetSize(Texture) const;

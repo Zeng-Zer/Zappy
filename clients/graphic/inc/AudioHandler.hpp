@@ -14,13 +14,12 @@ private:
   AudioHandler();
 
   std::map<Sound, sf::SoundBuffer>	_sounds;
-  static std::unique_ptr<AudioHandler>	_instance;
+  static AudioHandler			_instance;
 
 public:
   ~AudioHandler();
 
   static AudioHandler			&getInstance();
-  static void				initAudioHandler();
 
   sf::SoundBuffer			getSound(Sound) const;
 };

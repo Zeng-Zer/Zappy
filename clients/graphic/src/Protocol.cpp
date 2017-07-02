@@ -74,17 +74,17 @@ void Protocol::initDataGame(Logic& l) {
 
   while (!line.empty()) {
     std::cout << "Line: " << line << std::endl;
-  std::stringstream ss(line);
-  std::string cmdString;
+    std::stringstream ss(line);
+    std::string cmdString;
 
-  cmdString = Tools::parseStreamString(ss);
-  std::cout << "Command: " << cmdString << std::endl;
+    cmdString = Tools::parseStreamString(ss);
+    std::cout << "Command: " << cmdString << std::endl;
 
-  Protocol::Cmd cmd = Protocol::stringToCmd(cmdString);
-  std::cout << "Enum cmd: " << cmd << std::endl;
+    Protocol::Cmd cmd = Protocol::stringToCmd(cmdString);
+    std::cout << "Enum cmd: " << cmd << std::endl;
 
-  Protocol::cmdFun.at(cmd)(l, line);
-  line = Network::getInstance().recvMsg(MSG_DONTWAIT);
+    Protocol::cmdFun.at(cmd)(l, line);
+    line = Network::getInstance().recvMsg(MSG_DONTWAIT);
   }
 }
 

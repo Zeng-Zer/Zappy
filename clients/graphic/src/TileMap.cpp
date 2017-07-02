@@ -1,4 +1,5 @@
 #include "TileMap.hpp"
+#include <iostream>
 
 TileMap::TileMap() : _isGrid(false)
 {
@@ -69,7 +70,7 @@ void			TileMap::grid()
 
   _isGrid = true;
   for (int i = 0; i < vSize; i++)
-    _lineGrid.push_back(sf::VertexArray(sf::LineStrip, 4));
+    _lineGrid.push_back(sf::VertexArray(sf::LinesStrip, 4));
   for (int i = 0; i < vSize; i++)
     {
       quad = &_vertices[i * 4];
