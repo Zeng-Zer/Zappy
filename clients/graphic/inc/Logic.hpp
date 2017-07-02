@@ -3,6 +3,7 @@
 
 # include <SFML/Graphics.hpp>
 # include <string>
+# include <sstream>
 # include <vector>
 # include <map>
 # include "AudioHandler.hpp"
@@ -11,10 +12,13 @@
 # include "Player.hpp"
 # include "Resource.hpp"
 # include "Team.hpp"
+# include "Protocol.hpp"
+
+# include <iostream>
 
 # define CAM_SPEED 10
 
-class					Logic
+class				Logic
 {
 private:
   sf::Vector2i				_resolution;
@@ -35,6 +39,7 @@ public:
 
   void			eventLoop();
   bool			isOpen() const;
+  void			updateData();
   void			clear();
   void			display();
 
