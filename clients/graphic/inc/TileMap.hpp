@@ -17,7 +17,7 @@ class			        Resource;
 class				TileMap : public sf::Drawable, public sf::Transformable
 {
 public:
-  enum			Terrain
+  enum				Terrain
     {
       DIRT = 0,
       GRASS = 40
@@ -31,7 +31,7 @@ private:
   sf::Vector2i			_tileSize;
   sf::Vector2i			_map_size;
   bool				_isGrid;
-  std::map<int, std::vector<Resource*>>	_grid;
+  std::map<int, std::vector<Resource*>>	_resources;
   std::map<int, std::vector<Egg*>>	_eggs;
 
   virtual void			draw(sf::RenderTarget&, sf::RenderStates) const;
@@ -48,11 +48,11 @@ public:
   static int			*createMap(sf::Vector2i const&, Terrain);
 
   sf::Vector2f			mapToCoords(sf::Vector2i const&) const;
-  void				setMapContent(sf::Vector2i const&, resource_list);
-  void				setMapContent(sf::Vector2i const&);
+  sf::Vector2i			randCoords(Entity*) const;
+  void				addResource(sf::Vector2i const&, Resource::Type);
+  void			        addEgg(sf::Vector2i const&);
 
-  void				addMapContent(sf::Vector2i const&, Resource::Type);
-  void				removeMapContent(sf::Vector2i const&, Resource::Type);
+  void			        removeResource(sf::Vector2i const&, Resource::Type);
   void				update(sf::RenderWindow*);
 };
 

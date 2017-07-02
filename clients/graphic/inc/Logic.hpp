@@ -3,6 +3,7 @@
 
 # include <SFML/Graphics.hpp>
 # include <string>
+# include <sstream>
 # include <vector>
 # include <map>
 # include "AudioHandler.hpp"
@@ -11,10 +12,13 @@
 # include "Player.hpp"
 # include "Resource.hpp"
 # include "Team.hpp"
+# include "Protocol.hpp"
+
+# include <iostream>
 
 # define CAM_SPEED 10
 
-class					Logic
+class				Logic
 {
 private:
   sf::Vector2i				_resolution;
@@ -35,6 +39,7 @@ public:
 
   void			eventLoop();
   bool			isOpen() const;
+  void			updateData();
   void			clear();
   void			display();
 
@@ -42,12 +47,13 @@ public:
   void			setMapContent(sf::Vector2i const&, resource_list);
   void			spawnEgg(unsigned int const, unsigned int const, sf::Vector2i const&);
   void			setUnitTime(int);
+  void		        addTeam(std::string const&);
   void			setPlayerPosition(unsigned int const, sf::Vector2i const&, unsigned int const);
   void			setPlayerLevel(unsigned int const, unsigned int const);
 
   void			playerDropResource(unsigned int const, unsigned int const);
   void			playerTakeResource(unsigned int const, unsigned int const);
-  void		        addTeam(std::string const&);
+  void			playerDead(unsigned int const);
 
   void			update();
 };

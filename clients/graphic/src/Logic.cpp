@@ -78,6 +78,26 @@ void			Logic::eventLoop()
 }
 
 bool			Logic::isOpen() const { return (_window.isOpen()); }
+void			Logic::updateData()
+{
+  std::string line = Network::getInstance().recvMsg();
+
+  while (!line.empty()) {
+    std::cout << "Line: " << line << std::endl;
+    std::stringstream ss(line);
+    std::string cmdString;
+
+    cmdString = Tools::parseStreamString(ss);
+    std::cout << "Command: " << cmdString << std::endl;
+
+    Protocol::Cmd cmd = Protocol::stringToCmd(cmdString);
+    std::cout << "Enum cmd: " << cmd << std::endl;
+
+    Protocol::cmdFun.at(cmd)(*this, line);
+    line = Network::getInstance().recvMsg(MSG_DONTWAIT);
+  }
+}
+
 void			Logic::clear() { _window.clear(); }
 void			Logic::display() { _window.display(); }
 
@@ -89,16 +109,23 @@ void			Logic::setMapSize(sf::Vector2i const &s)
 
 void			Logic::setMapContent(sf::Vector2i const &p, resource_list l)
 {
-  _map.setMapContent(p, l);
+  for (unsigned int i = 0; i < 7; i++)
+    for (unsigned int j = 0; j < l[i]; j++)
+      _map.addResource(p, static_cast<Resource::Type>(i));
 }
 
 void			Logic::spawnEgg(unsigned int const ie, unsigned int const ip, sf::Vector2i const &p)
 {
-  _map.setMapContent(_players[ip]->getCurPos());
+  _map.addEgg(_players[ip]->getCurPos());
 }
 
-void			Logic::setUnitTime(int ut) {
+void			Logic::setUnitTime(int ut)
+{
   _unitTime = ut;
+}
+void			Logic::addTeam(std::string const &team)
+{
+  _teams[team] = new Team(team);
 }
 
 void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, unsigned int const o)
@@ -114,17 +141,17 @@ void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
 
 void			Logic::playerDropResource(unsigned int const id, unsigned int const r)
 {
-  _map.addMapContent(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
+  _map.addResource(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
 }
 
 void			Logic::playerTakeResource(unsigned int const id, unsigned int const r)
 {
-  _map.removeMapContent(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
+  _map.removeResource(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
 }
 
-void			Logic::addTeam(std::string const &team)
+void			Logic::playerDead(unsigned int const id)
 {
-  _teams[team] = new Team(team);
+  _players.erase(id);
 }
 
 void			Logic::update()

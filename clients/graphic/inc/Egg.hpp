@@ -10,6 +10,7 @@ class			Egg : public Entity
 {
 private:
   sf::Vector2i		_curPos;
+  unsigned int		id;
 
 public:
   Egg(sf::Texture const&, sf::Vector2i const&);
