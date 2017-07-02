@@ -8,6 +8,7 @@
 # include <tuple>
 # include "ImageHandler.hpp"
 # include "Resource.hpp"
+# include "Egg.hpp"
 
 typedef std::array<unsigned int, 7>	resource_list;
 
@@ -27,8 +28,9 @@ private:
   sf::Vector2i			_setSize;
   sf::Vector2i			_tileSize;
   sf::Vector2i			_map_size;
-  std::map<int, std::vector<Entity*>>	_grid;
   bool				_isGrid;
+  std::map<int, std::vector<Entity*>>	_grid;
+  std::map<int, std::vector<Entity*>>	_eggs;
 
   virtual void			draw(sf::RenderTarget&, sf::RenderStates) const;
 
@@ -45,6 +47,7 @@ public:
 
   sf::Vector2f			mapToCoords(sf::Vector2i const&) const;
   void				setMapContent(sf::Vector2i const&, resource_list);
+  void				setMapContent(sf::Vector2i const&);
   void				update(sf::RenderWindow*);
 };
 

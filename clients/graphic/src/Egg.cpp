@@ -1,7 +1,7 @@
 #include "Egg.hpp"
 
-Egg::Egg(sf::Texture const &texture, sf::Vector2i const &setSize):
-  Entity(texture, setSize)
+Egg::Egg(sf::Texture const &texture, sf::Vector2i const &setSize)
+  : Entity(texture, setSize)
 {
   sf::Vector2f		tmp;
 

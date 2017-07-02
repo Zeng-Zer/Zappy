@@ -129,7 +129,25 @@ void			TileMap::setMapContent(sf::Vector2i const &p, resource_list l)
   _grid[(p.y + p.x * _map_size.x)] = v;
 }
 
-#include <iostream>
+void			TileMap::setMapContent(sf::Vector2i const &p)
+{
+  sf::Vector2i		pos;
+  Entity		*e;
+  std::vector<Entity*>	v;
+
+  e = new Egg(ImageHandler::getInstance().getTexture(ImageHandler::RESSOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESSOURCE));
+  e->scale(sf::Vector2f(0.75, 0.75));
+  e->setPosition(mapToCoords(p));
+  pos.y = rand() % (_tileSize.y - 8) + 8;
+  if (pos.y <= _tileSize.y / 2)
+    pos.x = e->getPosition().x - _tileSize.x / 2 + rand() % ((pos.y - 8) * 4 + 1) + 64 - (pos.y - 8) * 2;
+  else
+    pos.x = e->getPosition().x - _tileSize.x / 2 + rand() % ((_tileSize.y - pos.y) * 4 + 1) + 64 - (_tileSize.y - pos.y) * 2;
+  pos.y += e->getPosition().y - _tileSize.y / 2;
+  e->setPosition(e->adaptCoords(static_cast<sf::Vector2f>(pos)));
+  v.push_back(e);
+  _eggs[(p.y + p.x * _map_size.x)] = v;
+}
 
 void			TileMap::update(sf::RenderWindow *window)
 {

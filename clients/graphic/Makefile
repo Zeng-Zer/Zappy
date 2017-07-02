@@ -21,6 +21,7 @@ ARROW		=	$(BLUE)"\t=>\t"
 SRC		=	$(DIR_SRC)/main.cpp \
 			$(DIR_SRC)/Param.cpp \
 			$(DIR_SRC)/AudioHandler.cpp \
+			$(DIR_SRC)/Egg.cpp \
 			$(DIR_SRC)/Error.cpp \
 			$(DIR_SRC)/ImageHandler.cpp \
 			$(DIR_SRC)/Logic.cpp \
