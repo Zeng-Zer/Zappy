@@ -26,7 +26,6 @@ int main(int argc, char **argv)
 	NetworkException("First message is not \"WELCOME\"");
       }
       Protocol::initDataGame(logic);
-      logic.createMap(TileMap::GRASS);
 
       while (logic.isOpen())
       	{
