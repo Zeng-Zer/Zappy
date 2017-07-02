@@ -28,6 +28,7 @@ namespace Protocol
     PDI,
     ENW,
     SGT,
+    SEG,
     UNKNOWN,
   };
 
@@ -52,6 +53,7 @@ namespace Protocol
   void pdi(Logic&, std::string const&);
   void enw(Logic&, std::string const&);
   void sgt(Logic&, std::string const&);
+  void seg(Logic&, std::string const&);
 
 };
 
