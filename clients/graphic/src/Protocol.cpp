@@ -13,7 +13,8 @@ const std::map<Protocol::Cmd, std::string> Protocol::cmdMap = {
   {Cmd::PGT, "pgt"},
   {Cmd::PDI, "pdi"},
   {Cmd::ENW, "enw"},
-  {Cmd::SGT, "sgt"}
+  {Cmd::SGT, "sgt"},
+  {Cmd::SEG, "seg"}
 };
 
 const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
@@ -28,7 +29,8 @@ const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
   {"pgt", Cmd::PGT},
   {"pdi", Cmd::PDI},
   {"enw", Cmd::ENW},
-  {"sgt", Cmd::SGT}
+  {"sgt", Cmd::SGT},
+  {"seg", Cmd::SEG}
 };
 
 const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> Protocol::cmdFun = {
@@ -43,7 +45,8 @@ const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> P
   {Cmd::PGT, &pgt},
   {Cmd::PDI, &pdi},
   {Cmd::ENW, &enw},
-  {Cmd::SGT, &sgt}
+  {Cmd::SGT, &sgt},
+  {Cmd::SEG, &seg}
 };
 
 Protocol::Cmd Protocol::stringToCmd(std::string const& str) {
@@ -210,7 +213,16 @@ void Protocol::enw(Logic& l, std::string const& str) {
 
 void Protocol::sgt(Logic& l, std::string const& str) {
   std::stringstream ss(str);
-  std::string cmd = Tools::parseStreamString(ss);
+  std::string cmd;
+  ss >> cmd;
   int t = Tools::parseStream<int>(ss);
   l.setUnitTime(t);
+}
+
+void Protocol::seg(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  std::string team = Tools::parseStreamString(ss);
+  l.endGame(team);
 }
