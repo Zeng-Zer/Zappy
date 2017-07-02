@@ -17,6 +17,8 @@ namespace Protocol
   enum Cmd{
     MSZ = 0,
     BCT,
+    TNA,
+    PNW,
     SGT,
     UNKNOWN,
   };
@@ -32,6 +34,8 @@ namespace Protocol
 
   void msz(Logic&, std::string const&);
   void bct(Logic&, std::string const&);
+  void tna(Logic&, std::string const&);
+  void pnw(Logic&, std::string const&);
   void sgt(Logic&, std::string const&);
 
 };

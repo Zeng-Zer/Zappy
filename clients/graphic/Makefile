@@ -3,7 +3,7 @@ DIR_SRC		=	src
 DIR_INC		=	inc
 
 CXX		=	g++
-CXXFLAGS	=	-std=c++14 -W -Wall -Werror -Wextra -I./$(DIR_INC)
+CXXFLAGS	=	-std=c++14 -W -Wall -Wextra -I./$(DIR_INC)
 LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio #-lsfml-network
 
 ECHO		=	/bin/echo -e
@@ -56,4 +56,4 @@ fclean:			clean
 
 re:			fclean all
 
-.PHONY:			all clean fclean re
+.PHONY:			all $(NAME) clean fclean re

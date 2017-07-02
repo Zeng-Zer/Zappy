@@ -28,8 +28,8 @@ int main(int argc, char **argv)
       Protocol::initDataGame(logic);
       logic.createMap(TileMap::GRASS);
 
-      resource_list	l = {{1, 1, 1, 1, 1, 1, 1}};
-      logic.setMapContent(sf::Vector2i(0, 0), l);
+      // resource_list	l = {{1, 1, 1, 1, 1, 1, 1}};
+      // logic.setMapContent(sf::Vector2i(0, 0), l);
 
       while (logic.isOpen())
       	{
