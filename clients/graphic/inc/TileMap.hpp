@@ -12,6 +12,7 @@
 
 typedef std::array<unsigned int, 7>	resource_list;
 
+class				Egg;
 class				TileMap : public sf::Drawable, public sf::Transformable
 {
 public:
@@ -29,8 +30,8 @@ private:
   sf::Vector2i			_tileSize;
   sf::Vector2i			_map_size;
   bool				_isGrid;
-  std::map<int, std::vector<Entity*>>	_grid;
-  std::map<int, std::vector<Entity*>>	_eggs;
+  std::map<int, std::vector<Resource*>>	_grid;
+  std::map<int, std::vector<Egg*>>	_eggs;
 
   virtual void			draw(sf::RenderTarget&, sf::RenderStates) const;
 
@@ -48,6 +49,7 @@ public:
   sf::Vector2f			mapToCoords(sf::Vector2i const&) const;
   void				setMapContent(sf::Vector2i const&, resource_list);
   void				setMapContent(sf::Vector2i const&);
+  void				addMapContent(sf::Vector2i const&, Resource::Type);
   void				update(sf::RenderWindow*);
 };
 

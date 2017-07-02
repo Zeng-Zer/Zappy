@@ -7,7 +7,10 @@
 class				Resource : public Entity
 {
 public:
-  enum			Type { FOOD, LINEMATE, DERAUMERE, SIBUR, MENDIANE, PHIRAS, THYSTAME };
+  enum				Type { FOOD, LINEMATE, DERAUMERE, SIBUR, MENDIANE, PHIRAS, THYSTAME };
+
+private:
+  Type				_type;
 
 public:
   Resource(sf::Texture const&, sf::Vector2i const&, Type);

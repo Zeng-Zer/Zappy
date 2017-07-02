@@ -40,9 +40,12 @@ public:
 
   void			setMapSize(sf::Vector2i const&);
   void			setMapContent(sf::Vector2i const&, resource_list);
-  void			setMapContent(unsigned int const);
+  void			spawnEgg(unsigned int const);
   void			setUnitTime(int);
   void			setPlayerPosition(unsigned int const, sf::Vector2i const&, unsigned int const);
+  void			setPlayerLevel(unsigned int const, unsigned int const);
+
+  void			playerDropResource(unsigned int const, unsigned int const);
 
   void		        addTeam(std::string const&);
 

@@ -92,7 +92,7 @@ void			Logic::setMapContent(sf::Vector2i const &p, resource_list l)
   _map.setMapContent(p, l);
 }
 
-void			Logic::setMapContent(unsigned int const id)
+void			Logic::spawnEgg(unsigned int const id)
 {
   _map.setMapContent(_players[id]->getCurPos());
 }
@@ -105,6 +105,16 @@ void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, un
 {
   _players[id]->setPosOnGrid(p, _map);
   _players[id]->setDirection(Player::transformDirection(o));
+}
+
+void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
+{
+  _players[id]->setLevel(lvl);
+}
+
+void			Logic::playerDropResource(unsigned int const id, unsigned int const r)
+{
+  _map.addMapContent(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
 }
 
 void			Logic::addTeam(std::string const &team)

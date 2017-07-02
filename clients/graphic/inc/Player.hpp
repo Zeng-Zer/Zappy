@@ -25,11 +25,12 @@ public:
   void			turn(Side);
   void			moveForward(sf::Vector2i const&);
 
+  sf::Vector2i const	&getCurPos() const;
+
   void			setPosOnGrid(sf::Vector2i const&, TileMap const&);
   void			setDirection(Direction);
-
-  sf::Vector2i const	&getCurPos() const;
   void			setCurPos(sf::Vector2i const&);
+  void			setLevel(unsigned int const);
 
   static Direction	transformDirection(unsigned int const);
 };

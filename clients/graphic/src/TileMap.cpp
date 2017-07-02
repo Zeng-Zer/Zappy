@@ -108,8 +108,8 @@ sf::Vector2f	        TileMap::mapToCoords(sf::Vector2i const &p) const
 void			TileMap::setMapContent(sf::Vector2i const &p, resource_list l)
 {
   sf::Vector2i		pos;
-  Entity		*e;
-  std::vector<Entity*>	v;
+  Resource		*e;
+  std::vector<Resource*>	v;
 
   for (unsigned int i = 0; i < 7; i++)
     for (unsigned int j = 0; j < l[i]; j++)
@@ -132,8 +132,8 @@ void			TileMap::setMapContent(sf::Vector2i const &p, resource_list l)
 void			TileMap::setMapContent(sf::Vector2i const &p)
 {
   sf::Vector2i		pos;
-  Entity		*e;
-  std::vector<Entity*>	v;
+  Egg			*e;
+  std::vector<Egg*>	v;
 
   e = new Egg(ImageHandler::getInstance().getTexture(ImageHandler::RESSOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESSOURCE));
   e->scale(sf::Vector2f(0.75, 0.75));
@@ -149,13 +149,21 @@ void			TileMap::setMapContent(sf::Vector2i const &p)
   _eggs[(p.y + p.x * _map_size.x)] = v;
 }
 
+void			TileMap::addMapContent(sf::Vector2i const &p, Resource::Type t)
+{
+  Resource		*e;
+
+  e = new Resource(ImageHandler::getInstance().getTexture(ImageHandler::RESSOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESSOURCE), t);
+  _grid[(p.y + p.x * _map_size.x)].push_back(e);
+}
+
 void			TileMap::update(sf::RenderWindow *window)
 {
   window->draw(*this);
-  for (std::map<int, std::vector<Entity*>>::iterator it = _grid.begin(); it != _grid.end(); ++it)
+  for (std::map<int, std::vector<Resource*>>::iterator it = _grid.begin(); it != _grid.end(); ++it)
     for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
       window->draw(*std::get<1>(*it)[i]);
-  for (std::map<int, std::vector<Entity*>>::iterator it = _eggs.begin(); it != _eggs.end(); ++it)
+  for (std::map<int, std::vector<Egg*>>::iterator it = _eggs.begin(); it != _eggs.end(); ++it)
     for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
       window->draw(*std::get<1>(*it)[i]);
 }
