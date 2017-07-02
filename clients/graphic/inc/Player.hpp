@@ -2,6 +2,7 @@
 # define PLAYER_HPP_
 
 # include <SFML/Graphics.hpp>
+# include "TileMap.hpp"
 # include "Entity.hpp"
 
 class				Player : public Entity
@@ -20,6 +21,11 @@ public:
 
   void			turn(Side);
   void			moveForward(sf::Vector2i const&);
+
+  void			setPosOnGrid(sf::Vector2i const&, TileMap const&);
+  void			setDirection(Direction);
+
+  static Direction	transformDirection(unsigned int const);
 };
 
 #endif /* !PLAYER_HPP_ */
