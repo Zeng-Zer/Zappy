@@ -115,11 +115,11 @@ t_vector	*poll_event(t_network *network)
       if (!network->fds[i].revents)
 	continue;
       if (network->fds[i].revents != POLLIN)
-	network_fail(network, "Server: poll() unexpected revents value");
-      if (network->fds[i].fd == network->server_fd)
+	clean = clean_pollin(packages, network, i);
+      else if (network->fds[i].fd == network->server_fd)
 	handle_new_connection(network);
       else
-	clean = handle_new_events(packages, network, i);
+	clean = clean || handle_new_events(packages, network, i);
     }
   if (clean)
     clean_fd(network);

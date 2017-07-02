@@ -2,8 +2,7 @@
 #include "Level.hpp"
 
 Player::Player(int x, int y, std::string const& team)
-  : _x(x), _y(y), _team(team), _alive(true), _incanting(false) {
-  _data.connect_nbr = 0;
+  : _x(x), _y(y), _level(1), _team(team), _alive(true), _incanting(false) {
 }
 
 Player::~Player() {
@@ -68,7 +67,7 @@ std::vector<std::map<Resource::Resource, int>> Player::look() {
     std::stringstream ssRes(str);
     std::string strRes;
     while (ssRes >> strRes) {
-      std::cout << strRes << std::endl;
+      // std::cout << strRes << std::endl;
       Resource::Resource res = Resource::stringToResource(strRes);
       if (res != Resource::UNKNOWN) {
 	++items[i][res];
@@ -102,8 +101,8 @@ void Player::inventory() {
     int nb;
     ssRes >> strRes;
     ssRes >> nb;
-    std::cout << strRes << std::endl;
-    std::cout << nb << std::endl;
+    // std::cout << strRes << std::endl;
+    // std::cout << nb << std::endl;
     Resource::Resource res = Resource::stringToResource(strRes);
     if (res != Resource::UNKNOWN) {
       _resource[res] = nb;
@@ -124,15 +123,12 @@ void Player::broadcast(std::string const& message) {
 }
 
 void Player::connect_nbr() {
-  RequestBuffer::getInstance().push("Connect_nbr", {&Player::connect_nbrResponce});
 }
 
 void Player::fork() {
-  RequestBuffer::getInstance().push("Fork", {&Player::forkResponce});
 }
 
 void Player::eject() {
-  RequestBuffer::getInstance().push("Eject", {&Player::ejectResponce});
 }
 
 void Player::take(Resource::Resource res) {
@@ -161,153 +157,41 @@ void Player::set(Resource::Resource res) {
   }
 }
 
-// TODO MODIFY THIS
 void Player::incantation() {
   Connection::getInstance().sendMsg("Incantation");
   std::cout << "Incantation()" << std::endl;
 
   _incanting = true;
   Option<std::string> msg;
-  while (_incanting && !(msg = recvMsg()));
-  _incanting = false;
+  while (!(msg = recvMsg()));
 
   if (*msg == "ko") {
-    std::cerr << "Incantation: ko" << std::endl;
+    std::cerr << "Incantation: first check: ko" << std::endl;
+  } else {
+    std::cout << "Incantation underway ! " << std::endl;
   }
-}
+  while (!(msg = recvMsg()));
 
-bool Player::forwardResponce(std::string const& responce) const {
-  if (responce != "ok") {
-    std::cerr << "Forward: bad responce" << std::endl;
-    return false;
+  if (*msg == "ko") {
+    std::cerr << "Incantation: end: ko" << std::endl;
+  } else {
+    ++_level;
+    std::cout << "Incantation success: new level: " << _level << std::endl;
   }
-  return true;
+
+  _incanting = false;
 }
 
-bool Player::rightResponce(std::string const& responce) const {
-  if (responce != "ok") {
-    std::cerr << "Right: bad responce" << std::endl;
-    return false;
-  }
-  return true;
-}
-
-bool Player::leftResponce(std::string const& responce) const {
-  if (responce != "ok") {
-    std::cerr << "Left: bad responce" << std::endl;
-    return false;
-  }
-  return true;
-}
-
-bool Player::lookResponce(std::string const& responce) {
-  std::stringstream ss(responce);
-  std::string word;
-  std::vector<std::vector<Resource::Resource> > vec;
-  int length = 0;
-  int j;
-
-  while (!ss.fail()) {
-    j = length;
-    vec.resize(j + 1);
-    ss >> word;
-    if (std::isalpha(word.front())) {
-      if (word.back() == ',') {
-	word.erase(word.find(','));
-	length++;
-      }
-      vec[j].emplace_back(Resource::stringToResource(word));
-    }
-  }
-  _data.look = vec;
-  return true;
-}
-
-bool Player::inventoryResponce(std::string const& responce) {
-  std::stringstream ss(responce);
-  std::string word;
-  int q;
-  std::map<Resource::Resource, int> map;
-
-  while (!ss.fail()) {
-    ss >> word;
-    if (std::isalpha(word.front())) {
-      ss >> q;
-      map.insert(std::make_pair(Resource::stringToResource(word), q));
-    }
-  }
-  _data.inventory = map;
-  return true;
-}
-
-bool Player::broadcastResponce(std::string const& responce) const {
-  if (responce != "ok") {
-    std::cerr << "Broadcast: bad responce" << std::endl;
-    return false;
-  }
-  return true;
-}
-
-bool Player::connect_nbrResponce(std::string const& responce) {
-  std::string::size_type size;
-  _data.connect_nbr = std::stoi(responce, &size);
-  return (size != 0);
-}
-
-bool Player::forkResponce(std::string const& responce) const{
-  if (responce != "ok") {
-    std::cerr << "Fork: bad responce" << std::endl;
-    return false;
-  }
-  return true;
-}
-
-bool Player::ejectResponce(std::string const& responce) const {
-  if (responce != "ok") {
-    std::cerr << "Eject: bad responce" << std::endl;
-    return false;
-  }
-  return true;
-}
-
-bool Player::takeResponce(std::string const& responce) const {
-  if (responce != "ok") {
-    std::cerr << "Take: bad responce" << std::endl;
-    return false;
-  }
-  return true;
-}
-
-bool Player::setResponce(std::string const& responce) const {
-  if (responce != "ok") {
-    std::cerr << "Set: bad responce" << std::endl;
-    return false;
-  }
-  return true;
-}
-
-bool Player::incantationResponce(std::string const& responce) {
-  return signalIncantation(responce);
-}
-
-Broadcast Player::signalBroadcast(std::string const& msg) {
-  Broadcast b;
-  return b;
-}
-
-bool Player::signalIncantation(std::string const& msg) {
-  return true;
-}
-
-Option<std::string> Player::recvMsg() {
-  std::string response = Connection::getInstance().recvMsg();
-  std::cout << response << std::endl;
+Option<std::string> Player::recvMsg(int flags) {
+  std::string response = Connection::getInstance().recvMsg(flags);
+  // std::cout << response << std::endl;
   std::stringstream ss(response);
 
   std::string str;
   ss >> str;
   // broadcast
   if (str == "message") {
+    std::cout << response << std::endl;
     int dir;
     ss >> dir;
     ss >> str;
@@ -320,14 +204,14 @@ Option<std::string> Player::recvMsg() {
     }
   } else if (str == "dead") {
     exit(0);
-  } else if (str == "Elevation") {
-    _incanting = true;
+  } else if (!_incanting && str == "Elevation") {
+    _noAction = true;
   } else if (str == "eject:") {
     // do nothing
-  } else if (str == "Current") {
+  } else if (!_incanting && str == "Current") {
     ++_level;
     std::cout << "New level: " << _level << std::endl;
-    _incanting = false;
+    _noAction = false;
   } else {
     return {response};
   }
@@ -370,34 +254,129 @@ void Player::move_sound(int k) {
 }
 
 void Player::search(Resource::Resource res) {
+  bool hasRes = false;
 
+  while (!hasRes) {
+    auto items = look();
+    int i = 0;
+    for (auto const& map : items) {
+      if (map.count(res) > 0) {
+	hasRes = true;
+	break;
+      }
+      ++i;
+    }
+
+    if (hasRes) {
+      move(i);
+      take(res);
+    } else {
+      if (rand() % 2) {
+	right();
+      }
+      forward();
+    }
+    inventory();
+  }
+}
+
+Resource::Resource Player::getMissingResource() {
+  if (_level >= 8) {
+    return Resource::UNKNOWN;
+  }
+
+  auto missingMap = Lvl::level[_level + 1];
+  for (auto const& res : missingMap) {
+    if (res.first == Resource::PLAYER) {
+      continue;
+    }
+
+    if (res.second > _resource[res.first]) {
+      return (res.first);
+    }
+  }
+  return (Resource::UNKNOWN);
 }
 
 bool Player::isAlive() const {
   return _alive;
 }
 
+bool Player::isMissingPlayer(std::map<Resource::Resource, int>& items) {
+  if (_level >= 8) {
+    return false;
+  }
+
+  int nbPlayer = Lvl::level[_level + 1][Resource::PLAYER];
+  if (items[Resource::PLAYER] != nbPlayer) {
+    broadcast(std::to_string(nbPlayer - items[Resource::PLAYER]));
+    return true;
+  }
+  return false;
+}
+
+void Player::takeUselessStone(std::map<Resource::Resource, int>& items) {
+  for (auto const& res : items) {
+    if (res.first == Resource::PLAYER || res.first == Resource::FOOD) {
+      continue;
+    }
+
+    for (int i = 0; i < res.second; ++i) {
+      take(res.first);
+    }
+
+  }
+}
+
+void Player::setStone() {
+  for (auto const& res : Lvl::level[_level + 1]) {
+    if (res.first == Resource::PLAYER || res.first == Resource::FOOD) {
+      continue;
+    }
+
+    for (int i = 0; i < res.second; ++i) {
+      set(res.first);
+    }
+  }
+}
+
 void Player::update() {
-  if (_incanting) {
+  if (_noAction) {
     return;
   }
-  /**
-   * IA CODE
-   */
-  // look();
-  // inventory();
-  // forward();
-  // right();
-  // left();
-  // take(Resource::FOOD);
-  // inventory();
-  incantation();
+
+  if (_resource[Resource::FOOD] < 15) {
+    search(Resource::FOOD);
+  }
+  else {
+    Resource::Resource res = getMissingResource();
+
+    // GET MISSING RESOURCE
+    if (res != Resource::UNKNOWN) {
+      search(res);
+    }
+
+    else {
+      // TODO MAYBE SEARCH FOR MORE FOOD
+      auto items = look()[0];
+      if (!isMissingPlayer(items)) {
+	takeUselessStone(items);
+	setStone();
+	incantation();
+      }
+
+      inventory();
+    }
+
+  }
+
   // reset broadcast
   _broadcast = {};
 }
 
 bool Player::canLevelUp() {
-  return _level < 8 && _resource[Resource::LINEMATE] >= Lvl::level[_level + 1][Resource::LINEMATE]
+  return _level < 8
+    && _resource[Resource::LINEMATE] >= Lvl::level[_level + 1][Resource::LINEMATE]
     && _resource[Resource::DERAUMERE] >= Lvl::level[_level + 1][Resource::DERAUMERE]
     && _resource[Resource::SIBUR] >= Lvl::level[_level + 1][Resource::SIBUR]
     && _resource[Resource::MENDIANE] >= Lvl::level[_level + 1][Resource::MENDIANE]

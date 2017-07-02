@@ -18,18 +18,14 @@ int main(int argc, char **argv)
 
   try
     {
+      ImageHandler::initImageHandler();
+      AudioHandler::initAudioHandler();
 
       Network::initNetwork(args.getPort(), args.getHost());
       if (Network::getInstance().recvMsg() != "WELCOME") {
 	NetworkException("First message is not \"WELCOME\"");
       }
       Protocol::initDataGame(logic);
-
-      ImageHandler::initImageHandler();
-
-      AudioHandler::initAudioHandler();
-
-      // logic.setMapSize(sf::Vector2i(1, 1));
       logic.createMap(TileMap::GRASS);
 
       resource_list	l = {{1, 1, 1, 1, 1, 1, 1}};
