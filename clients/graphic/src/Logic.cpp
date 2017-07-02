@@ -39,6 +39,7 @@ void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsig
   _players[id] = new Player(ImageHandler::getInstance().getTexture(ImageHandler::PLAYER), ImageHandler::getInstance().getSetSize(ImageHandler::PLAYER), Player::transformDirection(o), lvl, _teams[team]);
   _players[id]->scale(sf::Vector2f(0.5, 0.5));
   _players[id]->setPosition(_players[id]->adaptCoords(_map.mapToCoords(pos)));
+  _players[id]->setCurPos(pos);
 }
 
 void			Logic::eventLoop()
@@ -86,9 +87,16 @@ void			Logic::setMapSize(sf::Vector2i const &s)
   _map_size = s;
 }
 
-void			Logic::setMapContent(sf::Vector2i const &p, resource_list l) {
+void			Logic::setMapContent(sf::Vector2i const &p, resource_list l)
+{
   _map.setMapContent(p, l);
 }
+
+void			Logic::setMapContent(unsigned int const id)
+{
+  _map.setMapContent(_players[id]->getCurPos());
+}
+
 void			Logic::setUnitTime(int ut) {
   _unitTime = ut;
 }

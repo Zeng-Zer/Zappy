@@ -5,11 +5,9 @@
 # include "TileMap.hpp"
 # include "Entity.hpp"
 
-class Egg : public Entity
+class			TileMap;
+class			Egg : public Entity
 {
-public:
-  enum Side { LEFT, RIGHT };
-
 private:
   sf::Vector2i		_curPos;
 
