@@ -160,6 +160,24 @@ void Protocol::pfk(Logic& l, std::string const& str) {
   unsigned id = Tools::parseStream<unsigned>(ss);
 }
 
+void Protocol::pdr(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  unsigned idPlayer = Tools::parseStream<unsigned>(ss);
+  unsigned idResource = Tools::parseStream<unsigned>(ss);
+  l.playerDropResource(idPlayer, idResource);
+}
+
+void Protocol::pgt(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  unsigned idPlayer = Tools::parseStream<unsigned>(ss);
+  unsigned idResource = Tools::parseStream<unsigned>(ss);
+  l.playerTakeResource(idPlayer, idResource);
+}
+
 void Protocol::enw(Logic& l, std::string const& str) {
   std::stringstream ss(str);
   std::string cmd;
