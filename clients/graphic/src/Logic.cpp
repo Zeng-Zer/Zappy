@@ -60,7 +60,11 @@ bool			Logic::isOpen() const { return (_window.isOpen()); }
 void			Logic::clear() { _window.clear(); }
 void			Logic::display() { _window.display(); }
 
-void			Logic::setMapSize(sf::Vector2i const &s) { _map_size = s; }
+void			Logic::setMapSize(sf::Vector2i const &s)
+{
+  _map.setMapSize(s);
+  _map_size = s;
+}
 
 void			Logic::setMapContent(sf::Vector2i const &p, resource_list l) {
   _map.setMapContent(p, l);

@@ -37,6 +37,7 @@ public:
   virtual ~TileMap();
 
   void				load(sf::Texture const&, sf::Vector2i const&, int const*, sf::Vector2i const&);
+  void				setMapSize(sf::Vector2i const&);
   sf::Vector2i const		&getTileSize() const;
   void				grid();
 

@@ -82,6 +82,8 @@ void			TileMap::grid()
     }
 }
 
+void			TileMap::setMapSize(sf::Vector2i const &s) { _map_size = s; }
+
 sf::Vector2i const	&TileMap::getTileSize() const {return (_tileSize);}
 
 int			*TileMap::createMap(sf::Vector2i const &size, Terrain t)

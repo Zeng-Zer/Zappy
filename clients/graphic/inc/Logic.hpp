@@ -4,6 +4,7 @@
 # include <SFML/Graphics.hpp>
 # include <string>
 # include <vector>
+# include <map>
 # include "AudioHandler.hpp"
 # include "ImageHandler.hpp"
 # include "TileMap.hpp"
@@ -19,6 +20,7 @@ private:
   sf::View		_view;
   TileMap		_map;
   std::vector<Player*>	_players;
+  // std::map<std::string, >
   int			_unitTime;
 
 public:
