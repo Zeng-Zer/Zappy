@@ -51,3 +51,10 @@ void		add_player_cmd(t_player *player, t_command *cmd)
     return (free_command(cmd));
   vector_push(player->cmds, cmd);
 }
+
+void		dump_player(t_player *player)
+{
+  printf("ID: %d, team: %d, lvl: %d, x: %d, y: %d, dir: %d\n", player->id,
+	 player->team_id, player->level, player->pos.x, player->pos.y,
+	 player->rotation);
+}

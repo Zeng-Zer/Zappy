@@ -40,7 +40,9 @@ int main(int argc, char **argv) {
     }
 
     Connection::getInstance().sendMsg(args.getTeamName());
-    Connection::getInstance().recvMsg();
+    if (Connection::getInstance().recvMsg() == "ko") {
+      throw (Exception("Team is full"));
+    }
     auto startPos = getStartPosition(Connection::getInstance().recvMsg());
 
     Player player(startPos.first, startPos.second, args.getTeamName());

@@ -115,7 +115,7 @@ t_vector	*poll_event(t_network *network)
       if (!network->fds[i].revents)
 	continue;
       if (network->fds[i].revents != POLLIN)
-	clean = clean_pollin(packages, network, i);
+	clean = clean || clean_pollin(packages, network, i);
       else if (network->fds[i].fd == network->server_fd)
 	handle_new_connection(network);
       else

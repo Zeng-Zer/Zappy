@@ -46,6 +46,7 @@ static void	lvlup(t_tile *tile, int level)
 	{
 	  ++player->level;
 	  dprintf(player->id, "Current level: %d\n", player->level);
+	  dump_player(player);
 	}
     }
 }
@@ -54,13 +55,16 @@ static void	notify_player(t_server *server, t_player *player)
 {
   t_tile	*tile;
   size_t	i;
+  int		level;
 
   tile = at(server->world, player->pos);
   i = -1;
+  level = player->level;
   while (++i < tile->players->length)
     {
       player = tile->players->items[i];
-      dprintf(player->id, "Elevation underway\n");
+      if (player->level == level)
+	dprintf(player->id, "Elevation underway\n");
     }
 }
 

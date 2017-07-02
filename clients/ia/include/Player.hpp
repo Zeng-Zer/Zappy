@@ -38,7 +38,7 @@ public:
   void incantation();
 
   /*
-  **
+  ** recv all msg
   */
   Option<std::string> recvMsg(int flags = 0);
 
@@ -49,12 +49,10 @@ public:
   bool isAlive() const;
   Resource::Resource getMissingResource();
   void move(int x);
-  void move_sound(int x);
-  bool canLevelUp();
+  void moveTowardSound(int x);
   void search(Resource::Resource res);
   bool isMissingPlayer(std::map<Resource::Resource, int>&);
-  void takeUselessStone(std::map<Resource::Resource, int>&);
-  void setStone();
+  void setupStone(std::map<Resource::Resource, int>& items);
 
 private:
   int _x;
@@ -66,7 +64,8 @@ private:
   std::map<Resource::Resource, int> _resource;
   Option<Broadcast> _broadcast;
   bool _incanting;
-  bool _noAction;
+  int _survivalFood;
+  bool _move;
 };
 
 #endif /* !PLAYER_HPP_ */

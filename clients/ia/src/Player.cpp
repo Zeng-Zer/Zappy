@@ -2,7 +2,8 @@
 #include "Level.hpp"
 
 Player::Player(int x, int y, std::string const& team)
-  : _x(x), _y(y), _level(1), _team(team), _alive(true), _incanting(false) {
+  : _x(x), _y(y), _level(1), _team(team), _alive(true), _incanting(false),
+    _survivalFood(20), _move(true) {
 }
 
 Player::~Player() {
@@ -52,10 +53,6 @@ std::vector<std::map<Resource::Resource, int>> Player::look() {
   Option<std::string> msg;
   while (!(msg = recvMsg()));
 
-  if (msg->size() < 5) {
-    return {};
-  }
-
   std::vector<std::map<Resource::Resource, int>> items;
   std::stringstream ss(msg->substr(1, msg->size() - 2));
   std::string str;
@@ -82,7 +79,7 @@ std::vector<std::map<Resource::Resource, int>> Player::look() {
 
 void Player::inventory() {
   Connection::getInstance().sendMsg("Inventory");
-  std::cout << "Inventory()" << std::endl;
+  // std::cout << "Inventory()" << std::endl;
 
   Option<std::string> msg;
   while (!(msg = recvMsg()));
@@ -133,19 +130,21 @@ void Player::eject() {
 
 void Player::take(Resource::Resource res) {
   Connection::getInstance().sendMsg("Take " + Resource::resourceToString(res));
-  std::cout << "Take()" << std::endl;
+  std::cout << "Take() " << Resource::resourceToString(res) << std::endl;
 
   Option<std::string> msg;
   while (!(msg = recvMsg()));
 
   if (*msg != "ok") {
     std::cerr << "Take: bad responce" << std::endl;
+  } else {
+    ++_resource[res];
   }
 }
 
 void Player::set(Resource::Resource res) {
   Connection::getInstance().sendMsg("Set " + Resource::resourceToString(res));
-  std::cout << "Set()" << std::endl;
+  std::cout << "Set() " << Resource::resourceToString(res) << std::endl;
 
   Option<std::string> msg;
   while (!(msg = recvMsg()));
@@ -174,10 +173,14 @@ void Player::incantation() {
 
   if (*msg == "ko") {
     std::cerr << "Incantation: end: ko" << std::endl;
+    // broadcast("done " + std::to_string(_level + 1));
   } else {
     ++_level;
-    std::cout << "Incantation success: new level: " << _level << std::endl;
+    _move = true;
+    std::cout << *msg << std::endl;
+    // broadcast("done " + std::to_string(_level));
   }
+
 
   _incanting = false;
 }
@@ -191,27 +194,40 @@ Option<std::string> Player::recvMsg(int flags) {
   ss >> str;
   // broadcast
   if (str == "message") {
-    std::cout << response << std::endl;
-    int dir;
-    ss >> dir;
-    ss >> str;
-    ss.get();
-    std::getline(ss, str);
-    try {
-      _broadcast = { { dir, std::stoi(str) } };
-    } catch (...) {
-      _broadcast = {};
+    if (str.find("done") != std::string::npos) {
+      if (!_incanting) {
+	_move = true;
+      }
+    } else {
+      int dir;
+      ss >> dir;
+      ss >> str;
+      ss.get();
+      std::getline(ss, str);
+      try {
+	int level = std::stoi(str);
+	if (level == _level + 1) {
+	  std::cout << "GOT: " << response << std::endl;
+	  _broadcast = { { dir, level } };
+	} else {
+	  _broadcast = {};
+	}
+      } catch (...) {
+	_broadcast = {};
+      }
     }
   } else if (str == "dead") {
     exit(0);
   } else if (!_incanting && str == "Elevation") {
-    _noAction = true;
+    std::cout << "Elevation underway" << std::endl;
+    _move = false;
   } else if (str == "eject:") {
     // do nothing
   } else if (!_incanting && str == "Current") {
     ++_level;
-    std::cout << "New level: " << _level << std::endl;
-    _noAction = false;
+    std::cout << response << std::endl;
+    _move = true;
+    _broadcast = {};
   } else {
     return {response};
   }
@@ -248,9 +264,52 @@ void Player::move(int x) {
   }
 }
 
-void Player::move_sound(int k) {
-  //TODO this function is like the same above but with the sound
-  (void) k;
+/*
+** 218
+** 307
+** 456
+*/
+void Player::moveTowardSound(int k) {
+  switch (k) {
+  case 0:
+    return;
+  case 1:
+    break;
+  case 2:
+    forward();
+    left();
+    break;
+  case 3:
+    left();
+    break;
+  case 4:
+    left();
+    forward();
+    left();
+    break;
+  case 5:
+    left();
+    left();
+    break;
+  case 6:
+    right();
+    forward();
+    right();
+    break;
+  case 7:
+    right();
+    break;
+  case 8:
+    forward();
+    right();
+    break;
+  }
+
+  auto players = look();
+  if (_broadcast && players.size() >= 3 &&
+      players[2][Resource::PLAYER] < _broadcast->nbPlayerRequired) {
+    forward();
+  }
 }
 
 void Player::search(Resource::Resource res) {
@@ -292,10 +351,10 @@ Resource::Resource Player::getMissingResource() {
     }
 
     if (res.second > _resource[res.first]) {
-      return (res.first);
+      return res.first;
     }
   }
-  return (Resource::UNKNOWN);
+  return Resource::UNKNOWN;
 }
 
 bool Player::isAlive() const {
@@ -308,78 +367,89 @@ bool Player::isMissingPlayer(std::map<Resource::Resource, int>& items) {
   }
 
   int nbPlayer = Lvl::level[_level + 1][Resource::PLAYER];
-  if (items[Resource::PLAYER] != nbPlayer) {
-    broadcast(std::to_string(nbPlayer - items[Resource::PLAYER]));
+  if (items.count(Resource::PLAYER) == 0) {
+    items[Resource::PLAYER] = 0;
+  }
+
+  if (items[Resource::PLAYER] > nbPlayer) {
+    forward();
     return true;
   }
+
+  if (items[Resource::PLAYER] < nbPlayer) {
+    broadcast(std::to_string(_level + 1));
+    return true;
+  }
+  std::cout << "Incatation " << _level << ", " << items[Resource::PLAYER]
+	    << " here" << std::endl;
   return false;
 }
 
-void Player::takeUselessStone(std::map<Resource::Resource, int>& items) {
-  for (auto const& res : items) {
+void Player::setupStone(std::map<Resource::Resource, int>& items) {
+  for (auto& res : Lvl::level[_level + 1]) {
     if (res.first == Resource::PLAYER || res.first == Resource::FOOD) {
       continue;
     }
 
-    for (int i = 0; i < res.second; ++i) {
-      take(res.first);
+    if (items.count(res.first) == 0) {
+      items[res.first] = 0;
     }
 
-  }
-}
-
-void Player::setStone() {
-  for (auto const& res : Lvl::level[_level + 1]) {
-    if (res.first == Resource::PLAYER || res.first == Resource::FOOD) {
-      continue;
-    }
-
-    for (int i = 0; i < res.second; ++i) {
+    while (items[res.first] < res.second) {
       set(res.first);
+      ++items[res.first];
     }
+    while (items[res.first] > res.second) {
+      take(res.first);
+      --items[res.first];
+    }
+
   }
 }
 
 void Player::update() {
-  if (_noAction) {
-    return;
-  }
+  inventory();
 
-  if (_resource[Resource::FOOD] < 15) {
-    search(Resource::FOOD);
-  }
-  else {
-    Resource::Resource res = getMissingResource();
-
-    // GET MISSING RESOURCE
-    if (res != Resource::UNKNOWN) {
-      search(res);
+  if (_move) {
+    if (_resource[Resource::FOOD] < _survivalFood) {
+      search(Resource::FOOD);
     }
+    else if (!_broadcast) {
+      Resource::Resource res = getMissingResource();
 
-    else {
-      // TODO MAYBE SEARCH FOR MORE FOOD
-      auto items = look()[0];
-      if (!isMissingPlayer(items)) {
-	takeUselessStone(items);
-	setStone();
-	incantation();
+      // GET MISSING RESOURCE
+      if (res != Resource::UNKNOWN) {
+	search(res);
       }
 
-      inventory();
-    }
+      else if (_level < 8) {
+	_survivalFood = 10;
+	auto itemsVec = look();
+	if (itemsVec.size() >= 3) {
+	  auto items = itemsVec[0];
+	  if (!isMissingPlayer(items)) {
+	    setupStone(items);
+	    incantation();
+	    _survivalFood = 20;
+	  }
+	}
 
+	inventory();
+      }
+
+    }
+  }
+
+  if (_broadcast) {
+    std::cout << "MOVE TOWARD: " << _broadcast->dir << std::endl;
+    moveTowardSound(_broadcast->dir);
+    _move = false;
+  }
+
+  if (_resource[Resource::FOOD] < 10) {
+    _move = true;
   }
 
   // reset broadcast
   _broadcast = {};
-}
-
-bool Player::canLevelUp() {
-  return _level < 8
-    && _resource[Resource::LINEMATE] >= Lvl::level[_level + 1][Resource::LINEMATE]
-    && _resource[Resource::DERAUMERE] >= Lvl::level[_level + 1][Resource::DERAUMERE]
-    && _resource[Resource::SIBUR] >= Lvl::level[_level + 1][Resource::SIBUR]
-    && _resource[Resource::MENDIANE] >= Lvl::level[_level + 1][Resource::MENDIANE]
-    && _resource[Resource::PHIRAS] >= Lvl::level[_level + 1][Resource::PHIRAS]
-    && _resource[Resource::THYSTAME] >= Lvl::level[_level + 1][Resource::THYSTAME];
 }

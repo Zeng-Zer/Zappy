@@ -52,7 +52,6 @@ void		handle_packages(t_server *server, t_vector *packages)
   i = -1;
   if (!packages)
     return;
-  packages_dump(packages);
   while (++i < packages->length)
     {
       handle_cmd(server, packages->items[i]);
