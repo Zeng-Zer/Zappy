@@ -8,10 +8,10 @@ ImageHandler::ImageHandler() {
     throw(Error());
   std::get<0>(_textures[PLAYER]).setSmooth(true);
   std::get<1>(_textures[PLAYER]) = sf::Vector2i(14, 10);
-  if (!std::get<0>(_textures[RESSOURCE]).loadFromFile("./media/images/ressource.png"))
+  if (!std::get<0>(_textures[RESOURCE]).loadFromFile("./media/images/ressource.png"))
     throw(Error());
-  std::get<0>(_textures[RESSOURCE]).setSmooth(true);
-  std::get<1>(_textures[RESSOURCE]) = sf::Vector2i(15, 15);
+  std::get<0>(_textures[RESOURCE]).setSmooth(true);
+  std::get<1>(_textures[RESOURCE]) = sf::Vector2i(15, 15);
   if (!std::get<0>(_textures[MAP]).loadFromFile("./media/images/map.png"))
     throw(Error());
   std::get<0>(_textures[MAP]).setSmooth(true);

@@ -205,7 +205,7 @@ void Protocol::enw(Logic& l, std::string const& str) {
     Tools::parseStream<int>(ss),
     Tools::parseStream<int>(ss)
   };
-  l.spawnEgg(idEgg, idPlayer, coord);
+  l.createEgg(idEgg, idPlayer, coord);
 }
 
 void Protocol::sgt(Logic& l, std::string const& str) {

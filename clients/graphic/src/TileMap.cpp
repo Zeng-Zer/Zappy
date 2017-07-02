@@ -124,33 +124,12 @@ void			TileMap::addResource(sf::Vector2i const &p, Resource::Type r)
   std::vector<Resource*>	v;
 
   v = _resources[(p.y + p.x * _map_size.x)];
-  e = new Resource(ImageHandler::getInstance().getTexture(ImageHandler::RESSOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESSOURCE), r);
+  e = new Resource(ImageHandler::getInstance().getTexture(ImageHandler::RESOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESOURCE), r);
   e->scale(sf::Vector2f(0.5, 0.5));
   e->setPosition(mapToCoords(p));
   e->setPosition(e->adaptCoords(static_cast<sf::Vector2f>(randCoords(e))));
   v.push_back(e);
   _resources[(p.y + p.x * _map_size.x)] = v;
-}
-
-void			TileMap::addEgg(sf::Vector2i const &p)
-{
-  sf::Vector2i		pos;
-  Egg			*e;
-  std::vector<Egg*>	v;
-
-  v = _eggs[(p.y + p.x * _map_size.x)];
-  e = new Egg(ImageHandler::getInstance().getTexture(ImageHandler::RESSOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESSOURCE));
-  e->scale(sf::Vector2f(0.75, 0.75));
-  e->setPosition(mapToCoords(p));
-  pos.y = rand() % (_tileSize.y - 8) + 8;
-  if (pos.y <= _tileSize.y / 2)
-    pos.x = e->getPosition().x - _tileSize.x / 2 + rand() % ((pos.y - 8) * 4 + 1) + 64 - (pos.y - 8) * 2;
-  else
-    pos.x = e->getPosition().x - _tileSize.x / 2 + rand() % ((_tileSize.y - pos.y) * 4 + 1) + 64 - (_tileSize.y - pos.y) * 2;
-  pos.y += e->getPosition().y - _tileSize.y / 2;
-  e->setPosition(e->adaptCoords(static_cast<sf::Vector2f>(pos)));
-  v.push_back(e);
-  _eggs[(p.y + p.x * _map_size.x)] = v;
 }
 
 void			TileMap::removeResource(sf::Vector2i const &p, Resource::Type t)
@@ -167,9 +146,6 @@ void			TileMap::update(sf::RenderWindow *window)
 {
   window->draw(*this);
   for (std::map<int, std::vector<Resource*>>::iterator it = _resources.begin(); it != _resources.end(); ++it)
-    for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
-      window->draw(*std::get<1>(*it)[i]);
-  for (std::map<int, std::vector<Egg*>>::iterator it = _eggs.begin(); it != _eggs.end(); ++it)
     for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
       window->draw(*std::get<1>(*it)[i]);
 }
