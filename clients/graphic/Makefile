@@ -30,7 +30,8 @@ SRC		=	$(DIR_SRC)/main.cpp \
 			$(DIR_SRC)/Entity.cpp \
 			$(DIR_SRC)/Player.cpp \
 			$(DIR_SRC)/Resource.cpp \
-			$(DIR_SRC)/TileMap.cpp
+			$(DIR_SRC)/TileMap.cpp \
+			$(DIR_SRC)/Team.cpp
 
 OBJ		=	$(SRC:.cpp=.o)
 

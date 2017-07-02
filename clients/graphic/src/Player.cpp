@@ -1,13 +1,15 @@
 #include "Player.hpp"
 
-Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Direction d):
-  Entity(texture, setSize)
+Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Direction d, unsigned int const lvl, Team *t)
+  : Entity(texture, setSize), _level(lvl)
 {
   sf::Vector2f		tmp;
 
+  _team = t;
   tmp.x = 0;
   tmp.y = (d + 1) * 2 * _texture.getSize().y / setSize.y;
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
+  _sprite.setColor(_team->color);
 }
 
 Player::~Player() {}

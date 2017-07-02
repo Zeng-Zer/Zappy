@@ -4,6 +4,7 @@
 # include <SFML/Graphics.hpp>
 # include "TileMap.hpp"
 # include "Entity.hpp"
+# include "Team.hpp"
 
 class				Player : public Entity
 {
@@ -14,9 +15,11 @@ public:
 private:
   sf::Vector2i		_curPos;
   Direction		_curDir;
+  unsigned int		_level;
+  Team			*_team;
 
 public:
-  Player(sf::Texture const&, sf::Vector2i const&, Direction);
+  Player(sf::Texture const&, sf::Vector2i const&, Direction, unsigned int const, Team*);
   virtual ~Player();
 
   void			turn(Side);

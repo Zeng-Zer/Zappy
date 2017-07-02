@@ -14,7 +14,20 @@ Logic::Logic(sf::Vector2i const &res, std::string const &name)
   _view.zoom(1);
 }
 
-Logic::~Logic() {}
+Logic::~Logic()
+{
+  unsigned int		i;
+
+  for (std::map<std::string, Team*>::iterator it = _teams.begin(); it != _teams.end(); ++it)
+    delete std::get<1>(*it);
+  for (i = 0; i < _players.size(); i++)
+    delete _players[i];
+}
+
+void			Logic::setTeam(std::string const &team)
+{
+  _teams[team] = new Team(team);
+}
 
 void			Logic::createMap(TileMap::Terrain t)
 {
@@ -26,11 +39,11 @@ void			Logic::createMap(TileMap::Terrain t)
   _view.setCenter(tmp.x / 2, tmp.y / 2);
 }
 
-void			Logic::createPlayer(sf::Vector2i const &pos, unsigned int const o)
+void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsigned int const o, unsigned int const lvl, std::string const &team)
 {
-  _players.push_back(new Player(ImageHandler::getInstance().getTexture(ImageHandler::PLAYER), ImageHandler::getInstance().getSetSize(ImageHandler::PLAYER), Player::transformDirection(o)));
-  _players.back()->scale(sf::Vector2f(0.5, 0.5));
-  _players.back()->setPosition(_players.back()->adaptCoords(_map.mapToCoords(pos)));
+  _players[id] = new Player(ImageHandler::getInstance().getTexture(ImageHandler::PLAYER), ImageHandler::getInstance().getSetSize(ImageHandler::PLAYER), Player::transformDirection(o), lvl, _teams[team]);
+  _players[id]->scale(sf::Vector2f(0.5, 0.5));
+  _players[id]->setPosition(_players[id]->adaptCoords(_map.mapToCoords(pos)));
 }
 
 void			Logic::eventLoop()
