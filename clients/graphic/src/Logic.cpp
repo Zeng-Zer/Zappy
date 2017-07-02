@@ -92,13 +92,9 @@ void			Logic::setMapContent(sf::Vector2i const &p, resource_list l)
   _map.setMapContent(p, l);
 }
 
-void			Logic::spawnEgg(unsigned int const id)
+void			Logic::addTeam(std::string const &team)
 {
-  _map.setMapContent(_players[id]->getCurPos());
-}
-
-void			Logic::setUnitTime(int ut) {
-  _unitTime = ut;
+  _teams[team] = new Team(team);
 }
 
 void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, unsigned int const o)
@@ -113,6 +109,8 @@ void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
   _players[id]->setLevel(lvl);
 }
 
+
+
 void			Logic::playerDropResource(unsigned int const id, unsigned int const r)
 {
   _map.addMapContent(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
@@ -123,9 +121,20 @@ void			Logic::playerTakeResource(unsigned int const id, unsigned int const r)
   _map.removeMapContent(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
 }
 
-void			Logic::addTeam(std::string const &team)
+void			Logic::playerDead(unsigned int const id)
 {
-  _teams[team] = new Team(team);
+  _players.erase(id);
+}
+
+void			Logic::spawnEgg(unsigned int const id)
+{
+  _map.setMapContent(_players[id]->getCurPos());
+}
+
+
+
+void			Logic::setUnitTime(int ut) {
+  _unitTime = ut;
 }
 
 void			Logic::update()
