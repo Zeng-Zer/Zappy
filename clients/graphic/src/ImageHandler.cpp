@@ -27,5 +27,5 @@ void			ImageHandler::initImageHandler()
   _instance.reset(new ImageHandler());
 }
 
-sf::Texture		ImageHandler::getTexture(Texture t) {return (std::get<0>(_textures[t]));}
-sf::Vector2i const	&ImageHandler::getSetSize(Texture t) {return (std::get<1>(_textures[t]));}
+sf::Texture		ImageHandler::getTexture(Texture t) const {return (std::get<0>(_textures.at(t)));}
+sf::Vector2i const	&ImageHandler::getSetSize(Texture t) const {return (std::get<1>(_textures.at(t)));}

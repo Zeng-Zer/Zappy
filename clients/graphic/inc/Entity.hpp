@@ -10,7 +10,7 @@ protected:
   sf::Texture			_texture;
   sf::Vector2i			_setSize;
 
-  virtual void		draw(sf::RenderTarget&, sf::RenderStates) const;
+  virtual void			draw(sf::RenderTarget&, sf::RenderStates) const;
 
 public:
   Entity(sf::Texture const&, sf::Vector2i const&);

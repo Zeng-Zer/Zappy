@@ -22,7 +22,7 @@ public:
   static AudioHandler			&getInstance();
   static void				initAudioHandler();
 
-  sf::SoundBuffer			getSound(Sound);
+  sf::SoundBuffer			getSound(Sound) const;
 };
 
 #endif /* !AUDIOHANDLER_HPP_ */

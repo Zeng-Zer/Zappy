@@ -2,6 +2,7 @@
 # define PLAYER_HPP_
 
 # include <SFML/Graphics.hpp>
+# include <memory>
 # include "TileMap.hpp"
 # include "Entity.hpp"
 # include "Team.hpp"
@@ -16,10 +17,10 @@ private:
   sf::Vector2i		_curPos;
   Direction		_curDir;
   unsigned int		_level;
-  Team			*_team;
+  std::shared_ptr<Team>	_team;
 
 public:
-  Player(sf::Texture const&, sf::Vector2i const&, Direction, unsigned int const, Team*);
+  Player(sf::Texture const&, sf::Vector2i const&, Direction, unsigned int const, std::shared_ptr<Team>);
   virtual ~Player();
 
   void			turn(Side);

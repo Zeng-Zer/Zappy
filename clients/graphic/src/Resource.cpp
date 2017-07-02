@@ -21,4 +21,5 @@ Resource::Resource(sf::Texture const &texture, sf::Vector2i const &setSize, Type
 }
 
 Resource::~Resource() {}
+
 Resource::Type const	&Resource::getType() const { return (_type); }
