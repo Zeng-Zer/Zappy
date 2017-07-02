@@ -6,6 +6,7 @@
 # include <sstream>
 # include <vector>
 # include <map>
+# include <memory>
 # include "AudioHandler.hpp"
 # include "ImageHandler.hpp"
 # include "TileMap.hpp"
@@ -14,8 +15,6 @@
 # include "Resource.hpp"
 # include "Team.hpp"
 # include "Protocol.hpp"
-
-# include <iostream>
 
 # define CAM_SPEED 10
 
@@ -27,10 +26,10 @@ private:
   sf::RenderWindow			_window;
   sf::View				_view;
   TileMap				_map;
-  std::map<unsigned int, Player*>	_players;
-  std::map<unsigned int, Egg*>		_eggs;
-  std::map<std::string, Team*>		_teams;
   int					_unitTime;
+  std::map<unsigned int, std::shared_ptr<Player>>	_players;
+  std::map<unsigned int, std::shared_ptr<Egg>>		_eggs;
+  std::map<std::string, std::shared_ptr<Team>>		_teams;
 
 public:
   Logic(sf::Vector2i const&, std::string const& = "Zappy");

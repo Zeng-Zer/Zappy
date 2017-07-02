@@ -8,9 +8,9 @@ TileMap::TileMap() : _isGrid(false)
 
 TileMap::~TileMap()
 {
-  for (std::map<int, std::vector<Resource*>>::iterator it = _resources.begin(); it != _resources.end(); ++it)
-    for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
-      delete std::get<1>(*it)[i];
+  // for (std::map<int, std::vector<Resource*>>::iterator it = _resources.begin(); it != _resources.end(); ++it)
+  //   for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
+  //     delete std::get<1>(*it)[i];
 }
 
 void			TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -23,7 +23,7 @@ void			TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
       target.draw(_lineGrid[i], states);
 }
 
-void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, int const *tiles)
+void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, std::shared_ptr<int> tiles)
 {
   unsigned int	        x, y, tileNb;
   sf::Vertex		*quad;
@@ -41,7 +41,7 @@ void			TileMap::load(sf::Texture const &tileset, sf::Vector2i const &setSize, in
       tmp.y = i * _tileSize.y / 2;
       for (int j = 0; j < _map_size.x; j++)
 	{
-	  tileNb = tiles[j + i * _map_size.x];
+	  tileNb = tiles.get()[j + i * _map_size.x];
 	  x = tileNb % (_tileset.getSize().x / _tileSize.x);
 	  y = tileNb / (_tileset.getSize().x / _tileSize.x);
 	  quad = &_vertices[(j + i * _map_size.x) * 4];
@@ -90,13 +90,13 @@ void			TileMap::setMapSize(sf::Vector2i const &s) { _map_size = s; }
 
 sf::Vector2i const	&TileMap::getTileSize() const {return (_tileSize);}
 
-int			*TileMap::createMap(sf::Vector2i const &size, Terrain t)
+std::shared_ptr<int>	TileMap::createMap(sf::Vector2i const &size, Terrain t)
 {
-  int			*lvl = new int [size.x * size.y];
+  std::shared_ptr<int>	lvl = std::make_shared<int>(size.x * size.y);
 
   for (int i = 0; i < size.y; i++)
     for (int j = 0; j < size.x; j++)
-      lvl[j + i * size.x] = t;
+      lvl.get()[j + i * size.x] = t;
   return (lvl);
 }
 
@@ -110,7 +110,7 @@ sf::Vector2f	        TileMap::mapToCoords(sf::Vector2i const &p) const
   return (v);
 }
 
-sf::Vector2i		TileMap::randCoords(Entity *e) const
+sf::Vector2i		TileMap::randCoords(std::shared_ptr<Entity> e) const
 {
   sf::Vector2i		pos;
 
@@ -125,11 +125,11 @@ sf::Vector2i		TileMap::randCoords(Entity *e) const
 
 void			TileMap::addResource(sf::Vector2i const &p, Resource::Type r)
 {
-  Resource		*e;
-  std::vector<Resource*>	v;
+  std::shared_ptr<Resource> e;
+  std::vector<std::shared_ptr<Resource>> v;
 
   v = _resources[(p.y + p.x * _map_size.x)];
-  e = new Resource(ImageHandler::getInstance().getTexture(ImageHandler::RESOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESOURCE), r);
+  e = std::make_shared<Resource>(ImageHandler::getInstance().getTexture(ImageHandler::RESOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESOURCE), r);
   e->scale(sf::Vector2f(0.5, 0.5));
   e->setPosition(mapToCoords(p));
   e->setPosition(e->adaptCoords(static_cast<sf::Vector2f>(randCoords(e))));
@@ -150,7 +150,7 @@ void			TileMap::removeResource(sf::Vector2i const &p, Resource::Type t)
 void			TileMap::update(sf::RenderWindow *window)
 {
   window->draw(*this);
-  for (std::map<int, std::vector<Resource*>>::iterator it = _resources.begin(); it != _resources.end(); ++it)
+  for (std::map<int, std::vector<std::shared_ptr<Resource>>>::iterator it = _resources.begin(); it != _resources.end(); ++it)
     for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
       window->draw(*std::get<1>(*it)[i]);
 }

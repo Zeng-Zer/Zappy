@@ -16,12 +16,12 @@ Logic::Logic(sf::Vector2i const &res, std::string const &name)
 
 Logic::~Logic()
 {
-  for (std::map<std::string, Team*>::iterator it = _teams.begin(); it != _teams.end(); ++it)
-    delete std::get<1>(*it);
-  for (std::map<unsigned int, Egg*>::iterator it = _eggs.begin(); it != _eggs.end(); ++it)
-    delete std::get<1>(*it);
-  for (std::map<unsigned int, Player*>::iterator it = _players.begin(); it != _players.end(); ++it)
-    delete std::get<1>(*it);
+  // for (std::map<std::string, std::shared_ptr<Team>>::iterator it = _teams.begin(); it != _teams.end(); ++it)
+  //   delete std::get<1>(*it);
+  // for (std::map<unsigned int, std::shared_ptr<Egg>>::iterator it = _eggs.begin(); it != _eggs.end(); ++it)
+  //   delete std::get<1>(*it);
+  // for (std::map<unsigned int, std::shared_ptr<Player>>::iterator it = _players.begin(); it != _players.end(); ++it)
+  //   delete std::get<1>(*it);
 }
 
 void			Logic::createMap(TileMap::Terrain t)
@@ -36,7 +36,7 @@ void			Logic::createMap(TileMap::Terrain t)
 
 void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsigned int const o, unsigned int const lvl, std::string const &team)
 {
-  _players[id] = new Player(ImageHandler::getInstance().getTexture(ImageHandler::PLAYER), ImageHandler::getInstance().getSetSize(ImageHandler::PLAYER), Player::transformDirection(o), lvl, _teams[team]);
+  _players[id] = std::make_shared<Player>(ImageHandler::getInstance().getTexture(ImageHandler::PLAYER), ImageHandler::getInstance().getSetSize(ImageHandler::PLAYER), Player::transformDirection(o), lvl, _teams[team]);
   _players[id]->scale(sf::Vector2f(0.5, 0.5));
   _players[id]->setPosition(_players[id]->adaptCoords(_map.mapToCoords(pos)));
   _players[id]->setCurPos(pos);
@@ -44,7 +44,7 @@ void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsig
 
 void			Logic::createEgg(unsigned int const id, unsigned int const id_player, sf::Vector2i const &pos)
 {
-  _eggs[id] = new Egg(ImageHandler::getInstance().getTexture(ImageHandler::RESOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESOURCE));
+  _eggs[id] = std::make_shared<Egg>(ImageHandler::getInstance().getTexture(ImageHandler::RESOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESOURCE));
   _eggs[id]->scale(sf::Vector2f(0.75, 0.75));
   _eggs[id]->setPosition(_map.mapToCoords(pos));
   _eggs[id]->setPosition(_eggs[id]->adaptCoords(static_cast<sf::Vector2f>(_map.randCoords(_eggs[id]))));
@@ -87,6 +87,7 @@ void			Logic::eventLoop()
 }
 
 bool			Logic::isOpen() const { return (_window.isOpen()); }
+
 void			Logic::updateData()
 {
   std::string line = Network::getInstance().recvMsg(MSG_DONTWAIT);
@@ -129,7 +130,7 @@ void			Logic::setUnitTime(int ut)
 }
 void			Logic::addTeam(std::string const &team)
 {
-  _teams[team] = new Team(team);
+  _teams[team] = std::make_shared<Team>(team);
 }
 
 void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, unsigned int const o)
@@ -167,8 +168,7 @@ void			Logic::update()
 {
   _window.setView(_view);
   _map.update(&_window);
-  for (unsigned int i = 0; i < _players.size(); i++) {
+  for (unsigned int i = 0; i < _players.size(); i++)
     if (_players[i])
       _window.draw(*_players[i]);
-  }
 }

@@ -4,6 +4,7 @@
 # include <SFML/Graphics.hpp>
 # include <map>
 # include <vector>
+# include <memory>
 # include <array>
 # include <tuple>
 # include "ImageHandler.hpp"
@@ -31,7 +32,7 @@ private:
   sf::Vector2i			_tileSize;
   sf::Vector2i			_map_size;
   bool				_isGrid;
-  std::map<int, std::vector<Resource*>>	_resources;
+  std::map<int, std::vector<std::shared_ptr<Resource>>>	_resources;
 
   virtual void			draw(sf::RenderTarget&, sf::RenderStates) const;
 
@@ -39,15 +40,15 @@ public:
   TileMap();
   virtual ~TileMap();
 
-  void				load(sf::Texture const&, sf::Vector2i const&, int const*);
+  void				load(sf::Texture const&, sf::Vector2i const&, std::shared_ptr<int>);
   void				setMapSize(sf::Vector2i const&);
   sf::Vector2i const		&getTileSize() const;
   void				grid();
 
-  static int			*createMap(sf::Vector2i const&, Terrain);
+  static std::shared_ptr<int>	createMap(sf::Vector2i const&, Terrain);
 
   sf::Vector2f			mapToCoords(sf::Vector2i const&) const;
-  sf::Vector2i			randCoords(Entity*) const;
+  sf::Vector2i			randCoords(std::shared_ptr<Entity>) const;
   void				addResource(sf::Vector2i const&, Resource::Type);
 
   void			        removeResource(sf::Vector2i const&, Resource::Type);

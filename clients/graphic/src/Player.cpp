@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Direction d, unsigned int const lvl, Team *t)
+Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Direction d, unsigned int const lvl, std::shared_ptr<Team> t)
   : Entity(texture, setSize), _level(lvl)
 {
   sf::Vector2f		tmp;

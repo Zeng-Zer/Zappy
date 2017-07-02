@@ -18,4 +18,4 @@ void			AudioHandler::initAudioHandler()
   //   throw(Error());
 }
 
-sf::SoundBuffer		AudioHandler::getSound(Sound s) {return (_sounds[s]);}
+sf::SoundBuffer		AudioHandler::getSound(Sound s) const {return (_sounds.at(s));}

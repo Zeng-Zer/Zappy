@@ -23,8 +23,8 @@ public:
   static ImageHandler			&getInstance();
   static void			        initImageHandler();
 
-  sf::Texture				getTexture(Texture);
-  sf::Vector2i const			&getSetSize(Texture);
+  sf::Texture				getTexture(Texture) const;
+  sf::Vector2i const			&getSetSize(Texture) const;
 };
 
 #endif /* !IMAGEHANDLER_HPP_ */
