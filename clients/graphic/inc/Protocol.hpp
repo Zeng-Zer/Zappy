@@ -25,6 +25,7 @@ namespace Protocol
     PFK,
     PDR,
     PGT,
+    PDI,
     ENW,
     SGT,
     UNKNOWN,
@@ -48,6 +49,7 @@ namespace Protocol
   void pfk(Logic&, std::string const&);
   void pdr(Logic&, std::string const&);
   void pgt(Logic&, std::string const&);
+  void pdi(Logic&, std::string const&);
   void enw(Logic&, std::string const&);
   void sgt(Logic&, std::string const&);
 

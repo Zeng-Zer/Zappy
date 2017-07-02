@@ -9,6 +9,9 @@ const std::map<Protocol::Cmd, std::string> Protocol::cmdMap = {
   {Cmd::PPO, "ppo"},
   {Cmd::PLV, "plv"},
   {Cmd::PFK, "pfk"},
+  {Cmd::PDR, "pdr"},
+  {Cmd::PGT, "pgt"},
+  {Cmd::PDI, "pdi"},
   {Cmd::ENW, "enw"},
   {Cmd::SGT, "sgt"}
 };
@@ -21,6 +24,9 @@ const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
   {"ppo", Cmd::PPO},
   {"plv", Cmd::PLV},
   {"pfk", Cmd::PFK},
+  {"pdr", Cmd::PDR},
+  {"pgt", Cmd::PGT},
+  {"pdi", Cmd::PDI},
   {"enw", Cmd::ENW},
   {"sgt", Cmd::SGT}
 };
@@ -33,6 +39,9 @@ const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> P
   {Cmd::PPO, &ppo},
   {Cmd::PLV, &plv},
   {Cmd::PFK, &pfk},
+  {Cmd::PDR, &pdr},
+  {Cmd::PGT, &pgt},
+  {Cmd::PDI, &pdi},
   {Cmd::ENW, &enw},
   {Cmd::SGT, &sgt}
 };
@@ -178,17 +187,25 @@ void Protocol::pgt(Logic& l, std::string const& str) {
   l.playerTakeResource(idPlayer, idResource);
 }
 
+void Protocol::pdi(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  unsigned idPlayer = Tools::parseStream<unsigned>(ss);
+  l.playerDead(idPlayer);
+}
+
 void Protocol::enw(Logic& l, std::string const& str) {
   std::stringstream ss(str);
   std::string cmd;
   ss >> cmd;
   unsigned idEgg = Tools::parseStream<unsigned>(ss);
-  unsigned isPlayer = Tools::parseStream<unsigned>(ss);
+  unsigned idPlayer = Tools::parseStream<unsigned>(ss);
   sf::Vector2i coord = {
     Tools::parseStream<int>(ss),
     Tools::parseStream<int>(ss)
   };
-
+  l.spawnEgg(idEgg, idPlayer, coord);
 }
 
 void Protocol::sgt(Logic& l, std::string const& str) {
