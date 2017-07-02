@@ -121,6 +121,7 @@ void			Logic::setMapSize(sf::Vector2i const &s)
 
 void			Logic::setMapContent(sf::Vector2i const &p, resource_list l)
 {
+  _map.clearContent(p);
   for (unsigned int i = 0; i < 7; i++)
     for (unsigned int j = 0; j < l[i]; j++)
       _map.addResource(p, static_cast<Resource::Type>(i));
@@ -148,12 +149,12 @@ void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
 
 void			Logic::playerDropResource(unsigned int const id, unsigned int const r)
 {
-  _map.addResource(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
+  _map.addResource(_players.at(id)->getCurPos(), static_cast<Resource::Type>(r));
 }
 
 void			Logic::playerTakeResource(unsigned int const id, unsigned int const r)
 {
-  _map.removeResource(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
+  _map.removeResource(_players.at(id)->getCurPos(), static_cast<Resource::Type>(r));
 }
 
 void			Logic::playerDead(unsigned int const id)
@@ -163,7 +164,12 @@ void			Logic::playerDead(unsigned int const id)
 
 void			Logic::endGame(std::string const &s)
 {
+  (void) s;
+}
 
+void			Logic::quit()
+{
+  _window.close();
 }
 
 void			Logic::update()
