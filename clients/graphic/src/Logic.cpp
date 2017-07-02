@@ -107,6 +107,11 @@ void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, un
   _players[id]->setDirection(Player::transformDirection(o));
 }
 
+void			Logic::setPlayerLevel(unsigned const id, unsigned const lvl)
+{
+  _players[id]->setLevel(lvl);
+}
+
 void			Logic::addTeam(std::string const &team)
 {
   _teams[team] = new Team(team);
