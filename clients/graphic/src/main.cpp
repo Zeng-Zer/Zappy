@@ -30,7 +30,7 @@ int main(int argc, char **argv)
       while (logic.isOpen())
       	{
       	  logic.eventLoop();
-	  logic.updateData();
+	  // logic.updateData();
       	  logic.clear();
 	  logic.update();
       	  logic.display();

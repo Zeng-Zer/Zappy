@@ -89,22 +89,22 @@ void			Logic::eventLoop()
 bool			Logic::isOpen() const { return (_window.isOpen()); }
 void			Logic::updateData()
 {
-  // std::string line = Network::getInstance().recvMsg();
+  std::string line = Network::getInstance().recvMsg(MSG_DONTWAIT);
 
-  // while (!line.empty()) {
-  //   std::cout << "Line: " << line << std::endl;
-  //   std::stringstream ss(line);
-  //   std::string cmdString;
+  while (!line.empty()) {
+    std::cout << "Line: " << line << std::endl;
+    std::stringstream ss(line);
+    std::string cmdString;
 
-  //   cmdString = Tools::parseStreamString(ss);
-  //   std::cout << "Command: " << cmdString << std::endl;
+    cmdString = Tools::parseStreamString(ss);
+    std::cout << "Command: " << cmdString << std::endl;
 
-  //   Protocol::Cmd cmd = Protocol::stringToCmd(cmdString);
-  //   std::cout << "Enum cmd: " << cmd << std::endl;
+    Protocol::Cmd cmd = Protocol::stringToCmd(cmdString);
+    std::cout << "Enum cmd: " << cmd << std::endl;
 
-  //   Protocol::cmdFun.at(cmd)(*this, line);
-  //   line = Network::getInstance().recvMsg(MSG_DONTWAIT);
-  // }
+    Protocol::cmdFun.at(cmd)(*this, line);
+    line = Network::getInstance().recvMsg(MSG_DONTWAIT);
+  }
 }
 
 void			Logic::clear() { _window.clear(); }
