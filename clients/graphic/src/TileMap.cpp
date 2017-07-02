@@ -155,4 +155,7 @@ void			TileMap::update(sf::RenderWindow *window)
   for (std::map<int, std::vector<Entity*>>::iterator it = _grid.begin(); it != _grid.end(); ++it)
     for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
       window->draw(*std::get<1>(*it)[i]);
+  for (std::map<int, std::vector<Entity*>>::iterator it = _eggs.begin(); it != _eggs.end(); ++it)
+    for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
+      window->draw(*std::get<1>(*it)[i]);
 }

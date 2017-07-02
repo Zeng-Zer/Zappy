@@ -5,8 +5,8 @@ Egg::Egg(sf::Texture const &texture, sf::Vector2i const &setSize)
 {
   sf::Vector2f		tmp;
 
-  tmp.x = 0;
-  tmp.y = _texture.getSize().y / setSize.y;
+  tmp.x = 7 * _texture.getSize().x / setSize.x;
+  tmp.y = 5 * _texture.getSize().y / setSize.y;
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
 }
 

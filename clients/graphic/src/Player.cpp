@@ -42,6 +42,9 @@ void			Player::setDirection(Direction d)
   _curDir = d;
 }
 
+sf::Vector2i const	&Player::getCurPos() const { return (_curPos); }
+void			Player::setCurPos(sf::Vector2i const &p) { _curPos = p; }
+
 Player::Direction	Player::transformDirection(unsigned int const o)
 {
   Direction		d;

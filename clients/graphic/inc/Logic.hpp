@@ -40,6 +40,7 @@ public:
 
   void			setMapSize(sf::Vector2i const&);
   void			setMapContent(sf::Vector2i const&, resource_list);
+  void			setMapContent(unsigned int const);
   void			setUnitTime(int);
   void		        setTeam(std::string const&);
 
