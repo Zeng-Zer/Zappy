@@ -12,7 +12,9 @@
 # include "Resource.hpp"
 # include "Team.hpp"
 
-class					Logic
+# define CAM_SPEED 10
+
+class				Logic
 {
 private:
   sf::Vector2i				_resolution;

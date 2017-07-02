@@ -66,13 +66,13 @@ void			Logic::eventLoop()
 	  else if (event.key.code == sf::Keyboard::E)
 	    _view.zoom(0.99);
 	  else if (event.key.code == sf::Keyboard::Up)
-	    _view.setCenter(_view.getCenter().x, _view.getCenter().y - 5);
+	    _view.setCenter(_view.getCenter().x, _view.getCenter().y - CAM_SPEED);
 	  else if (event.key.code == sf::Keyboard::Left)
-	    _view.setCenter(_view.getCenter().x - 5, _view.getCenter().y);
+	    _view.setCenter(_view.getCenter().x - CAM_SPEED, _view.getCenter().y);
 	  else if (event.key.code == sf::Keyboard::Down)
-	    _view.setCenter(_view.getCenter().x, _view.getCenter().y + 5);
+	    _view.setCenter(_view.getCenter().x, _view.getCenter().y + CAM_SPEED);
 	  else if (event.key.code == sf::Keyboard::Right)
-	    _view.setCenter(_view.getCenter().x + 5, _view.getCenter().y);
+	    _view.setCenter(_view.getCenter().x + CAM_SPEED, _view.getCenter().y);
 	  break ;
 
 	default :
