@@ -69,6 +69,7 @@ void Protocol::msz(Logic& l, std::string const& str) {
     Tools::parseStream<int>(ss)
   };
   l.setMapSize(coord);
+  l.createMap(TileMap::GRASS);
 }
 
 void Protocol::bct(Logic& l, std::string const& str) {
@@ -79,6 +80,7 @@ void Protocol::bct(Logic& l, std::string const& str) {
     Tools::parseStream<int>(ss),
     Tools::parseStream<int>(ss)
   };
+  std::cout << "X: " << coord.x << "\t Y: " << coord.y<< std::endl;
   resource_list	rl = {
     {
       Tools::parseStream<unsigned>(ss),
