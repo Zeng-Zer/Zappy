@@ -3,6 +3,7 @@
 #include "Error.hpp"
 #include "Param.hpp"
 #include "Network.hpp"
+#include "Protocol.hpp"
 #include "ImageHandler.hpp"
 #include "AudioHandler.hpp"
 #include "TileMap.hpp"
@@ -21,9 +22,10 @@ int main(int argc, char **argv)
       AudioHandler::initAudioHandler();
 
       Network::initNetwork(args.getPort(), args.getHost());
-      Network::getInstance().sendMsg("GRAPHIC");
-
-      logic.setMapSize(sf::Vector2i(1, 1));
+      if (Network::getInstance().recvMsg() != "WELCOME") {
+	NetworkException("First message is not \"WELCOME\"");
+      }
+      Protocol::initDataGame(logic);
       logic.createMap(TileMap::GRASS);
 
       resource_list	l = {{1, 1, 1, 1, 1, 1, 1}};
