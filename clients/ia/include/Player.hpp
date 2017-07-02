@@ -13,7 +13,13 @@
 
 struct Broadcast {
   int dir;
-  int nbPlayerRequired;
+  int lvl;
+};
+
+enum Task {
+  LEVELER,
+  SBIRE,
+  STAND_BY,
 };
 
 class Player {
@@ -41,6 +47,8 @@ public:
   ** recv all msg
   */
   Option<std::string> recvMsg(int flags = 0);
+  void handleMsg(std::string const& response, std::string str,
+			      std::stringstream& ss);
 
   /*
   ** actual method
@@ -49,7 +57,7 @@ public:
   bool isAlive() const;
   Resource::Resource getMissingResource();
   void move(int x);
-  void moveTowardSound(int x);
+  void moveTowardSound(int x, int lvl);
   void search(Resource::Resource res);
   bool isMissingPlayer(std::map<Resource::Resource, int>&);
   void setupStone(std::map<Resource::Resource, int>& items);
@@ -65,7 +73,7 @@ private:
   Option<Broadcast> _broadcast;
   bool _incanting;
   int _survivalFood;
-  bool _move;
+  Task _task;
 };
 
 #endif /* !PLAYER_HPP_ */
