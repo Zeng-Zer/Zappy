@@ -11,6 +11,8 @@
 # include "Player.hpp"
 # include "Resource.hpp"
 
+# define CAM_SPEED 10
+
 class				Logic
 {
 private:

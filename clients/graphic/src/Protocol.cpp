@@ -96,18 +96,28 @@ void Protocol::bct(Logic& l, std::string const& str) {
 }
 
 void Protocol::tna(Logic& l, std::string const& str) {
-  
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  std::string team = Tools::parseStreamString(ss);
 }
 
 void Protocol::pnw(Logic& l, std::string const& str) {
-  
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  sf::Vector2i coord = {
+    Tools::parseStream<int>(ss),
+    Tools::parseStream<int>(ss)
+  };
+  unsigned o = Tools::parseStream<unsigned>(ss);
+  unsigned lvl = Tools::parseStream<unsigned>(ss);
+  std::string team = Tools::parseStreamString(ss);
 }
 
 void Protocol::sgt(Logic& l, std::string const& str) {
   std::stringstream ss(str);
-  std::string cmd;
-  ss >> cmd;
-  int t;
-  ss >> t;
+  std::string cmd = Tools::parseStreamString(ss);
+  int t = Tools::parseStream<int>(ss);
   l.setUnitTime(t);
 }
