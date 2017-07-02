@@ -49,15 +49,12 @@ void			Player::setLevel(unsigned int const lvl) { _level = lvl; }
 
 Player::Direction	Player::transformDirection(unsigned int const o)
 {
-  Direction		d;
-
-  if (o == 1)
-    d = NORTH;
-  else if (o == 2)
-    d = EAST;
-  else if (o == 3)
-    d = SOUTH;
-  else if (o == 4)
-    d = WEST;
-  return (d);
+  switch (o)
+    {
+    case 1: return (NORTH); break ;
+    case 2: return (EAST); break ;
+    case 3: return (SOUTH); break ;
+    case 4: return (WEST); break ;
+    default: return (SOUTH); break ;
+    }
 }
