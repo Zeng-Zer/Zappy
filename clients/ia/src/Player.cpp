@@ -3,7 +3,7 @@
 
 Player::Player(int x, int y, std::string const& team)
   : _x(x), _y(y), _level(1), _team(team), _alive(true), _incanting(false),
-    _survivalFood(20), _task(STAND_BY) {
+    _survivalFood(30), _task(STAND_BY) {
 }
 
 Player::~Player() {
@@ -15,11 +15,7 @@ void Player::forward() {
   std::cout << "Forward()" << std::endl;
 
   Option<std::string> msg;
-  while (!(msg = recvMsg()));
-
-  if (*msg != "ok") {
-    std::cerr << "Forward: bad responce" << std::endl;
-  }
+  while (!(msg = recvMsg()) || *msg != "ok");
 }
 
 void Player::right() {
@@ -27,11 +23,7 @@ void Player::right() {
   std::cout << "Right()" << std::endl;
 
   Option<std::string> msg;
-  while (!(msg = recvMsg()));
-
-  if (*msg != "ok") {
-    std::cerr << "Right: bad responce" << std::endl;
-  }
+  while (!(msg = recvMsg()) || *msg != "ok");
 }
 
 void Player::left() {
@@ -39,11 +31,7 @@ void Player::left() {
   std::cout << "Left()" << std::endl;
 
   Option<std::string> msg;
-  while (!(msg = recvMsg()));
-
-  if (*msg != "ok") {
-    std::cerr << "Left: bad responce" << std::endl;
-  }
+  while (!(msg = recvMsg()) || *msg != "ok");
 }
 
 std::vector<std::map<Resource::Resource, int>> Player::look() {
@@ -111,11 +99,7 @@ void Player::broadcast(std::string const& message) {
   std::cout << "Broadcast() " << message << std::endl;
 
   Option<std::string> msg;
-  while (!(msg = recvMsg()));
-
-  if (*msg != "ok") {
-    std::cerr << "Broadcast: bad responce" << std::endl;
-  }
+  while (!(msg = recvMsg()) || *msg != "ok");
 }
 
 void Player::connect_nbr() {
@@ -156,7 +140,9 @@ void Player::set(Resource::Resource res) {
 }
 
 void Player::incantation() {
-  // broadcast("start " + std::to_string(_level));
+  // if (_level != 1) {
+  //   broadcast("start " + std::to_string(_level));
+  // }
 
   Connection::getInstance().sendMsg("Incantation");
   std::cout << "Incantation()" << std::endl;
@@ -178,9 +164,10 @@ void Player::incantation() {
     std::cerr << "Incantation: end: ko" << std::endl;
   } else {
     ++_level;
-    _task = STAND_BY;
     std::cout << *msg << std::endl;
   }
+
+  _task = STAND_BY;
 
   _incanting = false;
 }
@@ -196,6 +183,10 @@ void Player::handleMsg(std::string const& response, std::string str,
       str.find("done " + std::to_string(_level)) != std::string::npos) {
     _task = STAND_BY;
   }
+  // else if (!_incanting && _task == SBIRE && dir != 0 &&
+  // 	   str.find("start " + std::to_string(_level)) != std::string::npos) {
+  //   _task = STAND_BY;
+  // }
   else {
     try {
       int level = std::stoi(str);
@@ -229,6 +220,7 @@ Option<std::string> Player::recvMsg(int flags) {
     exit(0);
   } else if (!_incanting && str == "Elevation") {
     std::cout << "Elevation underway" << std::endl;
+    _task = SBIRE;
   } else if (str == "eject:") {
     // do nothing
   } else if (!_incanting && str == "Current") {
@@ -272,11 +264,6 @@ void Player::move(int x) {
   }
 }
 
-/*
-** 218
-** 307
-** 456
-*/
 void Player::moveTowardSound(int k, int lvl) {
   switch (k) {
   case 0:
@@ -384,8 +371,10 @@ bool Player::isMissingPlayer(std::map<Resource::Resource, int>& items) {
   }
 
   if (items[Resource::PLAYER] < nbPlayer) {
-    _task = LEVELER;
     broadcast(std::to_string(_level));
+    if (_task == STAND_BY) {
+      _task = LEVELER;
+    }
     return true;
   }
   std::cout << "Incatation " << _level << ", " << items[Resource::PLAYER]
@@ -420,6 +409,8 @@ void Player::setupStone(std::map<Resource::Resource, int>& items) {
 }
 
 void Player::update() {
+  inventory();
+
   if (_task != SBIRE) {
     if (_resource[Resource::FOOD] < _survivalFood) {
       search(Resource::FOOD);
@@ -434,14 +425,11 @@ void Player::update() {
 
       else if (_level < 8) {
 	_survivalFood = 5;
-	auto itemsVec = look();
-	if (itemsVec.size() >= 3) {
-	  auto items = itemsVec[0];
-	  if (!isMissingPlayer(items)) {
-	    setupStone(items);
-	    incantation();
-	    _survivalFood = 20;
-	  }
+	auto items = look()[0];
+	setupStone(items);
+	if (!isMissingPlayer(items)) {
+	  incantation();
+	  _survivalFood = 20;
 	}
 
       }
@@ -449,14 +437,13 @@ void Player::update() {
     }
   }
 
-  inventory();
 
   if (_task == SBIRE && _broadcast) {
     std::cout << "MOVE TOWARD: " << _broadcast->dir << std::endl;
     moveTowardSound(_broadcast->dir, _broadcast->lvl);
   }
 
-  if (_resource[Resource::FOOD] < 5) {
+  if (_task == SBIRE && _resource[Resource::FOOD] < 5) {
     while (_resource[Resource::FOOD] < 20) {
       search(Resource::FOOD);
     }
