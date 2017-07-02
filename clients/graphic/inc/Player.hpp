@@ -27,6 +27,7 @@ public:
 
   void			setPosOnGrid(sf::Vector2i const&, TileMap const&);
   void			setDirection(Direction);
+  void			setLevel(unsigned);
 
   sf::Vector2i const	&getCurPos() const;
   void			setCurPos(sf::Vector2i const&);

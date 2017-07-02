@@ -42,6 +42,11 @@ void			Player::setDirection(Direction d)
   _curDir = d;
 }
 
+void			Player::setLevel(unsigned lvl)
+{
+  _level = lvl;
+}
+
 sf::Vector2i const	&Player::getCurPos() const { return (_curPos); }
 void			Player::setCurPos(sf::Vector2i const &p) { _curPos = p; }
 

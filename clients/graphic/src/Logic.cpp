@@ -112,6 +112,11 @@ void			Logic::playerTakeResource(unsigned int const id, unsigned int const r)
   _map.removeMapContent(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
 }
 
+void			Logic::setPlayerLevel(unsigned const id, unsigned const lvl)
+{
+  _players[id]->setLevel(lvl);
+}
+
 void			Logic::addTeam(std::string const &team)
 {
   _teams[team] = new Team(team);

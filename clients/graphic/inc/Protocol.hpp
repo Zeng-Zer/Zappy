@@ -19,6 +19,8 @@ namespace Protocol
     BCT,
     TNA,
     PNW,
+    PPO,
+    PLV,
     SGT,
     UNKNOWN,
   };
@@ -36,6 +38,8 @@ namespace Protocol
   void bct(Logic&, std::string const&);
   void tna(Logic&, std::string const&);
   void pnw(Logic&, std::string const&);
+  void ppo(Logic&, std::string const&);
+  void plv(Logic&, std::string const&);
   void sgt(Logic&, std::string const&);
 
 };

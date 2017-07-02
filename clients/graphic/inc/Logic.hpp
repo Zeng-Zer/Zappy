@@ -43,6 +43,7 @@ public:
   void			setMapContent(unsigned int const);
   void			setUnitTime(int);
   void			setPlayerPosition(unsigned int const, sf::Vector2i const&, unsigned int const);
+  void			setPlayerLevel(unsigned const, unsigned const);
 
 
   void			playerTakeResource(unsigned int const, unsigned int const);

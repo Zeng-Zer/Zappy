@@ -5,6 +5,8 @@ const std::map<Protocol::Cmd, std::string> Protocol::cmdMap = {
   {Cmd::BCT, "bct"},
   {Cmd::TNA, "tna"},
   {Cmd::PNW, "pnw"},
+  {Cmd::PPO, "ppo"},
+  {Cmd::PLV, "plv"},
   {Cmd::SGT, "sgt"}
 };
 
@@ -13,6 +15,8 @@ const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
   {"bct", Cmd::BCT},
   {"tna", Cmd::TNA},
   {"pnw", Cmd::PNW},
+  {"ppo", Cmd::PPO},
+  {"plv", Cmd::PLV},
   {"sgt", Cmd::SGT}
 };
 
@@ -21,6 +25,8 @@ const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> P
   {Cmd::BCT, &bct},
   {Cmd::TNA, &tna},
   {Cmd::PNW, &pnw},
+  {Cmd::PPO, &ppo},
+  {Cmd::PLV, &plv},
   {Cmd::SGT, &sgt}
 };
 
@@ -116,6 +122,28 @@ void Protocol::pnw(Logic& l, std::string const& str) {
   unsigned lvl = Tools::parseStream<unsigned>(ss);
   std::string team = Tools::parseStreamString(ss);
   l.createPlayer(id, coord, o, lvl, team);
+}
+
+void Protocol::ppo(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  unsigned id = Tools::parseStream<unsigned>(ss);
+  sf::Vector2i coord = {
+    Tools::parseStream<int>(ss),
+    Tools::parseStream<int>(ss)
+  };
+  unsigned o = Tools::parseStream<unsigned>(ss);
+  l.setPlayerPosition(id, coord, o);
+}
+
+void Protocol::plv(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  unsigned id = Tools::parseStream<unsigned>(ss);
+  unsigned lvl = Tools::parseStream<unsigned>(ss);
+  l.setPlayerLevel(id, lvl);
 }
 
 void Protocol::sgt(Logic& l, std::string const& str) {
