@@ -37,3 +37,21 @@ bool		check_win(t_server *server)
     }
   return (false);
 }
+
+void		add_food(t_server *server, long long time)
+{
+  t_pos		pos;
+
+  if (time > server->time + END_TIME(500.0f))
+    {
+      server->time = time;
+      pos.y = -1;
+      while (++pos.y < server->world->dimension.y)
+	{
+	  pos.x = -1;
+	  while (++pos.x < server->world->dimension.x)
+	    server->world->map[pos.y][pos.x].stones[FOOD] += 1;
+	}
+      printf("Add food\n");
+    }
+}
