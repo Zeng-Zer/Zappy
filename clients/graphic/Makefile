@@ -4,7 +4,7 @@ DIR_INC		=	inc
 
 CXX		=	g++
 CXXFLAGS	=	-std=c++14 -W -Wall -Wextra -I./$(DIR_INC)
-LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio #-lsfml-network
+LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 
 ECHO		=	/bin/echo -e
 DEFAULT		=	"\e[0m"

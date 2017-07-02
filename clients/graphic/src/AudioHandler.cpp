@@ -1,7 +1,7 @@
 #include "Error.hpp"
 #include "AudioHandler.hpp"
 
-AudioHandler AudioHandler::_instance;
+std::unique_ptr<AudioHandler> AudioHandler::_instance(nullptr);
 
 AudioHandler::AudioHandler() {
   // if (!_sounds[MUSIC].loadFromFile("./media/sounds/music.wav"))
@@ -11,7 +11,10 @@ AudioHandler::AudioHandler() {
 AudioHandler::~AudioHandler() {}
 
 AudioHandler&		AudioHandler::getInstance() {
-  return _instance;
+  if (!_instance.get()) {
+    _instance.reset(new AudioHandler());
+  }
+  return *_instance;
 }
 
 sf::SoundBuffer		AudioHandler::getSound(Sound s) const {return (_sounds.at(s));}

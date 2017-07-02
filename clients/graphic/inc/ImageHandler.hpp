@@ -15,7 +15,7 @@ private:
   ImageHandler();
 
   std::map<Texture, std::tuple<sf::Texture, sf::Vector2i>>	_textures;
-  static ImageHandler						_instance;
+  static std::unique_ptr<ImageHandler>				_instance;
 
 public:
   ~ImageHandler();

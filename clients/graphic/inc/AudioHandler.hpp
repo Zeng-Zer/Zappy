@@ -14,7 +14,7 @@ private:
   AudioHandler();
 
   std::map<Sound, sf::SoundBuffer>	_sounds;
-  static AudioHandler			_instance;
+  static std::unique_ptr<AudioHandler>	_instance;
 
 public:
   ~AudioHandler();
