@@ -48,6 +48,7 @@ public:
   static int			*createMap(sf::Vector2i const&, Terrain);
 
   sf::Vector2f			mapToCoords(sf::Vector2i const&) const;
+  void				clearContent(sf::Vector2i const&);
   sf::Vector2i			randCoords(std::shared_ptr<Entity>) const;
   void				addResource(sf::Vector2i const&, Resource::Type);
 

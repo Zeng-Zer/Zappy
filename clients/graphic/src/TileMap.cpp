@@ -125,26 +125,28 @@ sf::Vector2i		TileMap::randCoords(std::shared_ptr<Entity> e) const
   return (pos);
 }
 
+void			TileMap::clearContent(sf::Vector2i const &p)
+{
+  _resources[(p.x + p.y * _map_size.x)].clear();
+}
+
 void			TileMap::addResource(sf::Vector2i const &p, Resource::Type r)
 {
-  std::shared_ptr<Resource> e;
-  std::vector<std::shared_ptr<Resource>> v;
+  std::shared_ptr<Resource>	e;
 
-  v = _resources[(p.y + p.x * _map_size.x)];
   e = std::make_shared<Resource>(ImageHandler::getInstance().getTexture(ImageHandler::RESOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESOURCE), r);
   e->scale(sf::Vector2f(0.5, 0.5));
   e->setPosition(mapToCoords(p));
   e->setPosition(e->adaptCoords(static_cast<sf::Vector2f>(randCoords(e))));
-  v.push_back(e);
-  _resources[(p.y + p.x * _map_size.x)] = v;
+  _resources[(p.x + p.y * _map_size.x)].push_back(e);
 }
 
 void			TileMap::removeResource(sf::Vector2i const &p, Resource::Type t)
 {
-  for (unsigned int i = 0; i < _resources[(p.y + p.x * _map_size.x)].size(); i++)
-    if (_resources[(p.y + p.x * _map_size.x)][i]->getType() == t)
+  for (unsigned int i = 0; i < _resources[(p.x + p.y * _map_size.x)].size(); i++)
+    if (_resources[(p.x + p.y * _map_size.x)][i]->getType() == t)
       {
-	_resources[(p.y + p.x * _map_size.x)].erase(_resources[(p.y + p.x * _map_size.x)].begin() + i - 1);
+	_resources[(p.x + p.y * _map_size.x)].erase(_resources[(p.x + p.y * _map_size.x)].begin() + i);
 	break ;
       }
 }
@@ -152,7 +154,7 @@ void			TileMap::removeResource(sf::Vector2i const &p, Resource::Type t)
 void			TileMap::update(sf::RenderWindow *window)
 {
   window->draw(*this);
-  for (std::map<int, std::vector<std::shared_ptr<Resource>>>::iterator it = _resources.begin(); it != _resources.end(); ++it)
-    for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
-      window->draw(*std::get<1>(*it)[i]);
+  for (auto const& elem : _resources)
+    for (unsigned int i = 0; i < elem.second.size(); i++)
+      window->draw(*elem.second[i]);
 }
