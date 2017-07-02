@@ -92,9 +92,9 @@ void			Logic::setMapContent(sf::Vector2i const &p, resource_list l)
   _map.setMapContent(p, l);
 }
 
-void			Logic::spawnEgg(unsigned int const id)
+void			Logic::spawnEgg(unsigned int const ie, unsigned int const ip, sf::Vector2i const &p)
 {
-  _map.setMapContent(_players[id]->getCurPos());
+  _map.setMapContent(_players[ip]->getCurPos());
 }
 
 void			Logic::setUnitTime(int ut) {
@@ -106,7 +106,6 @@ void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, un
   _players[id]->setPosOnGrid(p, _map);
   _players[id]->setDirection(Player::transformDirection(o));
 }
-
 
 void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
 {
