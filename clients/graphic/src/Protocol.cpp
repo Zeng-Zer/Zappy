@@ -30,7 +30,7 @@ const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
   {"pdi", Cmd::PDI},
   {"enw", Cmd::ENW},
   {"sgt", Cmd::SGT},
-  {"seg", Cmd::SEG}
+  {"seg", Cmd::SEG},
 };
 
 const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> Protocol::cmdFun = {
@@ -46,10 +46,13 @@ const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> P
   {Cmd::PDI, &pdi},
   {Cmd::ENW, &enw},
   {Cmd::SGT, &sgt},
-  {Cmd::SEG, &seg}
+  {Cmd::SEG, &seg},
+  {Cmd::UNKNOWN, &ukn}
+
 };
 
 Protocol::Cmd Protocol::stringToCmd(std::string const& str) {
+  std::cout << "STR TO CMD: " << str << std::endl;
   if (cmdString.count(str) > 0) {
     return cmdString.at(str);
   } else {
@@ -225,4 +228,9 @@ void Protocol::seg(Logic& l, std::string const& str) {
   ss >> cmd;
   std::string team = Tools::parseStreamString(ss);
   l.endGame(team);
+}
+
+void Protocol::ukn(Logic& l, std::string const& str) {
+  (void) l;
+  (void) str;
 }

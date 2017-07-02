@@ -54,6 +54,7 @@ namespace Protocol
   void enw(Logic&, std::string const&);
   void sgt(Logic&, std::string const&);
   void seg(Logic&, std::string const&);
+  void ukn(Logic&, std::string const&);
 
 };
 

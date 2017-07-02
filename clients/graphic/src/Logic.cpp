@@ -167,6 +167,8 @@ void			Logic::update()
 {
   _window.setView(_view);
   _map.update(&_window);
-  for (unsigned int i = 0; i < _players.size(); i++)
-    _window.draw(*_players[i]);
+  for (unsigned int i = 0; i < _players.size(); i++) {
+    if (_players[i])
+      _window.draw(*_players[i]);
+  }
 }
