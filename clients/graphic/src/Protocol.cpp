@@ -14,7 +14,8 @@ const std::map<Protocol::Cmd, std::string> Protocol::cmdMap = {
   {Cmd::PDI, "pdi"},
   {Cmd::ENW, "enw"},
   {Cmd::SGT, "sgt"},
-  {Cmd::SEG, "seg"}
+  {Cmd::SEG, "seg"},
+  {Cmd::QUIT, "quit"}
 };
 
 const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
@@ -31,6 +32,7 @@ const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
   {"enw", Cmd::ENW},
   {"sgt", Cmd::SGT},
   {"seg", Cmd::SEG},
+  {"quit", Cmd::QUIT},
 };
 
 const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> Protocol::cmdFun = {
@@ -47,6 +49,7 @@ const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> P
   {Cmd::ENW, &enw},
   {Cmd::SGT, &sgt},
   {Cmd::SEG, &seg},
+  {Cmd::QUIT, &quit},
   {Cmd::UNKNOWN, &ukn}
 
 };
@@ -169,10 +172,12 @@ void Protocol::plv(Logic& l, std::string const& str) {
 }
 
 void Protocol::pfk(Logic& l, std::string const& str) {
+  (void) l;
   std::stringstream ss(str);
   std::string cmd;
   ss >> cmd;
   unsigned id = Tools::parseStream<unsigned>(ss);
+  (void) id;
 }
 
 void Protocol::pdr(Logic& l, std::string const& str) {
@@ -228,6 +233,12 @@ void Protocol::seg(Logic& l, std::string const& str) {
   ss >> cmd;
   std::string team = Tools::parseStreamString(ss);
   l.endGame(team);
+}
+
+void Protocol::quit(Logic& l, std::string const& str) {
+  (void) str;
+  std::cout << "YOLO" << std::endl;
+  l.quit();
 }
 
 void Protocol::ukn(Logic& l, std::string const& str) {

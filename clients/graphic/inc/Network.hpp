@@ -10,6 +10,8 @@
 # include <arpa/inet.h>
 # include "Error.hpp"
 
+# include <iostream>
+
 class Network
 {
 public:
