@@ -3,7 +3,7 @@ DIR_SRC		=	src
 DIR_INC		=	inc
 
 CXX		=	g++
-CXXFLAGS	=	-std=c++14 -W -Wall -Werror -Wextra -I./$(DIR_INC)
+CXXFLAGS	=	-std=c++14 -W -Wall -Wextra -I./$(DIR_INC)
 LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio #-lsfml-network
 
 ECHO		=	/bin/echo -e
@@ -21,6 +21,7 @@ ARROW		=	$(BLUE)"\t=>\t"
 SRC		=	$(DIR_SRC)/main.cpp \
 			$(DIR_SRC)/Param.cpp \
 			$(DIR_SRC)/AudioHandler.cpp \
+			$(DIR_SRC)/Egg.cpp \
 			$(DIR_SRC)/Error.cpp \
 			$(DIR_SRC)/ImageHandler.cpp \
 			$(DIR_SRC)/Logic.cpp \
@@ -30,7 +31,8 @@ SRC		=	$(DIR_SRC)/main.cpp \
 			$(DIR_SRC)/Entity.cpp \
 			$(DIR_SRC)/Player.cpp \
 			$(DIR_SRC)/Resource.cpp \
-			$(DIR_SRC)/TileMap.cpp
+			$(DIR_SRC)/TileMap.cpp \
+			$(DIR_SRC)/Team.cpp
 
 OBJ		=	$(SRC:.cpp=.o)
 

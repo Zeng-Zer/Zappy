@@ -4,6 +4,8 @@
 # include <string>
 # include <sstream>
 
+# include <iostream>
+
 namespace Tools {
 
   template<typename T>
@@ -13,6 +15,7 @@ namespace Tools {
     if (ss.fail()) {
       return 0;
     }
+    std::cout << "Value: " << value << std::endl;
     return value;
   }
 

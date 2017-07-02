@@ -2,7 +2,9 @@
 # define PLAYER_HPP_
 
 # include <SFML/Graphics.hpp>
+# include "TileMap.hpp"
 # include "Entity.hpp"
+# include "Team.hpp"
 
 class				Player : public Entity
 {
@@ -13,13 +15,24 @@ public:
 private:
   sf::Vector2i		_curPos;
   Direction		_curDir;
+  unsigned int		_level;
+  Team			*_team;
 
 public:
-  Player(sf::Texture const&, sf::Vector2i const&, Direction);
+  Player(sf::Texture const&, sf::Vector2i const&, Direction, unsigned int const, Team*);
   virtual ~Player();
 
   void			turn(Side);
   void			moveForward(sf::Vector2i const&);
+
+  sf::Vector2i const	&getCurPos() const;
+
+  void			setPosOnGrid(sf::Vector2i const&, TileMap const&);
+  void			setDirection(Direction);
+  void			setCurPos(sf::Vector2i const&);
+  void			setLevel(unsigned int const);
+
+  static Direction	transformDirection(unsigned int const);
 };
 
 #endif /* !PLAYER_HPP_ */
