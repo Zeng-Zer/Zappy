@@ -10,6 +10,7 @@
 # include "ImageHandler.hpp"
 # include "TileMap.hpp"
 # include "Player.hpp"
+# include "Egg.hpp"
 # include "Resource.hpp"
 # include "Team.hpp"
 # include "Protocol.hpp"
@@ -27,6 +28,7 @@ private:
   sf::View				_view;
   TileMap				_map;
   std::map<unsigned int, Player*>	_players;
+  std::map<unsigned int, Egg*>		_eggs;
   std::map<std::string, Team*>		_teams;
   int					_unitTime;
 
@@ -36,6 +38,7 @@ public:
 
   void			createMap(TileMap::Terrain);
   void			createPlayer(unsigned int const, sf::Vector2i const&, unsigned int const, unsigned int const, std::string const&);
+  void			createEgg(unsigned int const, unsigned int const, sf::Vector2i const&);
 
   void			eventLoop();
   bool			isOpen() const;
@@ -45,7 +48,6 @@ public:
 
   void			setMapSize(sf::Vector2i const&);
   void			setMapContent(sf::Vector2i const&, resource_list);
-  void			spawnEgg(unsigned int const, unsigned int const, sf::Vector2i const&);
   void			setUnitTime(int);
   void		        addTeam(std::string const&);
   void			setPlayerPosition(unsigned int const, sf::Vector2i const&, unsigned int const);

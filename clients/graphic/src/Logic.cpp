@@ -42,6 +42,15 @@ void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsig
   _players[id]->setCurPos(pos);
 }
 
+void			Logic::createEgg(unsigned int const id, unsigned int const id_player, sf::Vector2i const &pos)
+{
+  _eggs[id] = new Egg(ImageHandler::getInstance().getTexture(ImageHandler::RESOURCE), ImageHandler::getInstance().getSetSize(ImageHandler::RESOURCE));
+  _eggs[id]->scale(sf::Vector2f(0.75, 0.75));
+  _eggs[id]->setPosition(_map.mapToCoords(pos));
+  _eggs[id]->setPosition(_eggs[id]->adaptCoords(static_cast<sf::Vector2f>(_map.randCoords(_eggs[id]))));
+  (void)id_player;
+}
+
 void			Logic::eventLoop()
 {
   sf::Event		event;
@@ -112,11 +121,6 @@ void			Logic::setMapContent(sf::Vector2i const &p, resource_list l)
   for (unsigned int i = 0; i < 7; i++)
     for (unsigned int j = 0; j < l[i]; j++)
       _map.addResource(p, static_cast<Resource::Type>(i));
-}
-
-void			Logic::spawnEgg(unsigned int const ie, unsigned int const ip, sf::Vector2i const &p)
-{
-  _map.addEgg(_players[ip]->getCurPos());
 }
 
 void			Logic::setUnitTime(int ut)
