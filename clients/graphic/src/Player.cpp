@@ -31,6 +31,8 @@ void			Player::moveForward(sf::Vector2i const &m)
     _curPos.y = (_curPos.y + 1) % m.y;
 }
 
+sf::Vector2i const	&Player::getCurPos() const { return (_curPos); }
+
 void			Player::setPosOnGrid(sf::Vector2i const &p, TileMap const &map)
 {
   setPosition(adaptCoords(map.mapToCoords(p)));
@@ -42,13 +44,8 @@ void			Player::setDirection(Direction d)
   _curDir = d;
 }
 
-void			Player::setLevel(unsigned lvl)
-{
-  _level = lvl;
-}
-
-sf::Vector2i const	&Player::getCurPos() const { return (_curPos); }
 void			Player::setCurPos(sf::Vector2i const &p) { _curPos = p; }
+void			Player::setLevel(unsigned int const lvl) { _level = lvl; }
 
 Player::Direction	Player::transformDirection(unsigned int const o)
 {
