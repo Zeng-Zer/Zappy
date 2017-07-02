@@ -14,7 +14,7 @@
 
 # define CAM_SPEED 10
 
-class				Logic
+class					Logic
 {
 private:
   sf::Vector2i				_resolution;
@@ -44,6 +44,8 @@ public:
   void			setUnitTime(int);
   void			setPlayerPosition(unsigned int const, sf::Vector2i const&, unsigned int const);
 
+
+  void			playerTakeResource(unsigned int const, unsigned int const);
   void		        addTeam(std::string const&);
 
   void			update();

@@ -107,6 +107,11 @@ void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, un
   _players[id]->setDirection(Player::transformDirection(o));
 }
 
+void			Logic::playerTakeResource(unsigned int const id, unsigned int const r)
+{
+  _map.removeMapContent(_players[id]->getCurPos(), static_cast<Resource::Type>(r));
+}
+
 void			Logic::addTeam(std::string const &team)
 {
   _teams[team] = new Team(team);
