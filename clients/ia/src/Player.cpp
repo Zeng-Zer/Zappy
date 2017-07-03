@@ -156,14 +156,16 @@ void Player::incantation() {
   } else {
     std::cout << "Incantation underway ! " << std::endl;
   }
+
+  int lvl = _level;
+
   while (!(msg = recvMsg()));
 
-  broadcast("done " + std::to_string(_level));
+  broadcast("done " + std::to_string(lvl));
 
   if (*msg == "ko") {
     std::cerr << "Incantation: end: ko" << std::endl;
   } else if (msg->find("Current") != std::string::npos) {
-    ++_level;
     std::cout << *msg << std::endl;
   }
 
@@ -179,8 +181,7 @@ void Player::handleMsg(std::string const& response, std::string str,
   ss >> str;
   std::getline(ss, str);
 
-  if (!_incanting && _task == SBIRE &&
-      str.find("done " + std::to_string(_level)) != std::string::npos) {
+  if (str.find("done " + std::to_string(_level)) != std::string::npos) {
     _task = STAND_BY;
   }
   // else if (!_incanting && _task == SBIRE && dir != 0 &&
@@ -223,11 +224,18 @@ Option<std::string> Player::recvMsg(int flags) {
     _task = SBIRE;
   } else if (str == "eject:") {
     // do nothing
-  } else if (!_incanting && str == "Current") {
-    ++_level;
+  } else if (str == "Current") {
     std::cout << response << std::endl;
+    int lvl;
+    ss >> str;
+    ss >> lvl;
+    std::cout << "new LEVEL: " << lvl << std::endl;
+    _level = lvl;
     _task = STAND_BY;
     _broadcast = {};
+    if (_incanting) {
+      return {response};
+    }
   } else {
     return {response};
   }
@@ -445,7 +453,7 @@ void Player::update() {
       }
 
       else if (_level < 8) {
-	items = look()[0];
+	// items = look()[0];
 	_survivalFood = 5;
 	setupStone(items);
 	if (!isMissingPlayer(items)) {
