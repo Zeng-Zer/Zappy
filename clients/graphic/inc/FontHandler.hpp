@@ -20,7 +20,6 @@ public:
   ~FontHandler();
 
   static FontHandler			&getInstance();
-  static void				initFontHandler();
 
   sf::Font const			&getFont(Font) const;
 };

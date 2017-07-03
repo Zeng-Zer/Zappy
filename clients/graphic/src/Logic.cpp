@@ -7,6 +7,7 @@ Logic::Logic(sf::Vector2i const &res, std::string const &name)
 {
   _window.create(sf::VideoMode(_resolution.x, _resolution.y), name);
 
+  _endGame = false;
   srand(time(NULL));
   _view.setSize(_resolution.x, _resolution.y);
   _view.setViewport(sf::FloatRect(0, 0, 1, 1));
@@ -164,7 +165,14 @@ void			Logic::playerDead(unsigned int const id)
 
 void			Logic::endGame(std::string const &s)
 {
-  
+  unsigned int		i;
+
+  _endGame = true;
+  _text.setFont(FontHandler::getInstance().getFont(FontHandler::HAMBURGER));
+  _text.setString(s);
+  _text.setCharacterSize(50);
+  i = s.length() * _text.getCharacterSize() / 2;
+  _text.setPosition(i, i);
 }
 
 void			Logic::quit()
@@ -172,11 +180,21 @@ void			Logic::quit()
   _window.close();
 }
 
+#include <iostream>
+
 void			Logic::update()
 {
   _window.setView(_view);
-  _map.update(&_window);
-  for (unsigned int i = 0; i < _players.size(); i++)
-    if (_players[i])
-      _window.draw(*_players[i]);
+  if (!_endGame)
+    {
+      _map.update(&_window);
+      for (unsigned int i = 0; i < _players.size(); i++)
+	if (_players[i])
+	  _window.draw(*_players[i]);
+    }
+  else
+    {
+      _window.clear(_teams.at(_text.getString().toAnsiString())->color);
+      _window.draw(_text);
+    }
 }

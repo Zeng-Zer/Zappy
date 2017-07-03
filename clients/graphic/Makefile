@@ -23,6 +23,7 @@ SRC		=	$(DIR_SRC)/main.cpp \
 			$(DIR_SRC)/AudioHandler.cpp \
 			$(DIR_SRC)/Egg.cpp \
 			$(DIR_SRC)/Error.cpp \
+			$(DIR_SRC)/FontHandler.cpp \
 			$(DIR_SRC)/ImageHandler.cpp \
 			$(DIR_SRC)/Logic.cpp \
 			$(DIR_SRC)/Network.cpp \

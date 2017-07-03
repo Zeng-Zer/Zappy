@@ -8,6 +8,7 @@
 # include <array>
 # include <tuple>
 # include "ImageHandler.hpp"
+# include "FontHandler.hpp"
 # include "Resource.hpp"
 # include "Egg.hpp"
 

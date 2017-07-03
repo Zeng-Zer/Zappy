@@ -1,17 +1,7 @@
 #include "Error.hpp"
 #include "ImageHandler.hpp"
-#include <iostream>
 
 std::unique_ptr<ImageHandler>	ImageHandler::_instance(nullptr);
-
-sf::Texture ImageHandler::createTexture(std::string const& path) {
-  sf::Texture texture;
-  if (!texture.loadFromFile(path)) {
-    throw Error();
-  }
-  texture.setSmooth(true);
-  return texture;
-}
 
 ImageHandler::ImageHandler() {
   if (!std::get<0>(_textures[PLAYER]).loadFromFile("./media/images/player.png"))
