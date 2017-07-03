@@ -129,6 +129,7 @@ void			Logic::clear()
 void			Logic::display()
 {
   _window.display();
+
 }
 
 void			Logic::setMapSize(sf::Vector2i const &s)
