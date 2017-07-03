@@ -154,7 +154,7 @@ void			TileMap::update(sf::RenderWindow *window, int unitTime)
   for (auto const& elem : _resources)
     for (unsigned int i = 0; i < elem.second.size(); i++)
       {
-	elem.second[i]->setOpacity(elem.second[i]->getOpacity() + static_cast<int>(static_cast<float>(unitTime) / 10));
+	elem.second[i]->setOpacity(elem.second[i]->getOpacity() + static_cast<float>(unitTime) / 10);
 	window->draw(*elem.second[i]);
       }
 }

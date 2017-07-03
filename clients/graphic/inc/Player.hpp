@@ -24,7 +24,6 @@ private:
   std::vector<float>	_a;
   sf::Vector2f		_oldScale;
   sf::Vector2f		_nextScale;
-  float			_changingScale;
 
 public:
   Player(sf::Texture const&, sf::Vector2i const&, Direction, unsigned int const, std::shared_ptr<Team>);

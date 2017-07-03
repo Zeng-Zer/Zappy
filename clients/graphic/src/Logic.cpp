@@ -39,7 +39,6 @@ void			Logic::createMap(TileMap::Terrain t)
 void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsigned int const o, unsigned int const lvl, std::string const &team)
 {
   _players[id] = std::make_shared<Player>(ImageHandler::getInstance().getTexture(ImageHandler::PLAYER), ImageHandler::getInstance().getSetSize(ImageHandler::PLAYER), Player::transformDirection(o), lvl, _teams[team]);
-  _players[id]->scale(sf::Vector2f(0.5, 0.5));
   _players[id]->setPosition(_players[id]->adaptCoords(_map.mapToCoords(pos)));
   _players[id]->setCurPos(pos, _map);
   _needClear = true;
@@ -173,12 +172,13 @@ void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
 
 void			Logic::prepareIncantation(sf::Vector2i const &p, unsigned int const lvl, unsigned int const id)
 {
-  (void)p;
+  (void)p; // faire animation de la case
   _players[id]->prepareIncantation(lvl);
 }
 
 void			Logic::endIncantation(sf::Vector2i const &p, unsigned int const result)
 {
+  // arreter l'animation de la case en fonctions de result
   for (auto const &elem : _players)
     if (elem.second->getCurPos() == p)
       elem.second->endIncantation(result);

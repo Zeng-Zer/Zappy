@@ -1,19 +1,21 @@
 #include "Player.hpp"
 
 Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Direction d, unsigned int const lvl, std::shared_ptr<Team> t)
-  : Entity(texture, setSize)
+  : Entity(texture, setSize), _level(lvl)
 {
   sf::Vector2f		tmp;
 
-  setLevel(lvl);
   _a = std::vector<float>(4);
   _team = t;
+  _curDir = d;
   tmp.x = 0;
   tmp.y = (d + 1) * 2 * _texture.getSize().y / setSize.y;
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
   _sprite.setColor(_team->color);
-  _changingScale = 128;
+  scale(sf::Vector2f(0.5, 0.5));
+  _nextScale = getScale();
   _oldScale = _nextScale;
+  _incanting = false;
 }
 
 Player::~Player() {}
@@ -100,7 +102,7 @@ void			Player::update(int unitTime)
   	posx = 1;
       if (_curDir == Player::NORTH || _curDir == Player::EAST)
   	{
-  	  _currentPosition.x += static_cast<float>(unitTime) / 10;
+  	  _currentPosition.x += static_cast<float>(unitTime) / 15;
   	  if (_currentPosition.x > _nextPosition.x)
   	    {
   	      _currentPosition = _nextPosition;
@@ -109,7 +111,7 @@ void			Player::update(int unitTime)
   	}
       else
   	{
-  	  _currentPosition.x -= static_cast<float>(unitTime) / 10;
+  	  _currentPosition.x -= static_cast<float>(unitTime) / 15;
   	  if (_currentPosition.x < _nextPosition.x)
   	    {
   	      _currentPosition = _nextPosition;

@@ -25,13 +25,13 @@ Resource::Resource(sf::Texture const &texture, sf::Vector2i const &setSize, Type
 Resource::~Resource() {}
 
 Resource::Type const	&Resource::getType() const { return (_type); }
-unsigned int		Resource::getOpacity() const { return (_opacity); }
+float			Resource::getOpacity() const { return (_opacity); }
 
-void			Resource::setOpacity(unsigned int const o)
+void			Resource::setOpacity(float const o)
 {
   if (o > 255)
     _opacity = 255;
   else
     _opacity = o;
-  _sprite.setColor(sf::Color(255, 255, 255, _opacity));
+  _sprite.setColor(sf::Color(255, 255, 255, static_cast<int>(_opacity)));
 }
