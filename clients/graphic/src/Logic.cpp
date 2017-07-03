@@ -165,10 +165,10 @@ void			Logic::endGame(std::string const &s)
 {
   sf::FloatRect		r;
 
-  (void)s;
+  _winTeam = s;
   _endGame = true;
   _text.setFont(FontHandler::getInstance().getFont(FontHandler::HAMBURGER));
-  _text.setString(s);
+  _text.setString(s + " wins !");
   _text.setCharacterSize(100);
   r = _text.getGlobalBounds();
   _text.setPosition(sf::Vector2f(-r.width / 2, -r.height / 2));
@@ -196,7 +196,7 @@ void			Logic::update()
     }
   else
     {
-      _window.clear(_teams.at(_text.getString().toAnsiString())->color);
+      _window.clear(_teams.at(_winTeam)->color);
       _window.draw(_text);
     }
 }

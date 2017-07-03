@@ -29,6 +29,7 @@ private:
   int					_unitTime;
   sf::Text				_text;
   bool					_endGame;
+  std::string				_winTeam;
   std::map<unsigned int, std::shared_ptr<Player>>	_players;
   std::map<unsigned int, std::shared_ptr<Egg>>		_eggs;
   std::map<std::string, std::shared_ptr<Team>>		_teams;
