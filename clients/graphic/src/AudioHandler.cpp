@@ -4,9 +4,9 @@
 std::unique_ptr<AudioHandler> AudioHandler::_instance(nullptr);
 
 AudioHandler::AudioHandler() {
-  if (!_musics[BACKGROUND].openFromFile("./media/sounds/music.wav"))
+  if (!_musics[BACKGROUND].openFromFile("./media/sounds/music.ogg"))
     throw(Error());
-  if (!_musics[VICTORY].openFromFile("./media/sounds/victory.wav"))
+  if (!_musics[VICTORY].openFromFile("./media/sounds/victory.ogg"))
     throw(Error());
 }
 
