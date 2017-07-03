@@ -29,6 +29,7 @@ private:
   int					_unitTime;
   sf::Text				_text;
   sf::Text				_escapeText;
+  sf::RectangleShape			_endRect;
   bool					_endGame;
   std::string				_winTeam;
   std::map<unsigned int, std::shared_ptr<Player>>	_players;

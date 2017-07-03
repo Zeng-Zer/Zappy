@@ -175,11 +175,11 @@ void			Logic::playerDead(unsigned int const id)
 void			Logic::endGame(std::string const &s)
 {
   sf::FloatRect		r;
+  sf::Color		c;
 
   AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).stop();
   AudioHandler::getInstance().getMusic(AudioHandler::VICTORY).setVolume(40);
   AudioHandler::getInstance().getMusic(AudioHandler::VICTORY).play();
-  _view.setCenter(0, 0);
   _winTeam = s;
   _endGame = true;
   _text.setFont(FontHandler::getInstance().getFont(FontHandler::HAMBURGER));
@@ -187,13 +187,17 @@ void			Logic::endGame(std::string const &s)
   _text.setCharacterSize(200);
   r = _text.getGlobalBounds();
   _text.setOutlineThickness(2);
-  _text.setPosition(sf::Vector2f(-r.width / 2, -r.height / 2));
+  _text.setPosition(sf::Vector2f(_view.getCenter().x - r.width / 2, _view.getCenter().y - r.height / 2));
   _escapeText.setFont(FontHandler::getInstance().getFont(FontHandler::ROBOTO_I));
   _escapeText.setString("Press escape key to quit ...");
   _escapeText.setCharacterSize(50);
   r = _escapeText.getGlobalBounds();
   _text.setOutlineThickness(1.5);
-  _escapeText.setPosition(sf::Vector2f(-_view.getSize().x / 2 + 15, _view.getSize().y / 2 - r.height - 15));
+  _escapeText.setPosition(sf::Vector2f(_view.getCenter().x - _view.getSize().x / 2 + 15, _view.getCenter().y + _view.getSize().y / 2 - r.height - 15));
+  _endRect = sf::RectangleShape((sf::Vector2f(_resolution.x, _resolution.y)));
+  _endRect.setPosition(sf::Vector2f(_view.getCenter().x - _endRect.getSize().x / 2, _view.getCenter().y - _endRect.getSize().y / 2));
+  c = _teams.at(_winTeam)->color;
+  _endRect.setFillColor(sf::Color(c.r, c.g, c.b, 128));
 }
 
 void			Logic::quit()
@@ -204,18 +208,15 @@ void			Logic::quit()
 void			Logic::update()
 {
   _window.setView(_view);
-  if (!_endGame)
+  _map.update(&_window);
+  for (auto const &elem : _players)
     {
-      _map.update(&_window);
-      for (auto const &elem : _players)
-	{
-	  elem.second->update();
-	  _window.draw(*elem.second);
-	}
+      elem.second->update();
+      _window.draw(*elem.second);
     }
-  else
+  if (_endGame)
     {
-      _window.clear(_teams.at(_winTeam)->color);
+      _window.draw(_endRect);
       _window.draw(_text);
       _window.draw(_escapeText);
     }
