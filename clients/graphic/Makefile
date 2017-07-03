@@ -3,7 +3,7 @@ DIR_SRC		=	src
 DIR_INC		=	inc
 
 CXX		=	g++
-CXXFLAGS	=	-std=c++14 -W -Wall -Wextra -I./$(DIR_INC)
+CXXFLAGS	=	-g -std=c++14 -W -Wall -Wextra -I./$(DIR_INC)
 LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 
 ECHO		=	/bin/echo -e

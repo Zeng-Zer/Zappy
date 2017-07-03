@@ -30,8 +30,6 @@ public:
    * return a empty string if nothing to read
    */
   std::string recvMsg(int flags = 0);
-  // TODO delete if useless
-  // void getCmd();
 
 private:
   Network();
