@@ -168,7 +168,7 @@ void			Logic::endGame(std::string const &s)
   _text.setString(s);
   _text.setCharacterSize(50);
   i = s.length() * _text.getCharacterSize() / 2;
-  _text.setPosition(i, i);
+  _text.setPosition(i / 4, i / 2);
 }
 
 void			Logic::quit()

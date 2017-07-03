@@ -34,6 +34,9 @@ int main(int argc, char **argv)
       }
       Protocol::initDataGame(logic);
 
+      logic.addTeam("J'en ai plein le cul");
+      logic.endGame("J'en ai plein le cul");
+
       while (logic.isOpen())
       	{
       	  logic.eventLoop();
