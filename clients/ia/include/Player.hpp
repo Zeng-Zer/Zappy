@@ -61,6 +61,7 @@ public:
   void search(Resource::Resource res);
   bool isMissingPlayer(std::map<Resource::Resource, int>&);
   void setupStone(std::map<Resource::Resource, int>& items);
+  bool floorEnoughResource(std::map<Resource::Resource, int>& items);
 
 private:
   int _x;

@@ -37,3 +37,35 @@ bool		check_win(t_server *server)
     }
   return (false);
 }
+
+static void	multi_graphic_mct(t_vector *graphics, t_server *server)
+{
+  t_graphic	*graphic;
+  size_t	i;
+
+  i = -1;
+  while (++i < graphics->length)
+    {
+      graphic = graphics->items[i];
+      graphic_mct(graphic->id, server->world);
+    }
+}
+
+void		add_food(t_server *server, long long time)
+{
+  t_pos		pos;
+
+  if (time > server->time + END_TIME(2000.0f))
+    {
+      server->time = time;
+      pos.y = -1;
+      while (++pos.y < server->world->dimension.y)
+	{
+	  pos.x = -1;
+	  while (++pos.x < server->world->dimension.x)
+	    server->world->map[pos.y][pos.x].stones[FOOD] += 1;
+	}
+      multi_graphic_mct(server->graphic, server);
+      printf("Add food\n");
+    }
+}

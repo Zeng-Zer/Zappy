@@ -66,8 +66,8 @@ std::string Network::recvMsg(int flags) {
     }
     else {
       ret = recv(_sock, _buff, 4096, flags);
-      if (ret == -1 && errno != EWOULDBLOCK && errno != EAGAIN) {
-	exit(0);
+      if (ret == 0 && errno == EWOULDBLOCK) {
+	return "quit";
       }
       if (ret != -1)
 	_buff[ret] = '\0';
@@ -77,7 +77,3 @@ std::string Network::recvMsg(int flags) {
   }
   return line;
 }
-
-// void Network::getCmd() {
-//   std::string line = recvMsg();
-// }

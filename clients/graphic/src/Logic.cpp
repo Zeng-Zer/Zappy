@@ -17,12 +17,6 @@ Logic::Logic(sf::Vector2i const &res, std::string const &name)
 
 Logic::~Logic()
 {
-  // for (std::map<std::string, std::shared_ptr<Team>>::iterator it = _teams.begin(); it != _teams.end(); ++it)
-  //   delete std::get<1>(*it);
-  // for (std::map<unsigned int, std::shared_ptr<Egg>>::iterator it = _eggs.begin(); it != _eggs.end(); ++it)
-  //   delete std::get<1>(*it);
-  // for (std::map<unsigned int, std::shared_ptr<Player>>::iterator it = _players.begin(); it != _players.end(); ++it)
-  //   delete std::get<1>(*it);
 }
 
 void			Logic::createMap(TileMap::Terrain t)
@@ -42,7 +36,7 @@ void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsig
   _players[id] = std::make_shared<Player>(ImageHandler::getInstance().getTexture(ImageHandler::PLAYER), ImageHandler::getInstance().getSetSize(ImageHandler::PLAYER), Player::transformDirection(o), lvl, _teams[team]);
   _players[id]->scale(sf::Vector2f(0.5, 0.5));
   _players[id]->setPosition(_players[id]->adaptCoords(_map.mapToCoords(pos)));
-  _players[id]->setCurPos(pos);
+  _players[id]->setCurPos(pos, _map);
 }
 
 void			Logic::createEgg(unsigned int const id, unsigned int const id_player, sf::Vector2i const &pos)
@@ -107,6 +101,8 @@ void			Logic::updateData()
     std::cout << "Enum cmd: " << cmd << std::endl;
 
     Protocol::cmdFun.at(cmd)(*this, line);
+    if (cmd == Protocol::QUIT)
+      break ;
     line = Network::getInstance().recvMsg(MSG_DONTWAIT);
   }
 }
@@ -139,7 +135,7 @@ void			Logic::addTeam(std::string const &team)
 
 void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, unsigned int const o)
 {
-  _players[id]->setPosOnGrid(p, _map);
+  _players[id]->setNextPosOnGrid(p, _map);
   _players[id]->setDirection(Player::transformDirection(o));
 }
 
@@ -180,17 +176,17 @@ void			Logic::quit()
   _window.close();
 }
 
-#include <iostream>
-
 void			Logic::update()
 {
   _window.setView(_view);
   if (!_endGame)
     {
       _map.update(&_window);
-      for (unsigned int i = 0; i < _players.size(); i++)
-	if (_players[i])
-	  _window.draw(*_players[i]);
+      for (auto const &elem : _players)
+	{
+	  elem.second->update();
+	  _window.draw(*elem.second);
+	}
     }
   else
     {

@@ -33,6 +33,7 @@ void		cmd_broadcast(t_server *server, t_command *command)
   dprintf(player->id, "ok\n");
   multi_graphic_broadcast(server->graphic, player,
 			  (char*)command->item + strlen("Broadcast "));
+  dump_player(player);
 }
 
 void		cmd_connect(t_server *server, t_command *command)

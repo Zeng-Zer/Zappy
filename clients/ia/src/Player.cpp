@@ -162,7 +162,7 @@ void Player::incantation() {
 
   if (*msg == "ko") {
     std::cerr << "Incantation: end: ko" << std::endl;
-  } else {
+  } else if (msg->find("Current") != std::string::npos) {
     ++_level;
     std::cout << *msg << std::endl;
   }
@@ -408,6 +408,23 @@ void Player::setupStone(std::map<Resource::Resource, int>& items) {
   // }
 }
 
+bool Player::floorEnoughResource(std::map<Resource::Resource, int>& items) {
+  for (auto& res : Lvl::level[_level + 1]) {
+    if (res.first == Resource::PLAYER || res.first == Resource::FOOD) {
+      continue;
+    }
+
+    if (items.count(res.first) == 0) {
+      items[res.first] = 0;
+    }
+
+    if (items[res.first] + _resource[res.first] < res.second) {
+      return false;
+    }
+  }
+  return true;
+}
+
 void Player::update() {
   inventory();
 
@@ -416,7 +433,11 @@ void Player::update() {
       search(Resource::FOOD);
     }
     else if (_task != SBIRE) {
-      Resource::Resource res = getMissingResource();
+      auto items = look()[0];
+      Resource::Resource res = Resource::UNKNOWN;
+      if (!floorEnoughResource(items)) {
+	res = getMissingResource();
+      }
 
       // GET MISSING RESOURCE
       if (res != Resource::UNKNOWN) {
@@ -424,8 +445,8 @@ void Player::update() {
       }
 
       else if (_level < 8) {
+	items = look()[0];
 	_survivalFood = 5;
-	auto items = look()[0];
 	setupStone(items);
 	if (!isMissingPlayer(items)) {
 	  incantation();
