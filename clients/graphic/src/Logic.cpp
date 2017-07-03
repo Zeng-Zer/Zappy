@@ -7,7 +7,6 @@ Logic::Logic(sf::Vector2i const &res, std::string const &name)
 {
   _window.create(sf::VideoMode(_resolution.x, _resolution.y), name);
 
-  _needClear = false;
   _endGame = false;
   srand(time(NULL));
   _view.setSize(_resolution.x, _resolution.y);
@@ -15,9 +14,13 @@ Logic::Logic(sf::Vector2i const &res, std::string const &name)
   _view.setCenter(0, 0);
   _view.zoom(1);
 
-  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).setLoop(true);
-  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).setVolume(10);
-  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).play();
+  // _hud.setSize(_resolution.x / 4, _resolution.y);
+  // _hud.setViewport(sf::FloatRect(0.75, 0, 0.25, 1));
+  // _hud.construct();
+
+  AudioHandler::getInstance().getMusic(AudioHandler::POKEMON).setLoop(true);
+  AudioHandler::getInstance().getMusic(AudioHandler::POKEMON).setVolume(10);
+  AudioHandler::getInstance().getMusic(AudioHandler::POKEMON).play();
 }
 
 Logic::~Logic() {}
@@ -33,7 +36,6 @@ void			Logic::createMap(TileMap::Terrain t)
   tmp = _map.mapToCoords(sf::Vector2i(_map_size.x, _map_size.y));
   _view.setCenter(tmp.x / 2, tmp.y / 2);
   //_view.setSize(_map_size.x * _map.getTileSize().x, _map_size.y * _map.getTileSize().y);
-  _needClear = true;
 }
 
 void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsigned int const o, unsigned int const lvl, std::string const &team)
@@ -42,7 +44,6 @@ void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsig
   _players[id]->scale(sf::Vector2f(0.5, 0.5));
   _players[id]->setPosition(_players[id]->adaptCoords(_map.mapToCoords(pos)));
   _players[id]->setCurPos(pos, _map);
-  _needClear = true;
 }
 
 void			Logic::createEgg(unsigned int const id, unsigned int const id_player, sf::Vector2i const &pos)
@@ -52,13 +53,12 @@ void			Logic::createEgg(unsigned int const id, unsigned int const id_player, sf:
   _eggs[id]->setPosition(_map.mapToCoords(pos));
   _eggs[id]->setPosition(_eggs[id]->adaptCoords(static_cast<sf::Vector2f>(_map.randCoords(_eggs[id]))));
   (void)id_player;
-  _needClear = true;
 }
 
 void			Logic::eventLoop()
 {
   sf::Event		event;
-  float			vol = AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).getVolume();
+  float			vol = AudioHandler::getInstance().getMusic(AudioHandler::POKEMON).getVolume();
 
   while (_window.pollEvent(event))
     {
@@ -95,7 +95,7 @@ void			Logic::eventLoop()
 	  break ;
 	}
     }
-  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).setVolume(vol);
+  AudioHandler::getInstance().getMusic(AudioHandler::POKEMON).setVolume(vol);
 }
 
 bool			Logic::isOpen() const { return (_window.isOpen()); }
@@ -124,14 +124,11 @@ void			Logic::updateData()
 
 void			Logic::clear()
 {
-  if (_needClear)
-    _window.clear();
+  _window.clear();
 }
 void			Logic::display()
 {
-  if (_needClear)
-    _window.display();
-  _needClear = false;
+  _window.display();
 }
 
 void			Logic::setMapSize(sf::Vector2i const &s)
@@ -146,7 +143,6 @@ void			Logic::setMapContent(sf::Vector2i const &p, resource_list l)
   for (unsigned int i = 0; i < 7; i++)
     for (unsigned int j = 0; j < l[i]; j++)
       _map.addResource(p, static_cast<Resource::Type>(i));
-  _needClear = true;
 }
 
 void			Logic::setUnitTime(int ut)
@@ -162,13 +158,11 @@ void			Logic::setPlayerPosition(unsigned int const id, sf::Vector2i const &p, un
 {
   _players[id]->setNextPosOnGrid(p, _map);
   _players[id]->setDirection(Player::transformDirection(o));
-  _needClear = true;
 }
 
 void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
 {
   _players[id]->setLevel(lvl);
-  _needClear = true;
 }
 
 void			Logic::prepareIncantation(sf::Vector2i const &p, unsigned int const lvl, unsigned int const id)
@@ -187,19 +181,16 @@ void			Logic::endIncantation(sf::Vector2i const &p, unsigned int const result)
 void			Logic::playerDropResource(unsigned int const id, unsigned int const r)
 {
   _map.addResource(_players.at(id)->getCurPos(), static_cast<Resource::Type>(r));
-  _needClear = true;
 }
 
 void			Logic::playerTakeResource(unsigned int const id, unsigned int const r)
 {
   _map.removeResource(_players.at(id)->getCurPos(), static_cast<Resource::Type>(r));
-  _needClear = true;
 }
 
 void			Logic::playerDead(unsigned int const id)
 {
   _players.erase(id);
-  _needClear = true;
 }
 
 void			Logic::endGame(std::string const &s)
@@ -207,7 +198,7 @@ void			Logic::endGame(std::string const &s)
   sf::FloatRect		r;
   sf::Color		c;
 
-  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).stop();
+  AudioHandler::getInstance().getMusic(AudioHandler::POKEMON).stop();
   AudioHandler::getInstance().getMusic(AudioHandler::VICTORY).setVolume(40);
   AudioHandler::getInstance().getMusic(AudioHandler::VICTORY).play();
   _winTeam = s;
@@ -228,7 +219,6 @@ void			Logic::endGame(std::string const &s)
   _endRect.setPosition(sf::Vector2f(_view.getCenter().x - _endRect.getSize().x / 2, _view.getCenter().y - _endRect.getSize().y / 2));
   c = _teams.at(_winTeam)->color;
   _endRect.setFillColor(sf::Color(c.r, c.g, c.b, 128));
-  _needClear = true;
 }
 
 void			Logic::quit()
@@ -239,19 +229,18 @@ void			Logic::quit()
 void			Logic::update()
 {
   _window.setView(_view);
-  // if (_needClear)
-  //   {
-      _map.update(&_window, _unitTime);
-      for (auto const &elem : _players)
-	{
-	  elem.second->update(_unitTime);
-	  _window.draw(*elem.second);
-	}
-      if (_endGame)
-	{
-	  _window.draw(_endRect);
-	  _window.draw(_text);
-	  _window.draw(_escapeText);
-	}
-      // }
+  _map.update(&_window, _unitTime);
+  for (auto const &elem : _players)
+    {
+      elem.second->update(_unitTime);
+      _window.draw(*elem.second);
+      // _window.setView(_hud);
+      _hud.update(&_window);
+    }
+  if (_endGame)
+    {
+      _window.draw(_endRect);
+      _window.draw(_text);
+      _window.draw(_escapeText);
+    }
 }

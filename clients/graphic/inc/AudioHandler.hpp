@@ -9,7 +9,7 @@ class					AudioHandler
 {
 public:
   enum					Sound {  };
-  enum					Music { BACKGROUND, VICTORY };
+  enum					Music { MUSIC, VICTORY, POKEMON };
 
 private:
   AudioHandler();

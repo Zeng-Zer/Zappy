@@ -16,6 +16,9 @@ ImageHandler::ImageHandler() {
     throw(Error());
   std::get<0>(_textures[MAP]).setSmooth(true);
   std::get<1>(_textures[MAP]) = sf::Vector2i(9, 9);
+  if (!std::get<0>(_textures[HUD]).loadFromFile("./media/images/background.png"))
+    throw(Error());
+  std::get<0>(_textures[HUD]).setSmooth(true);
 }
 
 ImageHandler::~ImageHandler() {}
