@@ -239,8 +239,8 @@ void			Logic::quit()
 void			Logic::update()
 {
   _window.setView(_view);
-  if (_needClear)
-    {
+  // if (_needClear)
+  //   {
       _map.update(&_window, _unitTime);
       for (auto const &elem : _players)
 	{
@@ -253,5 +253,5 @@ void			Logic::update()
 	  _window.draw(_text);
 	  _window.draw(_escapeText);
 	}
-    }
+      // }
 }
