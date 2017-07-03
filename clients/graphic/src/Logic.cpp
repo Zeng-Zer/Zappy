@@ -100,6 +100,8 @@ void			Logic::updateData()
     std::cout << "Enum cmd: " << cmd << std::endl;
 
     Protocol::cmdFun.at(cmd)(*this, line);
+    if (cmd == Protocol::QUIT)
+      break ;
     line = Network::getInstance().recvMsg(MSG_DONTWAIT);
   }
 }
@@ -158,7 +160,7 @@ void			Logic::playerDead(unsigned int const id)
 
 void			Logic::endGame(std::string const &s)
 {
-  
+  (void) s;
 }
 
 void			Logic::quit()
