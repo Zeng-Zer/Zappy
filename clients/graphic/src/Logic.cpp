@@ -67,6 +67,8 @@ void			Logic::eventLoop()
 	    _view.zoom(1.01);
 	  else if (event.key.code == sf::Keyboard::E)
 	    _view.zoom(0.99);
+	  else if (event.key.code == sf::Keyboard::Q)
+	    endGame("TeamA");
 	  else if (event.key.code == sf::Keyboard::Up)
 	    _view.setCenter(_view.getCenter().x, _view.getCenter().y - CAM_SPEED);
 	  else if (event.key.code == sf::Keyboard::Left)
@@ -161,14 +163,18 @@ void			Logic::playerDead(unsigned int const id)
 
 void			Logic::endGame(std::string const &s)
 {
-  unsigned int		i;
+  sf::FloatRect		r;
 
+  (void)s;
   _endGame = true;
   _text.setFont(FontHandler::getInstance().getFont(FontHandler::HAMBURGER));
   _text.setString(s);
-  _text.setCharacterSize(50);
-  i = s.length() * _text.getCharacterSize() / 2;
-  _text.setPosition(i / 4, i / 2);
+  _text.setCharacterSize(100);
+  r = _text.getGlobalBounds();
+  _text.setPosition(sf::Vector2f(-r.width / 2, -r.height / 2));
+  _text.setOutlineColor(sf::Color::Black);
+  _text.setOutlineThickness(2);
+  _view.setCenter(0, 0);
 }
 
 void			Logic::quit()
