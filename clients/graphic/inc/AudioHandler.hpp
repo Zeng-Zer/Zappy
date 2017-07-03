@@ -8,12 +8,14 @@
 class					AudioHandler
 {
 public:
-  enum					Sound { MUSIC }; //temp
+  enum					Sound {  };
+  enum					Music { BACKGROUND, VICTORY };
 
 private:
   AudioHandler();
 
   std::map<Sound, sf::SoundBuffer>	_sounds;
+  std::map<Music, sf::Music>		_musics;
   static std::unique_ptr<AudioHandler>	_instance;
 
 public:
@@ -22,6 +24,7 @@ public:
   static AudioHandler			&getInstance();
 
   sf::SoundBuffer			getSound(Sound) const;
+  sf::Music				&getMusic(Music);
 };
 
 #endif /* !AUDIOHANDLER_HPP_ */

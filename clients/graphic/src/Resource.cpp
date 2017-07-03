@@ -14,7 +14,7 @@ Resource::Resource(sf::Texture const &texture, sf::Vector2i const &setSize, Type
   tmp.y = 0;
   if (t == FOOD)
     {
-      tmp.x = 1 * _texture.getSize().x / _setSize.x;
+      tmp.x = 8 * _texture.getSize().x / _setSize.x;
       tmp.y = 5 * _texture.getSize().y / _setSize.y;
     }
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));

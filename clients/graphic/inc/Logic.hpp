@@ -18,7 +18,7 @@
 
 # define CAM_SPEED 10
 
-class				Logic
+class					Logic
 {
 private:
   sf::Vector2i				_resolution;
@@ -28,6 +28,8 @@ private:
   TileMap				_map;
   int					_unitTime;
   sf::Text				_text;
+  sf::Text				_escapeText;
+  sf::RectangleShape			_endRect;
   bool					_endGame;
   std::string				_winTeam;
   std::map<unsigned int, std::shared_ptr<Player>>	_players;
