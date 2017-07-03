@@ -13,6 +13,10 @@ Logic::Logic(sf::Vector2i const &res, std::string const &name)
   _view.setViewport(sf::FloatRect(0, 0, 1, 1));
   _view.setCenter(0, 0);
   _view.zoom(1);
+
+  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).setLoop(true);
+  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).setVolume(10);
+  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).play();
 }
 
 Logic::~Logic()
@@ -29,6 +33,7 @@ void			Logic::createMap(TileMap::Terrain t)
   _map.grid();
   tmp = _map.mapToCoords(sf::Vector2i(_map_size.x, _map_size.y));
   _view.setCenter(tmp.x / 2, tmp.y / 2);
+  //_view.setSize(_map_size.x * _map.getTileSize().x, _map_size.y * _map.getTileSize().y);
 }
 
 void			Logic::createPlayer(unsigned int const id, sf::Vector2i const &pos, unsigned int const o, unsigned int const lvl, std::string const &team)
@@ -51,6 +56,7 @@ void			Logic::createEgg(unsigned int const id, unsigned int const id_player, sf:
 void			Logic::eventLoop()
 {
   sf::Event		event;
+  float			vol = AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).getVolume();
 
   while (_window.pollEvent(event))
     {
@@ -67,6 +73,12 @@ void			Logic::eventLoop()
 	    _view.zoom(1.01);
 	  else if (event.key.code == sf::Keyboard::E)
 	    _view.zoom(0.99);
+	  else if (event.key.code == sf::Keyboard::Q)
+	    endGame("Nobody");
+	  else if (event.key.code == sf::Keyboard::P)
+	    vol += 1;
+	  else if (event.key.code == sf::Keyboard::M)
+	    vol -= 1;
 	  else if (event.key.code == sf::Keyboard::Up)
 	    _view.setCenter(_view.getCenter().x, _view.getCenter().y - CAM_SPEED);
 	  else if (event.key.code == sf::Keyboard::Left)
@@ -81,6 +93,7 @@ void			Logic::eventLoop()
 	  break ;
 	}
     }
+  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).setVolume(vol);
 }
 
 bool			Logic::isOpen() const { return (_window.isOpen()); }
@@ -163,16 +176,24 @@ void			Logic::endGame(std::string const &s)
 {
   sf::FloatRect		r;
 
+  AudioHandler::getInstance().getMusic(AudioHandler::BACKGROUND).stop();
+  AudioHandler::getInstance().getMusic(AudioHandler::VICTORY).setVolume(40);
+  AudioHandler::getInstance().getMusic(AudioHandler::VICTORY).play();
+  _view.setCenter(0, 0);
   _winTeam = s;
   _endGame = true;
   _text.setFont(FontHandler::getInstance().getFont(FontHandler::HAMBURGER));
   _text.setString(s + " wins !");
-  _text.setCharacterSize(100);
+  _text.setCharacterSize(200);
   r = _text.getGlobalBounds();
-  _text.setPosition(sf::Vector2f(-r.width / 2, -r.height / 2));
-  _text.setOutlineColor(sf::Color::Black);
   _text.setOutlineThickness(2);
-  _view.setCenter(0, 0);
+  _text.setPosition(sf::Vector2f(-r.width / 2, -r.height / 2));
+  _escapeText.setFont(FontHandler::getInstance().getFont(FontHandler::ROBOTO_I));
+  _escapeText.setString("Press escape key to quit ...");
+  _escapeText.setCharacterSize(50);
+  r = _escapeText.getGlobalBounds();
+  _text.setOutlineThickness(1.5);
+  _escapeText.setPosition(sf::Vector2f(-_view.getSize().x / 2 + 15, _view.getSize().y / 2 - r.height - 15));
 }
 
 void			Logic::quit()
@@ -196,5 +217,6 @@ void			Logic::update()
     {
       _window.clear(_teams.at(_winTeam)->color);
       _window.draw(_text);
+      _window.draw(_escapeText);
     }
 }

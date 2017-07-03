@@ -34,6 +34,8 @@ int main(int argc, char **argv)
       }
       Protocol::initDataGame(logic);
 
+      logic.addTeam("Nobody");
+
       while (logic.isOpen())
       	{
       	  logic.eventLoop();
