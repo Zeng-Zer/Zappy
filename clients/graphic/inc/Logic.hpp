@@ -58,6 +58,9 @@ public:
   void			setPlayerPosition(unsigned int const, sf::Vector2i const&, unsigned int const);
   void			setPlayerLevel(unsigned int const, unsigned int const);
 
+  void			prepareIncantation(sf::Vector2i const&, unsigned int const, unsigned int const);
+  void			endIncantation(sf::Vector2i const&, unsigned int const);
+
   void			playerDropResource(unsigned int const, unsigned int const);
   void			playerTakeResource(unsigned int const, unsigned int const);
   void			playerDead(unsigned int const);

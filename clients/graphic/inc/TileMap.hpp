@@ -54,7 +54,7 @@ public:
   void				addResource(sf::Vector2i const&, Resource::Type);
 
   void			        removeResource(sf::Vector2i const&, Resource::Type);
-  void				update(sf::RenderWindow*);
+  void				update(sf::RenderWindow*, int);
 };
 
 #endif /* !TILEMAP_HPP_ */
