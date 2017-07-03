@@ -107,6 +107,7 @@ void		server_update(t_server *server)
 	graphic_update(server, graphic);
     }
   eggs_update(server, time);
+  add_food(server, time);
   if (check_win(server))
     server->running = false;
 }

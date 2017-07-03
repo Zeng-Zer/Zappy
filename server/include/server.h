@@ -39,6 +39,7 @@ typedef struct	s_server
   bool		running;
   // frequency
   int		frequency;
+  long long	time;
 }		t_server;
 
 t_server	init_server(t_param *param);
@@ -53,5 +54,6 @@ void		server_update(t_server *server);
  */
 void		handle_packages(t_server *server, t_vector *packages);
 bool		check_win(t_server *server);
+void		add_food(t_server *server, long long time);
 
 #endif /* !SERVER_H_ */

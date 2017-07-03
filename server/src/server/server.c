@@ -29,6 +29,7 @@ t_server	init_server(t_param *param)
   server.players = vector_new();
   server.graphic = vector_new();
   server.eggs = vector_new();
+  server.time = current_time();
   if (!server.cmds || !server.players || !server.graphic || !server.eggs)
     exit(84);
   return (server);
