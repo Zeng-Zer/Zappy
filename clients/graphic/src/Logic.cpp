@@ -124,12 +124,12 @@ void			Logic::updateData()
 
 void			Logic::clear()
 {
-  if (_needClear)
+  // if (_needClear)
     _window.clear();
 }
 void			Logic::display()
 {
-  if (_needClear)
+  // if (_needClear)
     _window.display();
   _needClear = false;
 }
