@@ -26,11 +26,12 @@ private:
   sf::RenderWindow			_window;
   sf::View				_view;
   TileMap				_map;
+  bool					_needClear;
   int					_unitTime;
+  bool					_endGame;
   sf::Text				_text;
   sf::Text				_escapeText;
   sf::RectangleShape			_endRect;
-  bool					_endGame;
   std::string				_winTeam;
   std::map<unsigned int, std::shared_ptr<Player>>	_players;
   std::map<unsigned int, std::shared_ptr<Egg>>		_eggs;
