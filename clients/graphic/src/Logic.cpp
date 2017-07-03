@@ -67,8 +67,6 @@ void			Logic::eventLoop()
 	    _view.zoom(1.01);
 	  else if (event.key.code == sf::Keyboard::E)
 	    _view.zoom(0.99);
-	  else if (event.key.code == sf::Keyboard::Q)
-	    endGame("TeamA");
 	  else if (event.key.code == sf::Keyboard::Up)
 	    _view.setCenter(_view.getCenter().x, _view.getCenter().y - CAM_SPEED);
 	  else if (event.key.code == sf::Keyboard::Left)
