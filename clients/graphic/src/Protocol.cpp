@@ -8,6 +8,8 @@ const std::map<Protocol::Cmd, std::string> Protocol::cmdMap = {
   {Cmd::PNW, "pnw"},
   {Cmd::PPO, "ppo"},
   {Cmd::PLV, "plv"},
+  {Cmd::PIC, "pic"},
+  {Cmd::PIE, "pie"},
   {Cmd::PFK, "pfk"},
   {Cmd::PDR, "pdr"},
   {Cmd::PGT, "pgt"},
@@ -25,6 +27,8 @@ const std::map<std::string, Protocol::Cmd> Protocol::cmdString = {
   {"pnw", Cmd::PNW},
   {"ppo", Cmd::PPO},
   {"plv", Cmd::PLV},
+  {"pic", Cmd::PIC},
+  {"pie", Cmd::PIE},
   {"pfk", Cmd::PFK},
   {"pdr", Cmd::PDR},
   {"pgt", Cmd::PGT},
@@ -42,6 +46,8 @@ const std::map<Protocol::Cmd, std::function<void(Logic&, std::string const&)>> P
   {Cmd::PNW, &pnw},
   {Cmd::PPO, &ppo},
   {Cmd::PLV, &plv},
+  {Cmd::PIC, &pic},
+  {Cmd::PIE, &pie},
   {Cmd::PFK, &pfk},
   {Cmd::PDR, &pdr},
   {Cmd::PGT, &pgt},
@@ -169,6 +175,34 @@ void Protocol::plv(Logic& l, std::string const& str) {
   unsigned id = Tools::parseStream<unsigned>(ss);
   unsigned lvl = Tools::parseStream<unsigned>(ss);
   l.setPlayerLevel(id, lvl);
+}
+
+void Protocol::pic(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  sf::Vector2i coord = {
+    Tools::parseStream<int>(ss),
+    Tools::parseStream<int>(ss)
+  };
+  unsigned nextLevel = Tools::parseStream<unsigned>(ss);
+  unsigned idPlayer = 1;
+  while (idPlayer != 0) {
+    idPlayer = Tools::parseStream<unsigned>(ss);
+    l.prepareIncantation(coord, nextLevel, idPlayer);
+  }
+}
+
+void Protocol::pie(Logic& l, std::string const& str) {
+  std::stringstream ss(str);
+  std::string cmd;
+  ss >> cmd;
+  sf::Vector2i coord = {
+    Tools::parseStream<int>(ss),
+    Tools::parseStream<int>(ss)
+  };
+  unsigned r = Tools::parseStream<unsigned>(ss);
+  l.endIncantation(coord, r);
 }
 
 void Protocol::pfk(Logic& l, std::string const& str) {

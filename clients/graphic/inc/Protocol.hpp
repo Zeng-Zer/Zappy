@@ -22,6 +22,8 @@ namespace Protocol
     PNW,
     PPO,
     PLV,
+    PIC,
+    PIE,
     PFK,
     PDR,
     PGT,
@@ -48,6 +50,8 @@ namespace Protocol
   void pnw(Logic&, std::string const&);
   void ppo(Logic&, std::string const&);
   void plv(Logic&, std::string const&);
+  void pic(Logic&, std::string const&);
+  void pie(Logic&, std::string const&);
   void pfk(Logic&, std::string const&);
   void pdr(Logic&, std::string const&);
   void pgt(Logic&, std::string const&);
