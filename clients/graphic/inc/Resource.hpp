@@ -11,12 +11,16 @@ public:
 
 private:
   Type				_type;
+  unsigned int			_opacity;
   
 public:
   Resource(sf::Texture const&, sf::Vector2i const&, Type);
   virtual ~Resource();
 
   Type const			&getType() const;
+  unsigned int			getOpacity() const;
+
+  void				setOpacity(unsigned int const);
 };
 
 #endif /* !RESOURCE_HPP_ */

@@ -1,16 +1,19 @@
 #include "Player.hpp"
 
 Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Direction d, unsigned int const lvl, std::shared_ptr<Team> t)
-  : Entity(texture, setSize), _level(lvl)
+  : Entity(texture, setSize)
 {
   sf::Vector2f		tmp;
 
+  setLevel(lvl);
   _a = std::vector<float>(4);
   _team = t;
   tmp.x = 0;
   tmp.y = (d + 1) * 2 * _texture.getSize().y / setSize.y;
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
   _sprite.setColor(_team->color);
+  _changingScale = 128;
+  _oldScale = _nextScale;
 }
 
 Player::~Player() {}
@@ -43,7 +46,28 @@ void			Player::setCurPos(sf::Vector2i const &p, TileMap const &map)
   _a[3] = _a[1];
 }
 
-void			Player::setLevel(unsigned int const lvl) { _level = lvl; }
+void			Player::setLevel(unsigned int const lvl)
+{
+  _level = lvl;
+}
+
+void			Player::prepareIncantation(unsigned int const lvl)
+{
+  _incanting = true;
+  _nextScale = sf::Vector2f(static_cast<float>(lvl) * 0.3 / 8 + 0.5, static_cast<float>(lvl) * 0.3 / 8 + 0.5);
+}
+
+void			Player::endIncantation(unsigned int const result)
+{
+  if (result == 1)
+    {
+      _oldScale = _nextScale;
+      setScale(_nextScale);
+    }
+  else
+    setScale(_oldScale);
+  _incanting = false;
+}
 
 Player::Direction	Player::transformDirection(unsigned int const o)
 {
@@ -57,15 +81,17 @@ Player::Direction	Player::transformDirection(unsigned int const o)
     }
 }
 
-void			Player::update()
+void			Player::update(int unitTime)
 {
   float			b = _nextPosition.y - _a[_curDir] * _nextPosition.x;
   static int		posx = 1;
   static int		d = 0;
 
+  if (_incanting == true)
+    setScale(_nextScale == getScale() ? _oldScale : _nextScale);
   if (_currentPosition != _nextPosition)
     {
-      if ((d += 8) == 128)
+      if ((d += unitTime / 10) == 128)
   	{
   	  posx++;
   	  d = 0;
@@ -74,7 +100,7 @@ void			Player::update()
   	posx = 1;
       if (_curDir == Player::NORTH || _curDir == Player::EAST)
   	{
-  	  _currentPosition.x += 1;
+  	  _currentPosition.x += static_cast<float>(unitTime) / 10;
   	  if (_currentPosition.x > _nextPosition.x)
   	    {
   	      _currentPosition = _nextPosition;
@@ -83,7 +109,7 @@ void			Player::update()
   	}
       else
   	{
-  	  _currentPosition.x -= 1;
+  	  _currentPosition.x -= static_cast<float>(unitTime) / 10;
   	  if (_currentPosition.x < _nextPosition.x)
   	    {
   	      _currentPosition = _nextPosition;

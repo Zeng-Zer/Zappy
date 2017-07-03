@@ -9,9 +9,6 @@ TileMap::TileMap() : _isGrid(false)
 
 TileMap::~TileMap()
 {
-  // for (std::map<int, std::vector<Resource*>>::iterator it = _resources.begin(); it != _resources.end(); ++it)
-  //   for (unsigned int i = 0; i < std::get<1>(*it).size(); i++)
-  //     delete std::get<1>(*it)[i];
 }
 
 void			TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -151,10 +148,13 @@ void			TileMap::removeResource(sf::Vector2i const &p, Resource::Type t)
       }
 }
 
-void			TileMap::update(sf::RenderWindow *window)
+void			TileMap::update(sf::RenderWindow *window, int unitTime)
 {
   window->draw(*this);
   for (auto const& elem : _resources)
     for (unsigned int i = 0; i < elem.second.size(); i++)
-      window->draw(*elem.second[i]);
+      {
+	elem.second[i]->setOpacity(elem.second[i]->getOpacity() + static_cast<int>(static_cast<float>(unitTime) / 10));
+	window->draw(*elem.second[i]);
+      }
 }

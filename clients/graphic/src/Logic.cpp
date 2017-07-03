@@ -146,6 +146,19 @@ void			Logic::setPlayerLevel(unsigned int const id, unsigned int const lvl)
   _players[id]->setLevel(lvl);
 }
 
+void			Logic::prepareIncantation(sf::Vector2i const &p, unsigned int const lvl, unsigned int const id)
+{
+  (void)p;
+  _players[id]->prepareIncantation(lvl);
+}
+
+void			Logic::endIncantation(sf::Vector2i const &p, unsigned int const result)
+{
+  for (auto const &elem : _players)
+    if (elem.second->getCurPos() == p)
+      elem.second->endIncantation(result);
+}
+
 void			Logic::playerDropResource(unsigned int const id, unsigned int const r)
 {
   _map.addResource(_players.at(id)->getCurPos(), static_cast<Resource::Type>(r));
@@ -187,10 +200,10 @@ void			Logic::update()
   _window.setView(_view);
   if (!_endGame)
     {
-      _map.update(&_window);
+      _map.update(&_window, _unitTime);
       for (auto const &elem : _players)
 	{
-	  elem.second->update();
+	  elem.second->update(_unitTime);
 	  _window.draw(*elem.second);
 	}
     }
