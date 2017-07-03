@@ -15,6 +15,7 @@
 # include "Resource.hpp"
 # include "Team.hpp"
 # include "Protocol.hpp"
+# include "Hud.hpp"
 
 # define CAM_SPEED 10
 
@@ -25,8 +26,8 @@ private:
   sf::Vector2i				_map_size;
   sf::RenderWindow			_window;
   sf::View				_view;
+  Hud					_hud;
   TileMap				_map;
-  bool					_needClear;
   int					_unitTime;
   bool					_endGame;
   sf::Text				_text;

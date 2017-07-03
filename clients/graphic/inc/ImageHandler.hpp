@@ -9,7 +9,7 @@
 class					ImageHandler
 {
 public:
-  enum					Texture { PLAYER, RESOURCE, MAP };
+  enum					Texture { PLAYER, RESOURCE, MAP, HUD };
 
 private:
   ImageHandler();
