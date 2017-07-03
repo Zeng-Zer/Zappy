@@ -5,6 +5,7 @@ Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Directio
 {
   sf::Vector2f		tmp;
 
+  _a = std::vector<float>(4);
   _team = t;
   tmp.x = 0;
   tmp.y = (d + 1) * 2 * _texture.getSize().y / setSize.y;
@@ -14,29 +15,12 @@ Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Directio
 
 Player::~Player() {}
 
-void			Player::turn(Side s)
-{
-  _curDir = static_cast<Direction>((_curDir + (s * 2 + 1)) % 4);
-}
-
-void			Player::moveForward(sf::Vector2i const &m)
-{
-  if (_curDir == EAST)
-    _curPos.x = (_curPos.x + 1) % m.x;
-  else if (_curDir == NORTH)
-    _curPos.y = (_curPos.y - 1) % m.y;
-  else if (_curDir == WEST)
-    _curPos.x = (_curPos.x - 1) % m.x;
-  else if (_curDir == SOUTH)
-    _curPos.y = (_curPos.y + 1) % m.y;
-}
-
 sf::Vector2i const	&Player::getCurPos() const { return (_curPos); }
 
-void			Player::setPosOnGrid(sf::Vector2i const &p, TileMap const &map)
+void			Player::setNextPosOnGrid(sf::Vector2i const &p, TileMap const &map)
 {
-  setPosition(adaptCoords(map.mapToCoords(p)));
   _curPos = p;
+  _nextPosition = map.mapToCoords(p);
 }
 
 void			Player::setDirection(Direction d)
@@ -49,7 +33,16 @@ void			Player::setDirection(Direction d)
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / _setSize.x, _texture.getSize().y / _setSize.y));
 }
 
-void			Player::setCurPos(sf::Vector2i const &p) { _curPos = p; }
+void			Player::setCurPos(sf::Vector2i const &p, TileMap const &map)
+{
+  setNextPosOnGrid(p, map);
+  _currentPosition = _nextPosition;
+  _a[0] = static_cast<float>(map.getTileSize().y) / static_cast<float>(map.getTileSize().x);
+  _a[1] = static_cast<float>(-map.getTileSize().y) / static_cast<float>(map.getTileSize().x);
+  _a[2] = _a[0];
+  _a[3] = _a[1];
+}
+
 void			Player::setLevel(unsigned int const lvl) { _level = lvl; }
 
 Player::Direction	Player::transformDirection(unsigned int const o)
@@ -62,4 +55,45 @@ Player::Direction	Player::transformDirection(unsigned int const o)
     case 4: return (WEST); break ;
     default: return (SOUTH); break ;
     }
+}
+
+void			Player::update()
+{
+  float			b = _nextPosition.y - _a[_curDir] * _nextPosition.x;
+  static int		posx = 1;
+  static int		d = 0;
+
+  if (_currentPosition != _nextPosition)
+    {
+      if ((d += 8) == 128)
+  	{
+  	  posx++;
+  	  d = 0;
+  	}
+      if (posx > 9)
+  	posx = 1;
+      if (_curDir == Player::NORTH || _curDir == Player::EAST)
+  	{
+  	  _currentPosition.x += 1;
+  	  if (_currentPosition.x > _nextPosition.x)
+  	    {
+  	      _currentPosition = _nextPosition;
+  	      return ;
+  	    }
+  	}
+      else
+  	{
+  	  _currentPosition.x -= 1;
+  	  if (_currentPosition.x < _nextPosition.x)
+  	    {
+  	      _currentPosition = _nextPosition;
+  	      return ;
+  	    }
+  	}
+      _currentPosition.y = _a[_curDir] * _currentPosition.x + b;
+      _sprite.setTextureRect(sf::IntRect(posx * _texture.getSize().x / _setSize.x, (_curDir + 1) * 2 * _texture.getSize().y / _setSize.y, _texture.getSize().x / _setSize.x, _texture.getSize().y / _setSize.y));
+    }
+  else
+    _sprite.setTextureRect(sf::IntRect(0, (_curDir + 1) * 2 * _texture.getSize().y / _setSize.y, _texture.getSize().x / _setSize.x, _texture.getSize().y / _setSize.y));
+  setPosition(adaptCoords(_currentPosition));
 }
