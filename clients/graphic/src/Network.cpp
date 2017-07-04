@@ -66,7 +66,7 @@ std::string Network::recvMsg(int flags) {
     }
     else {
       ret = recv(_sock, _buff, 4096, flags);
-      if (ret == 0 && errno == EWOULDBLOCK) {
+      if (ret == 0) {
 	return "quit";
       }
       if (ret != -1)

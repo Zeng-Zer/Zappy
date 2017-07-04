@@ -268,6 +268,7 @@ void Protocol::seg(Logic& l, std::string const& str) {
   ss >> cmd;
   std::string team = Tools::parseStreamString(ss);
   l.endGame(team);
+  std::cout << "ENDGAME LOL" << std::endl;
 }
 
 void Protocol::quit(Logic& l, std::string const& str) {

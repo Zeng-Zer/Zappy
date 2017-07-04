@@ -103,7 +103,7 @@ void			Logic::updateData()
 {
   std::string line = Network::getInstance().recvMsg(MSG_DONTWAIT);
 
-  while (!line.empty()) {
+  while (!_endGame && !line.empty()) {
     std::cout << "Line: " << line << std::endl;
     std::stringstream ss(line);
     std::string cmdString;
