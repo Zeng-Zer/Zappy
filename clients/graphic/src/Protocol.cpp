@@ -189,7 +189,8 @@ void Protocol::pic(Logic& l, std::string const& str) {
   unsigned idPlayer = 1;
   while (idPlayer != 0) {
     idPlayer = Tools::parseStream<unsigned>(ss);
-    l.prepareIncantation(coord, nextLevel, idPlayer);
+    if (idPlayer != 0)
+      l.prepareIncantation(coord, nextLevel, idPlayer);
   }
 }
 
