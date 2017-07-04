@@ -65,6 +65,9 @@ std::string Connection::recvMsg(int flags) {
     }
     else {
       ret = recv(_sock, _buff, 4096, flags);
+      if (ret == 0) {
+	exit(84);
+      }
       if (ret != -1)
 	_buff[ret] = '\0';
       else

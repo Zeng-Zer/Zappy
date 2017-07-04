@@ -24,10 +24,10 @@ int	param_freq(t_param *param, int argc, char **argv)
       fprintf(stderr, "Error: failed to parse frequency \"%s\"\n", optarg);
       return (1);
     }
-  if (param->frequency < 2 || param->frequency > 10000)
+  if (param->frequency < 2 || param->frequency > 1000)
     {
       fprintf(stderr, "-f option only accepts integer"
-	      " values between 2 and 10000\n");
+	      " values between 2 and 1000\n");
       return (1);
     }
   return (0);
