@@ -12,7 +12,7 @@ Player::Player(sf::Texture const &texture, sf::Vector2i const &setSize, Directio
   tmp.y = (d + 1) * 2 * _texture.getSize().y / setSize.y;
   _sprite.setTextureRect(sf::IntRect(tmp.x, tmp.y, _texture.getSize().x / setSize.x, _texture.getSize().y / setSize.y));
   _sprite.setColor(_team->color);
-  scale(sf::Vector2f(0.5, 0.5));
+  scale(sf::Vector2f(static_cast<float>(lvl) * 0.3 / 8 + 0.5, static_cast<float>(lvl) * 0.3 / 8 + 0.5));
   _nextScale = getScale();
   _oldScale = _nextScale;
   _incanting = false;
